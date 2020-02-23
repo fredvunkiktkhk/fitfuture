@@ -1,12 +1,8 @@
 <template>
-    <v-app>
-        <v-content>
-            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                <path fill="#000000" d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
-            </svg>npm ins
-            <Header />
-        </v-content>
-    </v-app>
+    <div id="app">
+        <Header />
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
@@ -28,12 +24,19 @@
 <style>
     @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-    #app {
+    body {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
 
+    #app {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
         font-family: 'Montserrat', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align: center;
         color: white;
         background-color: #3C444C;
     }
