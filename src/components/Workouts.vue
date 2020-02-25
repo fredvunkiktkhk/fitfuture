@@ -2,15 +2,19 @@
     <div class="content">
         <div class="workouts">
             <h3>Kavad</h3>
-            <button @click="isActive = !isActive" :class="{'active': isActive}" class="workouts-button"><font-awesome-icon icon="plus-circle" /></button>
+            <button
+                @click="isActive = !isActive"
+                :class="{'active': isActive}"
+                class="workouts-button"
+            >
+            <font-awesome-icon class="icon" icon="plus-circle" />
+            </button>
             <div class="workouts-list" v-for="item in data" v-bind:key="item.id">
                 <div :value="item.name"></div>
             </div>
             <AddWorkout
-                    v-if="isActive"
-                    transition="expand"
-                    @childClick="isActive = false"
-                    :class="{'expand': isActive}"
+                v-if="isActive"
+                @childClick="isActive = false"
             />
         </div>
     </div>
@@ -29,7 +33,6 @@
                 data: [],
                 isActive: false,
                 show: true,
-                seen: false,
             }
         }
     }
@@ -54,8 +57,13 @@
             border: 0;
             color: #FFF;
             padding: 10px;
-            font-size: 18px;
-            outline-color: #F27A54;
+            font-size: 20px;
+            outline: 0;
+
+            .icon:hover {
+                color: #F27A54;
+                transition: 300ms;
+            }
         }
     }
 </style>

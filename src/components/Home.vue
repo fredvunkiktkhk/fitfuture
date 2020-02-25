@@ -1,15 +1,23 @@
 <template>
     <div>
-        <h1>Home</h1>
+        <WorkoutDiary />
     </div>
 </template>
 
 <script>
+    import WorkoutDiary from "./WorkoutDiary/WorkoutDiary.vue";
+
     export default {
-        name: "Home"
+        name: "Home",
+        components: {
+            WorkoutDiary,
+        }
     }
 </script>
 
-<style>
-
+<style scoped lang="scss">
+    div {
+        display: flex;
+        justify-content: center;
+    }
 </style>

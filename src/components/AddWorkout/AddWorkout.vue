@@ -2,11 +2,18 @@
     <div class="add-exercise">
         <form>
             <div class="heading">
-                <label for="name">Kava nimi</label>
-                <input id="name" type="text" v-model="workoutName" />
-
-                <label for="day">Treeningpäev</label>
-                <input id="day" type="text" v-model="workoutDay" />
+                <label for="name">Minu kava</label>
+                <input
+                   id="name"
+                   type="text"
+                   v-model="workoutName"
+                />
+                <label for="day">Jalapäev</label>
+                <input
+                    id="day"
+                    type="text"
+                    v-model="workoutDay"
+                />
             </div>
             <button class="button-close" @click="$emit('childClick')"><font-awesome-icon icon="times-circle" /></button>
             <WorkoutTable />
@@ -24,6 +31,11 @@
         components: {
             WorkoutTable,
             SubmitButton,
+        },
+        props: {
+            label: String,
+            nameOfWorkout: String,
+            nameOfWorkoutDay: String,
         },
         data: function () {
             return {
@@ -54,11 +66,12 @@
 
         .heading {
             display: grid;
-            grid-template-columns: 1fr 4fr;
-            grid-gap: 20px;
-            width: 60%;
+            grid-template-columns: 1fr 3fr;
+            grid-gap: 10px;
+            width: 70%;
             padding: 20px;
             text-align: justify;
+            white-space: nowrap;
 
             input {
                 width: 50%;
