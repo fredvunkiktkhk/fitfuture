@@ -1,6 +1,9 @@
 <template>
-    <div>
+    <div class="container">
         <WorkoutDiary />
+        <div class="logo1">
+
+        </div>
     </div>
 </template>
 
@@ -11,12 +14,12 @@
         name: "Home",
         components: {
             WorkoutDiary,
-        }
+        },
     }
 </script>
 
 <style scoped lang="scss">
-    div {
+    .container {
         display: flex;
         justify-content: center;
     }

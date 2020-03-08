@@ -6,8 +6,7 @@
                     tag="li"
                     exact active-class="active"
             >
-                <span><font-awesome-icon icon="home" /></span>
-                <a>Ülevaade</a>
+                <a><span class="icon-container"><font-awesome-icon icon="home" /></span>Ülevaade</a>
             </router-link>
 
             <router-link
@@ -15,8 +14,7 @@
                     tag="li"
                     exact active-class="active"
             >
-                <span><font-awesome-icon icon="folder-open" /></span>
-                <a>kavad</a>
+                <a><span class="icon-container"><font-awesome-icon icon="folder-open" /></span>kavad</a>
             </router-link>
 
             <router-link
@@ -24,8 +22,8 @@
                     tag="li"
                     exact active-class="active"
             >
-                <span><font-awesome-icon icon="dumbbell" /></span>
-                <a>harjutused</a>
+                <a><span class="icon-container"><font-awesome-icon icon="dumbbell" /></span>
+                    harjutused</a>
             </router-link>
 
             <router-link
@@ -33,8 +31,8 @@
                     tag="li"
                     exact active-class="active"
             >
-                <span><font-awesome-icon icon="user-cog" /></span>
-                <a>logi välja</a>
+
+                <a><span class="icon-container"><font-awesome-icon icon="user-cog" /></span>logi välja</a>
             </router-link>
         </ul>
     </div>
@@ -68,9 +66,8 @@
             li {
                 position: relative;
                 display: inline-block;
-                width: 100px;
+                width: 115px;
                 list-style: none;
-                padding: 10px;
                 text-align: center;
                 border-right: 1px solid #000;
 
@@ -104,7 +101,34 @@
         a:visited, a {
             text-decoration: none;
             color: #FFF;
-            padding-top: 14px;
+            display: block;
+            padding: 10px;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        .menu {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+
+            ul {
+                display: flex;
+                justify-content: center;
+
+                li:first-child, li:nth-child(2), li:nth-child(3) {
+                    width: 100%;
+                }
+
+                li:nth-child(3) {
+                    border-right: 0;
+                }
+
+                li:last-child {
+                    display: none;
+                }
+            }
         }
     }
 </style>

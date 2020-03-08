@@ -5,8 +5,7 @@
         <div class="data">
             <ul v-for="item in data" v-bind:key="item.name">
                 <li class="name">{{item.name}}</li>
-                <li class="sets">{{item.sets}}</li>x<li class="reps">{{item.reps}}</li>
-                <li class="border"></li>
+                <li class="numbers">{{item.sets}}<p>x</p>{{item.reps}}</li>
             </ul>
         </div>
     </div>
@@ -16,7 +15,22 @@
     export default {
         name: "WorkoutDiary",
         props: {
-            heading: String,
+            heading: {
+                type: String,
+                default: '',
+            },
+            name: {
+                type: String,
+                default: '',
+            },
+            sets: {
+                type: Number,
+                default:  0,
+            },
+            reps: {
+                type: Number,
+                default: 0,
+            },
         },
         data: function () {
             return {
@@ -46,31 +60,25 @@
 
     .heading {
         padding: 5px;
+    }
 
+    .data {
+        width: 100%;
+        height: 100%;
+        padding: 15px;
     }
 
     ul {
-        padding: 0;
+        display: flex;
+        padding: 10px 0;
         margin: 0;
-
-        a {
-            display: flex;
-            text-align: end;
-        }
-    }
-
-    .border {
         border-bottom: 1px solid #5F6265;
     }
 
     li {
         list-style: none;
         color: #FFF;
-    }
-
-    .data {
-        width: 100%;
-        height: 100%;
+        display: flex;
     }
 
     .name {
@@ -78,11 +86,14 @@
         align-items: flex-start;
     }
 
-    .sets {
+    .numbers {
         color: #F27A54;
+        margin-left: auto;
+
+        p {
+            margin: 0;
+            color: #FFF;
+        }
     }
 
-    .reps {
-        color: #F27A54;
-    }
 </style>

@@ -15,7 +15,7 @@
                     v-model="workoutDay"
                 />
             </div>
-            <button class="button-close" @click="$emit('childClick')"><font-awesome-icon icon="times-circle" /></button>
+            <button class="button-close" @click="$emit('childClick')"><font-awesome-icon class="icon" icon="times-circle" /></button>
             <WorkoutTable />
             <SubmitButton />
         </form>
@@ -93,16 +93,15 @@
             right: 0;
             border: 0;
             color: #FFF;
-            font-size: 16px;
             background: none;
-            padding: 10px;
+            font-size: 18px;
+            padding: 6px;
             cursor: pointer;
             outline-color: #F27A54;
 
-            &:hover {
-                background: rgba(255, 255, 255, 0.3);
-                border-radius: 5px;
-                transition: background ease-in-out 300ms;
+            .icon:hover {
+                color: #F27A54;
+                transition: color ease-in-out 300ms;
             }
         }
     }

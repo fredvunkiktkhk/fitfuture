@@ -27,5 +27,10 @@
         font-weight: 600;
         cursor: pointer;
         background:  linear-gradient(to left, #F27A54, #A154F2);
+        box-shadow: 0 0 10px 0 #00000075;
+
+        &:hover {
+            box-shadow: 0 0 10px 0 #ffffff3d;
+        }
     }
 </style>
