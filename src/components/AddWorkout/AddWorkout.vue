@@ -2,13 +2,13 @@
     <div class="add-exercise">
         <form>
             <div class="heading">
-                <label for="name">Minu kava</label>
+                <label for="name">Kava nimi</label>
                 <input
                    id="name"
                    type="text"
                    v-model="workoutName"
                 />
-                <label for="day">Jalapäev</label>
+                <label for="day">Lihasgrupp</label>
                 <input
                     id="day"
                     type="text"

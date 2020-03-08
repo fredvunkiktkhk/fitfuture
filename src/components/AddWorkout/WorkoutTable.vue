@@ -83,4 +83,9 @@
         color: #F27A54;
         text-align: center;
     }
+    @media screen and (max-width: 767px) {
+        table {
+            max-width: 300px;
+        }
+    }
 </style>

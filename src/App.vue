@@ -4,6 +4,7 @@
             <router-link to="/login" tag="li" class="logout" exact active-class="active">
                 <a><span class="icon-container"><font-awesome-icon icon="user-cog" /></span></a>
                 <a class="logo">Fit Future</a>
+                <a></a>
             </router-link>
         </div>
         <Header />
@@ -65,18 +66,23 @@
                 display: flex;
                 flex: 1;
                 width: 39px;
-                justify-content: center;
+                justify-content: space-between;
             }
 
             a:visited, a {
+                align-self: center;
                 text-decoration: none;
                 color: #FFF;
                 padding: 10px;
-                margin-right: auto;
+            }
+
+            a:nth-child(3) {
+                align-self: center;
+                padding: 20px;
             }
 
             .logo {
-                margin-right: auto;
+                align-self: center;
             }
         }
     }

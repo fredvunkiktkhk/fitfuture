@@ -94,5 +94,9 @@
             color: #FFF;
         }
     }
-
+    @media screen and (max-width: 767px) {
+        .container {
+            max-width: 300px;
+        }
+    }
 </style>
