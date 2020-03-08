@@ -51,7 +51,6 @@
         flex-direction: column;
         position: relative;
         align-items: center;
-        top: 50%;
         width: 350px;
         min-height: 350px;
         box-shadow: 0 10px 10px #000;

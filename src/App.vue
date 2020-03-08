@@ -3,6 +3,7 @@
         <div class="mobile-header">
             <router-link to="/login" tag="li" class="logout" exact active-class="active">
                 <a><span class="icon-container"><font-awesome-icon icon="user-cog" /></span></a>
+                <a class="logo">Fit Future</a>
             </router-link>
         </div>
         <Header />
@@ -51,22 +52,31 @@
     }
 
     @media screen and (max-width: 767px) {
+        #app {
+            height: calc(100vh - 52px);
+        }
         .mobile-header {
             height: 39px;
-            display: block;
+            display: flex;
             list-style: none;
             background: #F27A54;
 
             li {
+                display: flex;
+                flex: 1;
                 width: 39px;
+                justify-content: center;
             }
 
             a:visited, a {
                 text-decoration: none;
                 color: #FFF;
-                display: block;
                 padding: 10px;
-                background: green;
+                margin-right: auto;
+            }
+
+            .logo {
+                margin-right: auto;
             }
         }
     }

@@ -51,7 +51,7 @@
 
 <style scoped lang="scss">
     .add-exercise {
-        min-width: 700px;
+        min-width: 300px;
         min-height: 350px;
         box-shadow: 0 5px 10px #000;
         padding: 10px;
@@ -103,6 +103,11 @@
                 color: #F27A54;
                 transition: color ease-in-out 300ms;
             }
+        }
+    }
+    @media screen and (max-width: 767px) {
+        .add-exercise {
+            max-width: 300px;
         }
     }
 </style>
