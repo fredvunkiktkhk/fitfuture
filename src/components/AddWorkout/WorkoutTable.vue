@@ -1,29 +1,37 @@
 <template>
-    <table>
-        <thead>
+    <div class="container">
+        <div v-for="item in data" v-bind:key="item.name" class="exercise-block">
+            <div class="item1">Harjutus<input class="name" :value="item.name" /></div>
+            <div class="item1">Seeriad<input class="numbers" :value="item.sets" /></div>
+            <div class="item1">Kordused<input class="numbers" :value="item.reps" /></div>
+        </div>
+
+       <!-- <table>
+            <thead>
             <tr>
                 <th>Harjutus</th>
                 <th class="number-heading">Seeriad</th>
                 <th class="number-heading">Kordused</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr v-for="item in data" v-bind:key="item.name">
                 <td><input class="name" :value="item.name"></td>
                 <td><input class="numbers" :value="item.sets"></td>
                 <td><input class="numbers" :value="item.reps"></td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>-->
+    </div>
 </template>
 
 <script>
     export default {
         name: "WorkoutTable",
         props: {
-          name: String,
-          sets: Number,
-          reps: Number,
+            name: String,
+            sets: Number,
+            reps: Number,
         },
         data: function () {
             return {
@@ -32,6 +40,9 @@
                     {name: 'Kükke', sets: '5', reps: '8'},
                     {name: 'Kükka', sets: '5', reps: '8'},
                     {name: 'Kükki', sets: '5', reps: '8'},
+                    {name: 'Kükki', sets: '5', reps: '8'},
+                    {name: 'Kükki', sets: '5', reps: '8'},
+                    {name: 'Kükki', sets: '5', reps: '8'},
                 ],
             }
         },
@@ -39,53 +50,79 @@
 </script>
 
 <style scoped lang="scss">
-    table {
-        width: 445px;
+    .container {
+        max-width: 445px;
+        max-height: 385px;
+        overflow: auto;
     }
 
-   thead {
-       text-align: justify;
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
 
-       th:first-child {
-           padding-left: 5px;
-       }
+    ::-webkit-scrollbar-track {
+        background-color: #3C444C;
+    }
 
-       .number-heading {
-           text-align: center;
-       }
-   }
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: #5F6265;
+    }
+
+    .exercise-block {
+        display: flex;
+        flex-direction: column;
+        margin: 5px 10px 5px 0;
+        padding: 5px 0;
+        border-top: 1px solid #5F6265;
+        font-size: 14px;
+
+        &:first-child {
+            border-top: 0;
+        }
+    }
+
+    .item1 {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        text-align: justify;
+    }
 
     input {
-        padding: 5px;
+        width: 70%;
+        padding: 5px 0;
+        border-top: 0;
+        border-right: 0;
+        border-left: 0;
+        border-bottom: 1px solid #F27A54;
+        outline: none;
 
         &:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
         }
     }
 
     .name {
         background: transparent;
-        border-top: 0;
-        border-right: 0;
-        border-left: 0;
-        border-bottom: 1px solid #5F6265;
         color: #FFF;
+        text-align: center;
     }
 
     .numbers {
-        width: 50%;
         background: transparent;
-        border-top: 0;
-        border-right: 0;
-        border-left: 0;
-        border-bottom: 1px solid #5F6265;
         color: #F27A54;
         text-align: center;
     }
+
+    .exercise-block .div1:last-child .numbers {
+        border: 0;
+    }
+
     @media screen and (max-width: 767px) {
-        table {
+        .container {
             max-width: 300px;
+            max-height: 290px;
         }
     }
 </style>

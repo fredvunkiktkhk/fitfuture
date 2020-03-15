@@ -1,5 +1,7 @@
 # FitFuture
 
+Site address: https://fitfuture.planet.ee/
+
 ## Project setup
 ```
 npm install

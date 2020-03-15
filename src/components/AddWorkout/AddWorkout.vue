@@ -52,24 +52,17 @@
 <style scoped lang="scss">
     .add-exercise {
         min-width: 300px;
-        min-height: 350px;
+        height: 100%;
         box-shadow: 0 5px 10px #000;
         padding: 10px;
         position: relative;
-        transition: transform ease-in 400ms;
-        transform: translateY(0);
-
-        .expand {
-            transform: translateY(-555px);
-            transition: transform ease-in 400ms;
-        }
 
         .heading {
             display: grid;
             grid-template-columns: 1fr 3fr;
             grid-gap: 10px;
             width: 70%;
-            padding: 20px;
+            padding: 20px 20px 20px 0;
             text-align: justify;
             white-space: nowrap;
 
@@ -84,7 +77,11 @@
                 margin: 0;
                 color: #FFF;
                 font-size: 12px;
-                outline-color: #F27A54;
+                outline: none;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                }
             }
         }
         .button-close {
@@ -105,9 +102,11 @@
             }
         }
     }
+
     @media screen and (max-width: 767px) {
         .add-exercise {
             max-width: 300px;
+            max-height: 450px
         }
     }
 </style>
