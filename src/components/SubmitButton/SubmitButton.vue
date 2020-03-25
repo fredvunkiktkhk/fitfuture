@@ -1,14 +1,15 @@
 <template>
-    <button type="submit" class="submit">{{text}}</button>
+    <button type="submit" class="submit">{{ name }}</button>
 </template>
 
 <script>
     export default {
         name: "SubmitButton",
-        data: function () {
-            return {
-                text: 'Lisa kavasse'
-            }
+        props: {
+          name: {
+              type: String,
+              default: '',
+          }
         },
         methods: {
 

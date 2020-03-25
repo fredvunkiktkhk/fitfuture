@@ -1,6 +1,7 @@
 <template>
     <div class="container">
-        <WorkoutDiary />
+        <WorkoutDiary v-show="showEdit === true" @onEdit="showEdit" />
+        <WorkoutDiaryDetails />
         <div class="logo1">
 
         </div>
@@ -9,11 +10,22 @@
 
 <script>
     import WorkoutDiary from "./WorkoutDiary/WorkoutDiary.vue";
+    import WorkoutDiaryDetails from "./WorkoutDiary/WorkoutDiaryDetails";
 
     export default {
         name: "Home",
+        props: {
+          id: {
+              type: Number,
+          }
+        },
         components: {
-            WorkoutDiary,
+            WorkoutDiary, WorkoutDiaryDetails,
+        },
+        methods: {
+          showEdit(value) {
+              console.log(value);
+          }
         },
     }
 </script>

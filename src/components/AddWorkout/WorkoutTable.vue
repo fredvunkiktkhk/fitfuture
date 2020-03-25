@@ -5,23 +5,6 @@
             <div class="item1">Seeriad<input class="numbers" :value="item.sets" /></div>
             <div class="item1">Kordused<input class="numbers" :value="item.reps" /></div>
         </div>
-
-       <!-- <table>
-            <thead>
-            <tr>
-                <th>Harjutus</th>
-                <th class="number-heading">Seeriad</th>
-                <th class="number-heading">Kordused</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in data" v-bind:key="item.name">
-                <td><input class="name" :value="item.name"></td>
-                <td><input class="numbers" :value="item.sets"></td>
-                <td><input class="numbers" :value="item.reps"></td>
-            </tr>
-            </tbody>
-        </table>-->
     </div>
 </template>
 

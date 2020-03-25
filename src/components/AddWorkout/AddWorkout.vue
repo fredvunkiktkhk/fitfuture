@@ -17,7 +17,7 @@
             </div>
             <button class="button-close" @click="$emit('childClick')"><font-awesome-icon class="icon" icon="times-circle" /></button>
             <WorkoutTable />
-            <SubmitButton />
+            <SubmitButton name="Lisa kava" />
         </form>
     </div>
 </template>
