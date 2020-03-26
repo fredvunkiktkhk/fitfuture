@@ -109,4 +109,12 @@
             max-height: 450px
         }
     }
+
+    @media screen and (max-height: 568px) {
+        .add-exercise {
+            background: #2d2d2d;
+            top: -80px;
+            box-shadow: none;
+        }
+    }
 </style>

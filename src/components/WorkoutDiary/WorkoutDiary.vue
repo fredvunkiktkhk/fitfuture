@@ -9,17 +9,14 @@
             </ul>
         </div>
         <div class="date">25.03.2020</div>
-
     </div>
 </template>
 
 <script>
-    // import WorkoutDiaryDetails from "./WorkoutDiaryDetails";
 
     export default {
         name: "WorkoutDiary",
         components: {
-          // WorkoutDiaryDetails,
         },
         props: {
             id: {
