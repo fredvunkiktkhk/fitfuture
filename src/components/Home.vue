@@ -1,9 +1,8 @@
 <template>
     <div class="container">
-        <WorkoutDiary v-show="showEdit === true" @onEdit="showEdit" />
-        <WorkoutDiaryDetails />
+        <WorkoutDiary @onEdit="showEdit" />
+        <WorkoutDiaryDetails v-if="detailsId" />
         <div class="logo1">
-
         </div>
     </div>
 </template>
@@ -14,16 +13,22 @@
 
     export default {
         name: "Home",
-        props: {
-          id: {
-              type: Number,
-          }
-        },
         components: {
             WorkoutDiary, WorkoutDiaryDetails,
         },
+        props: {
+          id: {
+              type: Number,
+          },
+        },
+        data: function () {
+            return {
+                detailsId: null,
+            }
+        },
         methods: {
           showEdit(value) {
+              this.detailsId = value;
               console.log(value);
           }
         },

@@ -73,7 +73,8 @@
         align-items: center;
         width: 350px;
         min-height: 350px;
-        box-shadow: 0 10px 10px #000;
+        border: 1px solid #EEE;
+        box-shadow: 0 2px 3px #CCC;
         padding: 20px;
         margin-top: 50px;
     }

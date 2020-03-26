@@ -76,8 +76,8 @@
         background: #3C444C;
         overflow: auto;
         text-align: center;
-        border: 1px solid #eee;
-        box-shadow: 0 2px 3px #ccc;
+        border: 1px solid #EEE;
+        box-shadow: 0 2px 3px #CCC;
     }
 
     .header {
