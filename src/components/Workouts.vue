@@ -32,7 +32,6 @@
             return {
                 data: [],
                 isActive: false,
-                show: true,
             }
         }
     }

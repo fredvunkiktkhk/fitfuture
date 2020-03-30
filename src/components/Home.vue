@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <WorkoutDiary @onEdit="showEdit" />
-        <WorkoutDiaryDetails v-if="detailsId" />
+        <WorkoutDiaryDetails v-if="detailsId || detailsId === 0" @childClose="closeDetails"/>
         <div class="logo1">
         </div>
     </div>
@@ -24,13 +24,16 @@
         data: function () {
             return {
                 detailsId: null,
+                isOpen: false,
             }
         },
         methods: {
           showEdit(value) {
               this.detailsId = value;
-              console.log(value);
-          }
+          },
+            closeDetails() {
+              this.detailsId = null;
+            },
         },
     }
 </script>
@@ -39,5 +42,9 @@
     .container {
         display: flex;
         justify-content: center;
+    }
+
+    .workout-details{
+        position: fixed;
     }
 </style>

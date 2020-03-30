@@ -1,6 +1,7 @@
 <template>
     <div class="workout-details">
         <div class="header">Kava nimi{{ heading }}</div>
+        <form>
         <div class="numbers">Raskus<input type="number" /></div>
         <div class="numbers">Kordused<input type="number" /></div>
         <div class="numbers">Harjutus<div class="exercise-name">{{ exerciseName }}</div></div>
@@ -8,6 +9,8 @@
             <SubmitButton name="Salvesta" />
             <SubmitButton name="Kustuta" />
         </div>
+        </form>
+        <button class="button-close" @click="$emit('childClose')"><font-awesome-icon class="icon" icon="times-circle" /></button>
         <div class="table-position">
             <table>
                 <thead>
@@ -62,8 +65,20 @@
                 default: 0,
             }
         },
+        data: function () {
+            return {
+                allReps: [],
+                allWeights: [],
+            }
+        },
         methods: {
+            saveInput() {
+                this.reps.push(this.allReps);
+                this.weight.push(this.allWeights);
+            },
+            deleteInput() {
 
+            }
         }
     }
 </script>
@@ -82,6 +97,24 @@
 
     .header {
         margin-top: 5px;
+    }
+
+    .button-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: 0;
+        color: #FFF;
+        background: none;
+        font-size: 18px;
+        padding: 6px;
+        cursor: pointer;
+        outline-color: #F27A54;
+
+        .icon:hover {
+            color: #F27A54;
+            transition: color ease-in-out 300ms;
+        }
     }
 
     input::-webkit-outer-spin-button,
