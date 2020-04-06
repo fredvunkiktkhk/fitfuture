@@ -34,13 +34,12 @@
             }
         },
         methods: {
-            onSubmit () {
+            /*onSubmit () {
                 const formData = {
                     email: this.email,
                     password: this.password,
                 }
-                console.log(formData)
-            }
+            }*/
         }
     }
 </script>

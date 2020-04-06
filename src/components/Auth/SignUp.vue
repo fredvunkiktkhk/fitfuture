@@ -48,14 +48,14 @@
             }
         },
         methods: {
-            onSubmit() {
+        /*    onSubmit() {
                 const formData = {
                     email: this.email,
                     password: this.password,
                     confirmPassword: this.confirmPassword,
                 }
                 console.log(formData)
-            },
+            },*/
         }
     }
 </script>

@@ -5,12 +5,15 @@
   "scripts": {
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "dev": "vue-cli-service serve"
+    "dev": "vue-cli-service serve",
+    "test": "cypress open",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@fortawesome/vue-fontawesome": "^0.1.9",
+    "axios": "^0.19.2",
     "core-js": "^3.4.4",
     "node-sass": "^4.13.1",
     "register-service-worker": "^1.6.2",
