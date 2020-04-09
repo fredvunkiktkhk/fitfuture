@@ -1,45 +1,35 @@
 const express = require("express");
-const mysql = require('mysql');
-const dotenv = require('dotenv');
-const path = require('path');
-const serveStatic = require ('serve-static');
-
-dotenv.config({ path: './config/config.env'});
+const dbConnection = require('./db');
+// const cookieSession = require('cookie-session');
+// const sequelize = require('sequelize');
+// const path = require('path');
+// const serveStatic = require ('serve-static');
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
 
-app.use(serveStatic(path.join(__dirname,"../dist")));
+/*app.use(serveStatic(path.join(__dirname,"../dist")));
 app.get('/', function(req,res) {
     res.sendFile('index.html', { root: path.join(__dirname, '../dist') });
-});
+});*/
 // app.get('/api/login', require('./api/login'));
-// app.get('/api/signup', require('./api/signup'));
+// app.use('/api/signup', require('./routes/api/signup'));
 // app.get('/api/workouts', require('./api/workouts'));
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_DATABASE,
-    port: process.env.DB_PORT,
-});
 
-db.connect(function(err) {
-    if (err) {
-        return console.log(err);
-    }
-    console.log('connected')
-});
+app.use('/', require('./routes/signup'));
 
 app.get('/users', (req, res) => {
-   let sql = 'SELECT * FROM users';
-   db.query(sql, (err, result) => {
-      if (err) throw err;
-      res.send(result)
-   });
+    let sql = 'SELECT * FROM users';
+    dbConnection.query(sql, (err, result) => {
+        if (err) throw err;
+        res.send(result)
+    });
 });
 
-
-app.listen('3200', () => {
-   console.log('Server on port 3200');
+app.listen('3300', () => {
+    console.log('Server on port 3300');
 });

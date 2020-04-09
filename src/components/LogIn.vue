@@ -1,5 +1,5 @@
 <template>
-    <div v-if="hide">
+    <div>
         <SignUp />
         <SignIn />
     </div>
@@ -16,7 +16,7 @@
         },
         data: function () {
             return {
-                hide: false,
+
             }
         }
     }
