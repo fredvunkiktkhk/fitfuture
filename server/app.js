@@ -8,15 +8,15 @@ const dbConnection = require('./db');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({
-    extended: true
+    extended: false
 }));
 
 /*app.use(serveStatic(path.join(__dirname,"../dist")));
 app.get('/', function(req,res) {
     res.sendFile('index.html', { root: path.join(__dirname, '../dist') });
 });*/
-// app.get('/api/login', require('./api/login'));
-// app.use('/api/signup', require('./routes/api/signup'));
+app.use('/login', require('./routes/login'));
+app.use('/signup', require('./routes/signup'));
 // app.get('/api/workouts', require('./api/workouts'));
 
 

@@ -3,10 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const dbConnection = require('../db');
 
-
-// @route   POST api/signup
-// @desc    Register new user
-// @access  Public
 router.post('/signup', (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
