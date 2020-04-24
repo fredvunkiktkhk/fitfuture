@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const dbConnection = require('../db');
+const pool = require('../db');
 const jwt = require('jsonwebtoken');
 const helpers = require('../middleware/helpers');
 
@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
     }
 
     if (email && password) {
-        const rows = await dbConnection.query('SELECT email, password, id as user_id FROM users WHERE email = ?', [email],
+        const rows = await pool.query('SELECT email, password, id as user_id FROM users WHERE email = ?', [email],
             (err, results) => {
                 if (!err) {
                     if (results.length === 0) {

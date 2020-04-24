@@ -1,5 +1,5 @@
 const express = require("express");
-const dbConnection = require('./db');
+const pool = require('./db');
 // const cookieSession = require('cookie-session');
 // const sequelize = require('sequelize');
 // const path = require('path');
@@ -18,13 +18,13 @@ app.get('/', function(req,res) {
 app.use('/login', require('./routes/login'));
 app.use('/signup', require('./routes/signup'));
 // app.get('/api/workouts', require('./api/workouts'));
-
+app.use('/workouts', require('./routes/workouts'));
 
 app.use('/', require('./routes/signup'));
 
 app.get('/users', (req, res) => {
     let sql = 'SELECT * FROM users';
-    dbConnection.query(sql, (err, result) => {
+    pool.query(sql, (err, result) => {
         if (err) throw err;
         res.send(result)
     });
