@@ -1,21 +1,44 @@
-const express = require("express");
-const router = express.Router();
-/*const bcrypt = require('bcrypt');
-const pool = require('../db');*/
-// const authCheck = require('../middleware/token');
-const { getWorkouts, addWorkouts, editWorkoutsDetails, addSingleWorkout, editDetails } = require('../controllers/workouts.controller');
+const pool = require('../db');
 
-// Must use authCheck
-// Routes
-router.get('/', getWorkouts); // Get all workouts
-router.post('/add', addWorkouts);
-router.post('/add/single', addSingleWorkout); // Add workout
-router.get('/edit/:id'); // Edit workout
-router.get('/workouts/:id/exercises'); // Lisades exercise võtab workouts ID, mis hetkel aktiivne
-// router.get('/workouts/delete/:id');
-// router.get('/workouts/edit/:id');
-router.put('/edit/:id/exercise/:id', editDetails); // Saab muuta valitud ID'ga harjutust
-router.put('/edit/:id', editWorkoutsDetails);
-// router.put('/single/:id', editDetails);
+async function getWorkouts(req, res) {
+    try {
+        let sql = ('SELECT * FROM workouts'); // WHERE USER_ID = ?
+        await pool.query(sql, (err, result) => {
+            res.send(result);
+        });
+    } catch (err) {
+        throw err;
+    }
+}
 
-module.exports = router;
+async function addWorkout(req, res) {
+    const {workout_name, muscle_group} = req.body;
+    try {
+        await pool.query('INSERT INTO workouts (workout_name, muscle_group) VALUES (?,?)',
+            [workout_name, muscle_group], (err, results) => {
+                console.log(results);
+                res.send(results);
+            });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function editWorkout(req, res) {
+    const {workout_name, muscle_group} = req.body;
+    try {
+        await pool.query('INSERT INTO workouts (workout_name, muscle_group) VALUES (?,?)',
+            [workout_name, muscle_group], (err, results) => {
+                console.log(results);
+                res.send(results);
+            });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports = {
+    getWorkouts,
+    addWorkout,
+    editWorkout,
+};

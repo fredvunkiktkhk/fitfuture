@@ -1,36 +1,31 @@
-const express = require("express");
-const router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const pool = require('../db');
 
-router.post('/signup', (req, res, next) => {
+async function doSignup(req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
-    if (!email || !password ) {
+    if (!email || !password) {
         return res.send({msg: 'Please fill in all the fields'});
-    } else {
-        if (email) {
-            pool.query('SELECT * FROM users where email = ?', [email], (error, results) => {
-                if (results.length > 0) {
-                    res.send('Email already exists');
-                } else {
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(password, salt, (err, hash) => {
-                            if (err) throw err;
-                            const password = hash;
-                            pool.query('INSERT INTO users(email, password) VALUES("'+email+'", "'+password+'")',
-                                [email, password]);
-                            res.send('Sign up successful');
-                        })
-                    });
-                }
-            });
-        } else {
-            res.send('Enter Email');
-            next();
-        }
     }
-});
 
-module.exports = router;
+    const usersByEmail = await pool.query('SELECT * FROM users where email = ?', [email]);
+
+    if (usersByEmail.length > 0) {
+        return res.send('Email already exists');
+    }
+
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
+
+        await pool.query('INSERT INTO users (email, password) VALUES (?, ?)', [email, passwordHash]);
+    } catch(e) {
+        console.log(e);
+    }
+    res.send('Sign up successful');
+}
+
+module.exports = {
+    doSignup
+};
