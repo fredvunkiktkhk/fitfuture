@@ -10,9 +10,10 @@ async function editExercise(req, res) {
     const newDetails = {exercise_name, sets, reps};
     try {
         const workouts = await pool.query('SELECT id FROM workouts WHERE id  = ?', [workoutId]);
-        const workoutId = workouts[0].id;
-        console.log(workoutId);
-        let row2 = await pool.query('UPDATE workout_details SET ? WHERE workouts_id = ?', [newDetails, workoutId]);
+        if (!workouts.length) {
+            return res.status(404).send({msg: 'Workout not found'});
+        }
+        let row2 = await pool.query('UPDATE workout_details SET ? WHERE workouts_id = ?', [newDetails, exerciseId]);
         console.log(newDetails);
         console.log(workoutId);
         res.send(row2);
@@ -24,4 +25,4 @@ async function editExercise(req, res) {
 module.exports = {
     getExercises,
     editExercise,
-}
+};

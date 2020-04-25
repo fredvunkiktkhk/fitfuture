@@ -1,7 +1,10 @@
 const mysql = require('mysql');
 const dotenv = require('dotenv');
-dotenv.config({path: './config/config.env'});
+const {resolve} = require('path');
+dotenv.config({path: resolve(__dirname,'./.env')});
 const util = require('util');
+
+console.log(process.env.DB_DATABASE);
 
 const pool = mysql.createPool({
     connectionLimit: 10,
