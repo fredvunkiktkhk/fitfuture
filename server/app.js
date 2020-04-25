@@ -1,11 +1,13 @@
 const express = require("express");
+// const authCheck = require('./middleware/token');
 // const serveStatic = require ('serve-static');
+const cookieParser = require('cookie-parser');
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: false
 }));
-
 app.use('/', require('./routes'));
 
 /*app.use(serveStatic(path.join(__dirname,"../dist")));

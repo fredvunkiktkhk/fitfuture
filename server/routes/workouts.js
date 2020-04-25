@@ -17,7 +17,7 @@ async function addWorkout(req, res) {
     try {
         await pool.query('INSERT INTO workouts (workout_name, muscle_group) VALUES (?,?)',
             [workout_name, muscle_group], (err, results) => {
-                console.log(results);
+                console.log(results.workout_name);
                 res.send(results);
             });
     } catch (err) {

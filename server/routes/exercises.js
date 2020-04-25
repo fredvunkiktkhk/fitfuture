@@ -5,18 +5,19 @@ async function getExercises() {
 }
 
 async function editExercise(req, res) {
-    const {workoutId, exerciseId} = req.params; // kuhu see panna
+    const {workoutId, exerciseId, user_id} = req.params; // kuhu see panna
     const {exercise_name, sets, reps} = req.body;
     const newDetails = {exercise_name, sets, reps};
+    console.log(user_id);
     try {
-        const workouts = await pool.query('SELECT id FROM workouts WHERE id  = ?', [workoutId]);
+        const workouts = await pool.query('SELECT id FROM workouts WHERE id = ? AND user_id = ?', [workoutId, user_id]);
         if (!workouts.length) {
             return res.status(404).send({msg: 'Workout not found'});
         }
-        let row2 = await pool.query('UPDATE workout_details SET ? WHERE workouts_id = ?', [newDetails, exerciseId]);
+        let exercise = await pool.query('UPDATE workout_details SET ? WHERE id = ?', [newDetails, exerciseId]);
         console.log(newDetails);
         console.log(workoutId);
-        res.send(row2);
+        res.send(exercise);
     } catch (err) {
         console.log(err);
     }

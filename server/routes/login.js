@@ -33,10 +33,14 @@ async function doLogin(req, res) {
                 expiresIn: '7d'
             }
         );
+        res.cookie('access_token', token);
+
         return res.status(200).send({
+
             msg: 'Logged in',
-            token,
-            user
+            //
+            // token,
+            // user
         });
     }
 }
