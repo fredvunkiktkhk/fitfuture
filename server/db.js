@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 const {resolve} = require('path');
-dotenv.config({path: resolve(__dirname,'./.env')});
+dotenv.config({path: resolve(__dirname,'../.env')});
 const util = require('util');
 
 console.log(process.env.DB_DATABASE);

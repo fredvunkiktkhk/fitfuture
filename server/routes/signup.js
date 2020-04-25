@@ -10,7 +10,7 @@ async function doSignup(req, res) {
     }
 
     const usersByEmail = await pool.query('SELECT * FROM users where email = ?', [email]);
-console.log(usersByEmail[0].email);
+
     if (usersByEmail.length > 0) {
         return res.send('Email already exists');
     }
