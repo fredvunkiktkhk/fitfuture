@@ -1,22 +1,16 @@
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 
-const authCheck = (req, res, next) => {
-  if (req.cookies.access_token) {
-      const token = req.cookies.access_token;
-      jwt.verify(token, secret, (err, decoded) => {
-          if (err) {
-              res.send(401);
-          } else {
-              console.log(req.user);
-              console.log(token);
-              req.user_id = decoded.id;
-              next();
-          }
-      });
-  } else {
-      res.send(401);
-  }
+module.exports = function (req, res, next) {
+    const token = req.cookies.access_token;
+    if (!token) {
+        return res.status(401).send({msg: 'Unauthorized'});
+    }
+    try {
+        const decodedJwt = jwt.verify(token, secret);
+        console.log(decodedJwt);
+        next();
+    } catch (err) {
+        console.log(err);
+    }
 };
-
-module.exports = authCheck;
