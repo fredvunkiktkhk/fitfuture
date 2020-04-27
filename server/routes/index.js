@@ -11,7 +11,7 @@ router.post('/signup', signup.doSignup);
 
 router.get('/workouts', authCheck, workouts.getWorkouts); // Get all workouts
 router.post('/workouts', authCheck, workouts.addWorkout); // Add new workout
-router.put('/workouts/:id', authCheck, workouts.editWorkout); // edit workout
+router.put('/workouts/:workoutId', authCheck, workouts.editWorkout); // edit workout
 router.delete('/workouts/:id', workouts.editWorkout); // delete workout
 
 router.get('/workouts/:id', exercises.getExercises); // Returns all workout exercises
