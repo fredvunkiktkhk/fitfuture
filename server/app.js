@@ -18,19 +18,6 @@ app.use('/', require('./routes'));
 app.get('/', function(req,res) {
     res.sendFile('index.html', { root: path.join(__dirname, '../dist') });
 });*/
-// app.use('/login', require('./routes/login'));
-// app.use('/signup', require('./routes/signup'));
-// // app.get('/api/workouts', require('./api/workouts'));
-// app.use('/workouts', require('./routes/workouts'));
-//
-//
-// app.get('/users', (req, res) => {
-//     let sql = 'SELECT * FROM users';
-//     pool.query(sql, (err, result) => {
-//         if (err) throw err
-//         res.send(result)
-//     });
-// });
 
 app.listen('3300', () => {
     console.log('Server on port 3300');

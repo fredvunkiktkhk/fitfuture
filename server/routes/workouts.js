@@ -1,5 +1,7 @@
 const pool = require('../db');
 
+// get 2 free example workout programs for all users
+
 async function getWorkouts(req, res) {
   let currentUser = res.locals.loggedInUser;
   try {
@@ -9,7 +11,7 @@ async function getWorkouts(req, res) {
     }
     return res.send(results);
   } catch (err) {
-    return res.status(400).send(err, {msg: 'Something went wrong'})
+    res.status(400).send(err)
   }
 }
 
@@ -20,11 +22,11 @@ async function addWorkout(req, res) {
     const results = await pool.query('INSERT INTO workouts (workout_name, muscle_group, user_id) VALUES (?,?,?)',
       [workout_name, muscle_group, currentUser.id]);
     if (!results) {
-     return res.status(400).json({error: 'Something went wrong, try again!'})
+      return res.status(400).json({error: 'Something went wrong, try again!'});
     }
     return res.send(results);
   } catch (err) {
-    res.status(401).send(err, {msg: 'Something went wrong'})
+    res.status(401).send(err);
   }
 }
 
@@ -37,11 +39,11 @@ async function editWorkout(req, res) {
     const results = await pool.query('UPDATE workouts SET ? WHERE id = ? AND user_id = ?',
       [newWorkout, workoutId, currentUser.id]);
     if (!results) {
-      return res.status(400).json({error: 'Something went wrong, try again!'})
+      return res.status(400).json({error: 'Something went wrong, try again!'});
     }
     return res.send(results);
   } catch (err) {
-    res.status(401).send(err, {msg: 'Something went wrong'})
+    res.status(401).send(err);
   }
 }
 
@@ -52,7 +54,7 @@ async function deleteWorkout(req, res) {
     const results = await pool.query('DELETE FROM workouts WHERE id = ? AND user_id = ?',
       [workoutId, currentUser.id]);
     if (!results) {
-      return res.status(400).json({error: 'Something went wrong, try again!'})
+      return res.status(400).json({error: 'Something went wrong, try again!'});
     }
     return res.send(results);
   } catch (err) {
