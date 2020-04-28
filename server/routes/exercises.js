@@ -14,10 +14,11 @@ async function getExercises(req, res) {
 }
 
 async function addExercise(req, res) {
+  let currentUser = res.locals.loggedInUser;
   const {workoutId} = req.params;
   const {exercise_name, sets, reps} = req.body;
   try {
-    const workouts = await pool.query('SELECT id FROM workouts WHERE id = ?', [workoutId]);
+    const workouts = await pool.query('SELECT id FROM workouts WHERE id = ? AND user_id = ?', [workoutId, currentUser.id]);
     if (!workouts) {
       return res.status(400).json({error: 'Something went wrong, try again'});
     }

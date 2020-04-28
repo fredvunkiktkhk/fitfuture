@@ -20,15 +20,6 @@
                             autocomplete="off"
                     >
                 </div>
-                <div class="input">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input
-                            type="password"
-                            id="confirm-password"
-                            v-model="confirmPassword"
-                            autocomplete="off"
-                    >
-                </div>
                 <div class="submit">
                     <button type="submit">Sign Up</button>
                 </div>
@@ -38,24 +29,30 @@
 </template>
 
 <script>
+    import axios from 'axios';
+    // import router from 'vue-router';
+
     export default {
         name: "SignUp",
         data  () {
             return {
                 email: '',
                 password: '',
-                confirmPassword: '',
             }
         },
         methods: {
-        /*    onSubmit() {
-                const formData = {
-                    email: this.email,
-                    password: this.password,
-                    confirmPassword: this.confirmPassword,
+            onSubmit() {
+                axios.post('http://localhost:3300/signup', {
+                  email: this.email,
+                  password: this.password
                 }
-                console.log(formData)
-            },*/
+                ).then((res) => {
+                  this.$router.push({ name: 'Workouts'});
+                  console.log(res);
+                }).catch((err) => {
+                  console.log(err);
+                })
+            },
         }
     }
 </script>

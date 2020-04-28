@@ -25,23 +25,33 @@
 </template>
 
 <script>
-    export default {
-        name: "SignIn",
-        data () {
-            return {
-                email: '',
-                password: ''
-            }
-        },
-        methods: {
-            /*onSubmit () {
-                const formData = {
-                    email: this.email,
-                    password: this.password,
-                }
-            }*/
+  import axios from "axios";
+
+  export default {
+    name: "SignIn",
+    data() {
+      return {
+        email: '',
+        password: ''
+      }
+    },
+    methods: {
+      async onSubmit() {
+        try {
+          const res = await axios.post('http://localhost:3300/login', {
+            email: this.email,
+            password: this.password,
+          }, {
+            withCredentials: true
+          });
+          console.log(res);
+          await this.$router.push({name: 'Workouts'});
+        } catch (err) {
+          console.log(err);
         }
+      },
     }
+  }
 </script>
 
 <style scoped lang="scss">
@@ -89,7 +99,7 @@
             border-radius: 20px;
             padding: 5px 20px;
             cursor: pointer;
-            background:  linear-gradient(to left, #F27A54, #A154F2);
+            background: linear-gradient(to left, #F27A54, #A154F2);
             font-family: 'Montserrat', Helvetica, Arial, sans-serif;
         }
     }
