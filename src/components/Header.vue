@@ -6,15 +6,15 @@
             </router-link>
 
             <router-link to="/workouts" tag="li" exact active-class="active">
-                <a><span class="icon-container"><font-awesome-icon icon="folder-open"/></span>kavad</a>
+                <a><span class="icon-container"><font-awesome-icon icon="folder-open"/></span>Kavad</a>
             </router-link>
 
             <router-link to="/exercise" tag="li" exact active-class="active">
-                <a><span class="icon-container"><font-awesome-icon icon="dumbbell"/></span>harjutused</a>
+                <a><span class="icon-container"><font-awesome-icon icon="dumbbell"/></span>Harjutused</a>
             </router-link>
 
             <router-link to="/login" tag="li" exact active-class="active">
-                <a><span class="icon-container"><font-awesome-icon icon="user-cog"/></span>logi välja</a>
+                <a><span class="icon-container"><font-awesome-icon icon="user-cog"/></span>Logi välja</a>
             </router-link>
         </ul>
     </div>

@@ -1,28 +1,23 @@
 <template>
-    <div class="signup">
-        Register
-        <div class="signup-form">
-            <form @submit.prevent="onSubmit">
+    <div id="log-in">
+        <div class="log-in-form">
+            <form @submit.prevent="onLogin">
                 <div class="input">
-                    <label for="email">E-mail</label>
+                    <label for="email">E-Mail</label>
                     <input
                             type="email"
                             id="email"
-                            v-model="email"
-                            autocomplete="off"
-                    >
+                            v-model="email">
                 </div>
                 <div class="input">
                     <label for="password">Password</label>
                     <input
                             type="password"
                             id="password"
-                            v-model="password"
-                            autocomplete="off"
-                    >
+                            v-model="password">
                 </div>
                 <div class="submit">
-                    <button type="submit">Sign Up</button>
+                    <button type="submit">Log In</button>
                 </div>
             </form>
         </div>
@@ -30,38 +25,42 @@
 </template>
 
 <script>
-    export default {
-        name: "Register",
-        data  () {
-            return {
-                email: '',
-                password: '',
-            }
-        },
-        methods: {
-            /*    onSubmit() {
-                    const formData = {
-                        email: this.email,
-                        password: this.password,
-                    }
-                    console.log(formData)
-                },*/
+
+  export default {
+    name: "SignIn",
+    data() {
+      return {
+        email: '',
+        password: ''
+      }
+    },
+    methods: {
+      async onLogin() {
+        try {
+          await this.axios.post('/login', {
+            email: this.email,
+            password: this.password,
+          });
+          await this.$router.push({name: 'Home'});
+        } catch (err) {
+          console.log(err);
         }
+      },
     }
+  }
 </script>
 
 <style scoped lang="scss">
-    .signup-form {
+    .log-in-form {
         width: 250px;
         margin: 30px auto;
-        border: 1px solid #eee;
-        box-shadow: 0 2px 3px #ccc;
+        border: 1px solid #EEE;
         padding: 20px;
+        box-shadow: 0 2px 3px #CCC;
     }
 
     .input {
         margin: 10px auto;
-        background: transparent;
     }
 
     .input label {
@@ -70,12 +69,7 @@
         margin-bottom: 6px;
     }
 
-    .input.inline label {
-        display: inline;
-    }
-
     .input input {
-        font: inherit;
         width: 100%;
         padding: 6px 12px;
         box-sizing: border-box;
@@ -84,10 +78,7 @@
         border-left: 0;
         border-right: 0;
         background: transparent;
-    }
-
-    .input.inline input {
-        width: auto;
+        color: #FFF;
     }
 
     .input input:focus {
@@ -95,22 +86,16 @@
         background: rgba(255, 255, 255, 0.1);
     }
 
-    .input select {
-        border: 1px solid #ccc;
-    }
-
     .submit {
         text-align: center;
 
         button {
+            color: #FFF;
             border: 0;
             border-radius: 20px;
-            color: #FFF;
-            padding: 10px 20px;
+            padding: 5px 20px;
             cursor: pointer;
-            margin: 0 auto;
-            background:  linear-gradient(to left, #F27A54, #A154F2);
-            box-shadow: 0 0 10px 0 #00000075;
+            background: linear-gradient(to left, #F27A54, #A154F2);
             font-family: 'Montserrat', Helvetica, Arial, sans-serif;
         }
     }
@@ -124,9 +109,9 @@
     .submit button[disabled],
     .submit button[disabled]:hover,
     .submit button[disabled]:active {
-        border: 1px solid #ccc;
+        border: 1px solid #CCC;
         background-color: transparent;
-        color: #ccc;
+        color: #CCC;
         cursor: not-allowed;
     }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="signup">
         <div class="signup-form">
-            <form @submit.prevent="onSubmit">
+            <form @submit.prevent="onSignUp">
                 <div class="input">
                     <label for="email">E-mail</label>
                     <input
@@ -29,31 +29,29 @@
 </template>
 
 <script>
-    import axios from 'axios';
 
-    export default {
-        name: "SignUp",
-        data  () {
-            return {
-                email: '',
-                password: '',
-            }
-        },
-        methods: {
-            onSubmit() {
-                axios.post('http://localhost:3300/signup', {
-                  email: this.email,
-                  password: this.password
-                }
-                ).then((res) => {
-                  this.$router.push({ name: 'Workouts'});
-                  console.log(res);
-                }).catch((err) => {
-                  console.log(err);
-                })
-            },
+  export default {
+    name: "SignUp",
+    data() {
+      return {
+        email: '',
+        password: '',
+      }
+    },
+    methods: {
+      async onSignUp() {
+        try {
+          await this.axios.post('/signup', {
+            email: this.email,
+            password: this.password
+          });
+          await this.$router.push({name: 'LogIn'});
+        } catch (err) {
+          console.log(err);
         }
-    }
+      },
+    },
+  }
 </script>
 
 <style scoped lang="scss">
@@ -115,7 +113,7 @@
             padding: 10px 20px;
             cursor: pointer;
             margin: 0 auto;
-            background:  linear-gradient(to left, #F27A54, #A154F2);
+            background: linear-gradient(to left, #F27A54, #A154F2);
             box-shadow: 0 0 10px 0 #00000075;
             font-family: 'Montserrat', Helvetica, Arial, sans-serif;
         }
