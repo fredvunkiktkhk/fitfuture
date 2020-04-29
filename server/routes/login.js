@@ -29,7 +29,7 @@ async function doLogin(req, res) {
       userId: user.id
     }, secret);
     res.cookie('access_token', token, {
-      expiresIn: 3600 * 60 * 9000,
+      maxAge: 3600 * 60 * 9000 * 60,
       httpOnly: true,
     });
 

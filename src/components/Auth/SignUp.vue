@@ -30,7 +30,6 @@
 
 <script>
     import axios from 'axios';
-    // import router from 'vue-router';
 
     export default {
         name: "SignUp",

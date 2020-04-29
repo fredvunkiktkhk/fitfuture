@@ -25,7 +25,6 @@
 </template>
 
 <script>
-  import axios from "axios";
 
   export default {
     name: "SignIn",
@@ -38,11 +37,9 @@
     methods: {
       async onSubmit() {
         try {
-          const res = await axios.post('http://localhost:3300/login', {
+          const res = await this.axios.post('/login', {
             email: this.email,
             password: this.password,
-          }, {
-            withCredentials: true
           });
           console.log(res);
           await this.$router.push({name: 'Workouts'});
