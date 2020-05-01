@@ -1,89 +1,138 @@
 <template>
-    <div id="app">
-        <div class="mobile-header">
-            <router-link to="/login" tag="li" class="logout" exact active-class="active">
-                <a><span class="icon-container"><font-awesome-icon icon="user-cog" /></span></a>
-                <a class="logo">Fit Future</a>
-                <a></a>
-            </router-link>
-        </div>
-        <Header />
-        <router-view></router-view>
+  <div id="app">
+    <div class="mobile-header">
+      <Profile/>
+      <div class="logo">Fit Future</div>
+      <a></a>
     </div>
+    <Header/>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-    import Header from './components/Header';
+  import Header from './components/Header';
+  import Profile from './components/UserProfile/Profile';
 
-    export default {
-        name: 'App',
+  export default {
+    name: 'App',
 
-        components: {
-            Header,
-        },
-
-        data: () => ({
-            //
-        }),
-    };
+    components: {
+      Header,
+      Profile,
+    },
+    data: function () {
+      return {
+        activeDropdown: false,
+      }
+    },
+    methods: {
+      toggleDropdown(e) {
+        e.stopPropagation();
+        this.activeDropdown = !this.activeDropdown;
+        if (this.activeDropdown) {
+          window.addEventListener('click', () => {
+            this.activeDropdown = false
+          })
+        } else {
+          window.removeEventListener('click', () => {
+            this.activeDropdown = false
+          })
+        }
+      }
+    }
+  }
 </script>
 
 <style lang="scss">
-    @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-    body {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    }
+  body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
 
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: 'Montserrat', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: white;
+    background-color: #3C444C;
+  }
+
+  .mobile-header {
+    display: none;
+  }
+
+  @media screen and (max-width: 767px) {
     #app {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        font-family: 'Montserrat', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: white;
-        background-color: #3C444C;
+      height: calc(100vh - 52px);
     }
 
     .mobile-header {
-        display: none;
-    }
+      height: 39px;
+      display: flex;
+      list-style: none;
+      background: #F27A54;
 
-    @media screen and (max-width: 767px) {
-        #app {
-            height: calc(100vh - 52px);
+      .user {
+        display: flex;
+        flex: 1;
+        width: 39px;
+        justify-content: space-between;
+
+        &-settings {
+          position: relative;
         }
-        .mobile-header {
-            height: 39px;
-            display: flex;
-            list-style: none;
-            background: #F27A54;
+      }
 
-            li {
-                display: flex;
-                flex: 1;
-                width: 39px;
-                justify-content: space-between;
-            }
+      .active-dropdown {
+        display: inline-block;
+        position: absolute;
+        width: 150px;
+        height: 100%;
+        top: 39px;
+        left: 0;
+        z-index: 10;
 
-            a:visited, a {
-                align-self: center;
-                text-decoration: none;
-                color: #FFF;
-                padding: 10px;
-            }
+        & ul {
+          background: #F27A54;
+          list-style: none;
+          width: 100%;
+          padding: 0;
+          margin: 0;
 
-            a:nth-child(3) {
-                align-self: center;
-                padding: 20px;
-            }
-
-            .logo {
-                align-self: center;
-            }
+          .links {
+            border-top: 1px solid #5F6265;
+            padding: 10px;
+          }
         }
+      }
+
+      button {
+        background: none;
+        border: 0;
+        color: #FFF;
+        padding: 12px;
+        outline: 0;
+      }
     }
+  }
+
+  .slide-fade-enter-active {
+    transition: all 300ms ease;
+  }
+
+  .slide-fade-leave-active {
+    transition: all 300ms cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+
+  .slide-fade-enter, .slide-fade-leave-to {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
 </style>

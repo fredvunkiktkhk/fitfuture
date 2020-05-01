@@ -1,16 +1,12 @@
 const router = require('express').Router();
-const login = require('./login');
-const logout = require('./logout');
-const signup = require('./signup');
+const authentication = require('./authentication');
 const workouts = require('./workouts');
 const exercises = require('./exercises');
 const authCheck = require('../middleware/token');
 
-router.post('/login', login.doLogin);
-
-router.post('/logout', logout.doLogout);
-
-router.post('/signup', signup.doSignup);
+router.post('/login', authentication.doLogin);
+router.post('/logout', authentication.doLogout);
+router.post('/signup', authentication.doSignup);
 
 router.get('/workouts', authCheck, workouts.getWorkouts); // Get all workouts
 router.post('/workouts', authCheck, workouts.addWorkout); // Add new workout

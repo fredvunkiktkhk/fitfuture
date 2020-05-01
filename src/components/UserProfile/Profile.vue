@@ -1,0 +1,62 @@
+<template>
+  <div class="user">
+    <button id="dropdown" class="user-settings" @click="toggleDropdown">
+      <span class="icon-container"><font-awesome-icon icon="user-cog"/></span>
+    </button>
+    <transition name="slide-fade">
+      <div v-if="activeDropdown" :class="{'active-dropdown': activeDropdown}">
+        <ul>
+          <li>
+            <div class="links" @click="onLogout">Log out</div>
+          </li>
+          <li>
+            <router-link to="/teinetest" tag="div" class="links" exact active-class="active">test</router-link>
+          </li>
+          <li>
+            <router-link to="/test" tag="div" class="links" exact active-class="active">testing</router-link>
+          </li>
+        </ul>
+      </div>
+    </transition>
+  </div>
+</template>
+
+<script>
+
+  export default {
+    name: 'Profile',
+
+    data: function () {
+      return {
+        activeDropdown: false,
+      }
+    },
+    methods: {
+      toggleDropdown(e) {
+        e.stopPropagation();
+        this.activeDropdown = !this.activeDropdown;
+        if (this.activeDropdown) {
+          window.addEventListener('click', () => {
+            this.activeDropdown = false
+          })
+        } else {
+          window.removeEventListener('click', () => {
+            this.activeDropdown = false
+          })
+        }
+      },
+      async onLogout() {
+        try {
+          await this.axios.post('/logout');
+          await this.$router.push({name: 'Login'});
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

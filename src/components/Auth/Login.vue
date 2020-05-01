@@ -27,7 +27,7 @@
 <script>
 
   export default {
-    name: "SignIn",
+    name: "Login",
     data() {
       return {
         email: '',

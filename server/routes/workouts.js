@@ -5,7 +5,7 @@ const pool = require('../db');
 async function getWorkouts(req, res) {
   let currentUser = res.locals.loggedInUser;
   try {
-    const results = await pool.query('SELECT * FROM workouts WHERE user_id = ?', [currentUser.id]);
+    const results = await pool.query('SELECT * FROM workouts WHERE user_id = ? AND deleted_at IS NULL', [currentUser.id]);
     if (!results) {
       return res.status(400).json({error: 'No workouts found'})
     }
@@ -36,7 +36,7 @@ async function editWorkout(req, res) {
   const {workout_name, muscle_group} = req.body;
   const newWorkout = {workout_name, muscle_group};
   try {
-    const results = await pool.query('UPDATE workouts SET ? WHERE id = ? AND user_id = ?',
+    const results = await pool.query('UPDATE workouts SET ? WHERE id = ? AND user_id = ? AND deleted_at IS NULL',
       [newWorkout, workoutId, currentUser.id]);
     if (!results) {
       return res.status(400).json({error: 'Something went wrong, try again!'});
@@ -51,7 +51,7 @@ async function deleteWorkout(req, res) {
   let currentUser = res.locals.loggedInUser;
   const {workoutId} = req.params;
   try {
-    const results = await pool.query('DELETE FROM workouts WHERE id = ? AND user_id = ?',
+    const results = await pool.query('UPDATE workouts SET deleted_at = now() WHERE id = ? AND user_id = ?',
       [workoutId, currentUser.id]);
     if (!results) {
       return res.status(400).json({error: 'Something went wrong, try again!'});

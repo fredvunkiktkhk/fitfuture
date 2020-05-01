@@ -3,7 +3,7 @@ const pool = require('../db');
 async function getExercises(req, res) {
   const {workoutId} = req.params;
   try {
-    const results = await pool.query('SELECT * FROM workout_exercises WHERE workouts_id = ?', [workoutId]);
+    const results = await pool.query('SELECT * FROM workout_exercises WHERE workouts_id = ? AND deleted_at IS NULL', [workoutId]);
     if (!results) {
       return res.status(400).json({error: 'No exercises found'})
     }
@@ -18,7 +18,7 @@ async function addExercise(req, res) {
   const {workoutId} = req.params;
   const {exercise_name, sets, reps} = req.body;
   try {
-    const workouts = await pool.query('SELECT id FROM workouts WHERE id = ? AND user_id = ?', [workoutId, currentUser.id]);
+    const workouts = await pool.query('SELECT id FROM workouts WHERE id = ? AND user_id = ? AND deleted_at IS NULL', [workoutId, currentUser.id]);
     if (!workouts) {
       return res.status(400).json({error: 'Something went wrong, try again'});
     }
@@ -38,7 +38,7 @@ async function editExercise(req, res) {
   const {exercise_name, sets, reps} = req.body;
   const newDetails = {exercise_name, sets, reps};
   try {
-    const workout = await pool.query('SELECT id FROM workouts WHERE id = ?', [workoutId]);
+    const workout = await pool.query('SELECT id FROM workouts WHERE id = ? AND deleted_at IS NULL', [workoutId]);
     if (!workout.length) {
       return res.status(400).json({error: 'No workout found'});
     }
@@ -56,11 +56,11 @@ async function editExercise(req, res) {
 async function deleteExercise(req, res) {
   const {workoutId, exerciseId} = req.params;
   try {
-    const workout = await pool.query('SELECT id FROM workouts WHERE id = ?', [workoutId]);
+    const workout = await pool.query('SELECT id FROM workouts WHERE id = ? AND deleted_at IS NULL', [workoutId]);
     if (!workout.length) {
       return res.status(400).json({error: 'No workout found'});
     }
-    let exercise = await pool.query('DELETE FROM workout_exercises WHERE id = ?', [exerciseId]);
+    let exercise = await pool.query('UPDATE workout_exercises SET deleted_at = now() WHERE id = ?', [exerciseId]);
     if (!exercise) {
       return res.status(400).json({error: 'Couldn\'t update exercise'});
     }
