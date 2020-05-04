@@ -5,33 +5,28 @@
         <div class="input">
           <label for="email">E-mail</label>
           <input
-            type="email"
-            id="email"
-            v-model="email"
-            autocomplete="off"
+                  type="email"
+                  id="email"
+                  v-model="email"
+                  autocomplete="off"
           >
         </div>
         <div class="input">
           <label for="password">Password</label>
           <input
-            type="password"
-            id="password"
-            v-model="password"
-            autocomplete="off"
+                  type="password"
+                  id="password"
+                  v-model="password"
+                  autocomplete="off"
           >
         </div>
         <div class="submit">
           <button type="submit">Sign Up</button>
         </div>
       </form>
-
     </div>
-    <div class="box1">
-      <div class="img"></div>
-    </div>
-    <div class="box2">
-      <div class="svg"></div>
-    </div>
+    <div class="container-svg"><img src="../../../public/img/group21.svg" alt="logo" class="signup-logo"></div>
+    <div v-if="windowWidth <= 359"><img src="../../../public/img/group21mobile.svg" alt="logo" class="logo-mobile"></div>
   </div>
 </template>
 
@@ -43,6 +38,7 @@
       return {
         email: '',
         password: '',
+        windowWidth: 0,
       }
     },
     methods: {
@@ -57,20 +53,51 @@
           console.log(err);
         }
       },
+      getWindowWidth() {
+        this.windowWidth = document.documentElement.clientWidth;
+      },
     },
+    mounted() {
+      this.$nextTick(function () {
+        window.addEventListener('resize', this.getWindowWidth);
+        this.getWindowWidth();
+      });
+    },
+    beforeDestroy() {
+      window.removeEventListener('resize', this.getWindowWidth);
+    }
   }
 </script>
 
 <style scoped lang="scss">
   .signup {
     position: relative;
+
+    .container-svg {
+      display: flex;
+      justify-content: center;
+    }
+
+    &-logo {
+      display: block;
+      margin: -90px auto;
+      transform: scale(1);
+    }
+
+    .logo-mobile {
+      position: absolute;
+      top: 140px;
+      right: 0;
+    }
   }
+
   .signup-form {
     width: 250px;
     margin: 30px auto;
     border: 1px solid #eee;
     box-shadow: 0 2px 3px #ccc;
     padding: 20px;
+    position: relative;
   }
 
   .input {
@@ -88,24 +115,20 @@
     height: 150px;
   }
 
-  .img {
+  .svg-right {
     position: absolute;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 400px;
-    height: 350px;
-    background: url("../../assets/Group 19.svg") no-repeat;
+
   }
 
-  .svg {
+  .svg-left {
     position: absolute;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 100%;
-    height: 350px;
-    background: url("../../assets/Group 20.svg") no-repeat;
+
   }
 
   .input label {
@@ -173,4 +196,32 @@
     color: #ccc;
     cursor: not-allowed;
   }
+
+  @media screen and (max-width: 767px) {
+    .signup-logo {
+        display: block;
+        margin: -90px auto;
+        transform: scale(0.7);
+    }
+  }
+
+  @media screen and (max-width: 426px) {
+    .signup-logo {
+      transform: scale(0.5);
+    }
+  }
+
+    @media screen and (max-width: 380px) {
+    .signup-logo {
+      transform: scale(0.47);
+    }
+  }
+
+  @media screen and (max-width: 359px) {
+    .signup-logo {
+      display: none;
+    }
+  }
+
+
 </style>

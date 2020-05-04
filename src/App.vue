@@ -2,8 +2,7 @@
   <div id="app">
     <div class="mobile-header">
       <Profile/>
-      <div class="logo">Fit Future</div>
-      <a></a>
+      <div class="logo-name">Fit Future</div>
     </div>
     <Header/>
     <router-view></router-view>
@@ -79,15 +78,10 @@
       list-style: none;
       background: #F27A54;
 
-      .user {
+      .logo-name {
+        align-items: center;
         display: flex;
-        flex: 1;
-        width: 39px;
-        justify-content: space-between;
-
-        &-settings {
-          position: relative;
-        }
+        flex-grow: 1;
       }
 
       .active-dropdown {

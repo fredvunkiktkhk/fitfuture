@@ -9,12 +9,6 @@
           <li>
             <div class="links" @click="onLogout">Log out</div>
           </li>
-          <li>
-            <router-link to="/teinetest" tag="div" class="links" exact active-class="active">test</router-link>
-          </li>
-          <li>
-            <router-link to="/test" tag="div" class="links" exact active-class="active">testing</router-link>
-          </li>
         </ul>
       </div>
     </transition>
@@ -57,6 +51,10 @@
   }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .user {
+    display: flex;
+    width: 39px;
+    flex: 1;
+  }
 </style>

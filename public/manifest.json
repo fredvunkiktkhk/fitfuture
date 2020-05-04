@@ -1,7 +1,7 @@
 {
   "name": "Fit Future",
   "short_name": "Fit Future",
-  "start_url": "/",
+  "start_url": "/signup",
   "display": "standalone",
   "background_color": "#3C444C",
   "theme_color": "#F27A54",
