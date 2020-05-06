@@ -9,8 +9,8 @@
             >
             <font-awesome-icon class="icon" icon="plus-circle" />
             </button>
-            <div class="workouts-list" v-for="item in data" v-bind:key="item.id">
-                <div :value="item.name"></div>
+            <div class="workouts-list" v-for="workout in workouts.data" v-bind:key="workout.id">
+                <div>{{workout.workout_name}}</div>
             </div>
             <AddWorkout
                 v-if="isActive"
@@ -30,9 +30,21 @@
         },
         data: function () {
             return {
-                data: [],
+                workouts: [],
                 isActive: false,
             }
+        },
+        methods: {
+            async getWorkouts()  {
+                try {
+                    this.workouts = await this.axios.get('/workouts');
+                } catch (err) {
+                    await this.$router.push({name: 'Login'});
+                }
+            }
+        },
+        created() {
+            this.getWorkouts();
         }
     }
 </script>

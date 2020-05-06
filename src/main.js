@@ -8,11 +8,14 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 import './registerServiceWorker';
+import Vuelidate from "vuelidate/src";
+
 import axios from 'axios';
 
 library.add(faUserSecret);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);

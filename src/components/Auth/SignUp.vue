@@ -4,20 +4,21 @@
       <form @submit.prevent="onSignUp">
         <div class="input">
           <label for="email">E-mail</label>
-          <input
-                  type="email"
-                  id="email"
-                  v-model="email"
-                  autocomplete="off"
-          >
+            <input
+              type="email"
+              id="email"
+              @input="$v.email.$touch()"
+              v-model="email"
+              autocomplete="off"
+            >
         </div>
         <div class="input">
           <label for="password">Password</label>
           <input
-                  type="password"
-                  id="password"
-                  v-model="password"
-                  autocomplete="off"
+            type="password"
+            id="password"
+            v-model="password"
+            autocomplete="off"
           >
         </div>
         <div class="submit">
@@ -26,19 +27,27 @@
       </form>
     </div>
     <div class="container-svg"><img src="../../../public/img/group21.svg" alt="logo" class="signup-logo"></div>
-    <div v-if="windowWidth <= 359"><img src="../../../public/img/group21mobile.svg" alt="logo" class="logo-mobile"></div>
+    <div v-if="windowWidth <= 359"><img src="../../../public/img/group21mobile.svg" alt="logo" class="logo-mobile">
+    </div>
   </div>
 </template>
 
 <script>
+  import { required, email } from 'vuelidate/lib/validators';
 
   export default {
     name: "SignUp",
-    data() {
+    data: function () {
       return {
         email: '',
         password: '',
         windowWidth: 0,
+      }
+    },
+    validations: {
+      email: {
+        required,
+        email
       }
     },
     methods: {
@@ -48,7 +57,7 @@
             email: this.email,
             password: this.password
           });
-          await this.$router.push({name: 'LogIn'});
+          await this.$router.push({name: 'Login'});
         } catch (err) {
           console.log(err);
         }
@@ -88,6 +97,7 @@
       position: absolute;
       top: 140px;
       right: 0;
+      margin-top: 114px;
     }
   }
 
@@ -199,9 +209,9 @@
 
   @media screen and (max-width: 767px) {
     .signup-logo {
-        display: block;
-        margin: -90px auto;
-        transform: scale(0.7);
+      display: block;
+      margin: -90px auto;
+      transform: scale(0.7);
     }
   }
 
@@ -211,7 +221,7 @@
     }
   }
 
-    @media screen and (max-width: 380px) {
+  @media screen and (max-width: 380px) {
     .signup-logo {
       transform: scale(0.47);
     }

@@ -7,6 +7,7 @@ const authCheck = require('../middleware/token');
 router.post('/login', authentication.doLogin);
 router.post('/logout', authentication.doLogout);
 router.post('/signup', authentication.doSignup);
+router.get('/session', authCheck, authentication.isUserLoggedIn);
 
 router.get('/workouts', authCheck, workouts.getWorkouts); // Get all workouts
 router.post('/workouts', authCheck, workouts.addWorkout); // Add new workout

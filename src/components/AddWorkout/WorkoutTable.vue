@@ -1,9 +1,9 @@
 <template>
     <div class="container">
-        <div v-for="item in data" v-bind:key="item.name" class="exercise-block">
-            <div class="item1">Harjutus<input class="name" :value="item.name" /></div>
-            <div class="item1">Seeriad<input class="numbers" :value="item.sets" /></div>
-            <div class="item1">Kordused<input class="numbers" :value="item.reps" /></div>
+        <div v-for="exercise in exercises" v-bind:key="exercise.name" class="exercise-block">
+            <div class="item1">Harjutus<input class="name" :value="exercises.name" /></div>
+            <div class="item1">Seeriad<input class="numbers" :value="exercises.sets" /></div>
+            <div class="item1">Kordused<input class="numbers" :value="exercises.reps" /></div>
         </div>
     </div>
 </template>
@@ -18,15 +18,7 @@
         },
         data: function () {
             return {
-                data: [
-                    {name: 'Kükk', sets: '5', reps: '8'},
-                    {name: 'Kükke', sets: '5', reps: '8'},
-                    {name: 'Kükka', sets: '5', reps: '8'},
-                    {name: 'Kükki', sets: '5', reps: '8'},
-                    {name: 'Kükki', sets: '5', reps: '8'},
-                    {name: 'Kükki', sets: '5', reps: '8'},
-                    {name: 'Kükki', sets: '5', reps: '8'},
-                ],
+                exercises: [],
             }
         },
     }
