@@ -34,12 +34,7 @@
       WorkoutTable,
       SubmitButton,
     },
-    props: {
-      label: String,
-      nameOfWorkout: String,
-      nameOfWorkoutDay: String,
-    },
-    data: function () {
+    data () {
       return {
         workout_name: '',
         muscle_group: '',
@@ -53,11 +48,24 @@
             workout_name: this.workout_name,
             muscle_group: this.muscle_group
           });
-          this.$emit('siit peaks saatma parentisse');
+          this.$emit('workoutAdded');
+          this.workout_name = '';
+          this.muscle_group = '';
         } catch (err) {
           console.log(err);
         }
       },
+      /*async editWorkout() {
+        try {
+          await this.axios.put('/workouts/workoutId', {
+            workout_name: this.workout_name,
+            muscle_group: this.muscle_group
+          });
+          this.$emit('editWorkout');
+        } catch (err) {
+          console.log(err);
+        }
+      },*/
     }
   }
 </script>

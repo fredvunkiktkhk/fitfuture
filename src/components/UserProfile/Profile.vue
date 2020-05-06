@@ -20,7 +20,7 @@
   export default {
     name: 'Profile',
 
-    data: function () {
+    data () {
       return {
         activeDropdown: false,
       }

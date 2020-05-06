@@ -37,7 +37,7 @@
 
   export default {
     name: "SignUp",
-    data: function () {
+    data () {
       return {
         email: '',
         password: '',
