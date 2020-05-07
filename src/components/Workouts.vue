@@ -26,7 +26,7 @@
         @workoutAdded="getWorkouts()"
       />
     <EditWorkout
-      v-if="workoutId !== 0 || workoutId"
+      v-if="workoutId"
       @closeModal="isActive = false"
       :workoutId="workoutId"
       @workoutEdit="getWorkouts()"

@@ -15,6 +15,20 @@ async function getWorkouts(req, res) {
   }
 }
 
+async function getWorkout(req, res) {
+  let currentUser = res.locals.loggedInUser;
+  const {workoutId} = req.params;
+  try {
+    const results = await pool.query('SELECT * FROM workouts WHERE user_id = ? AND id = ? AND deleted_at IS NULL', [currentUser.id, workoutId]);
+    if (!results) {
+      return res.status(400).json({error: 'No workouts found'})
+    }
+    return res.send(results);
+  } catch (err) {
+    res.status(400).send(err)
+  }
+}
+
 async function addWorkout(req, res) {
   let currentUser = res.locals.loggedInUser;
   const {workout_name, muscle_group} = req.body;
@@ -64,6 +78,7 @@ async function deleteWorkout(req, res) {
 
 module.exports = {
   getWorkouts,
+  getWorkout,
   addWorkout,
   editWorkout,
   deleteWorkout,
