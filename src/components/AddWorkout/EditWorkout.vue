@@ -1,6 +1,6 @@
 <template>
   <div class="add-exercise">
-    <form @submit.prevent="submitWorkout">
+    <form @submit.prevent="editWorkout(workoutId)">
       <div class="heading">
         <label for="name">Kava nimi</label>
         <input
@@ -15,11 +15,11 @@
           v-model="muscle_group"
         />
       </div>
-      <button class="button-close" @click="$emit('childClick')">
+      <button class="button-close" @click.prevent="$emit('closeModal')">
         <font-awesome-icon class="icon" icon="times-circle"/>
       </button>
       <WorkoutTable/>
-      <SubmitButton name="Lisa kava"/>
+      <SubmitButton name="Salvesta muudatus"/>
     </form>
   </div>
 </template>
@@ -29,7 +29,7 @@
   import SubmitButton from "../SubmitButton/SubmitButton";
 
   export default {
-    name: 'AddWorkout',
+    name: 'EditWorkout',
     components: {
       WorkoutTable,
       SubmitButton,
@@ -37,7 +37,7 @@
     props: {
       workoutId: {
         type: Number,
-      }
+      },
     },
     data () {
       return {
@@ -47,13 +47,15 @@
       }
     },
     methods: {
-      async submitWorkout() {
+      async editWorkout(workoutId) {
         try {
-          await this.axios.post('/workouts', {
+          console.log(this.workout_name);
+          console.log(this.muscle_group);
+          await this.axios.put('/workouts/'+workoutId, {
             workout_name: this.workout_name,
             muscle_group: this.muscle_group
           });
-          this.$emit('workoutAdded');
+          this.$emit('workoutEdit', workoutId);
           this.workout_name = '';
           this.muscle_group = '';
         } catch (err) {
