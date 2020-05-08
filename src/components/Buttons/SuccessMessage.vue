@@ -1,7 +1,6 @@
 <template>
   <transition name="fade" mode="in-out">
-    <button type="button" class="submit">{{ name }}</button>
-    <slot></slot>
+    <button class="message">{{name}}</button>
   </transition>
 </template>
 
@@ -9,23 +8,19 @@
   export default {
     name: "SuccessMessage",
     props: {
-      name: {
-        type: String,
-        default: '',
-      },
-      type: {
-        type: String,
-        default: '',
-      }
+      name: String,
     },
   }
 </script>
 
 <style scoped lang="scss">
-  .submit {
+  .message {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
     height: 30px;
     width: 150px;
-    margin-top: 25px;
     border-radius: 20px;
     border: 0;
     color: #FFF;

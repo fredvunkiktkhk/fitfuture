@@ -9,13 +9,14 @@
       >
         <font-awesome-icon class="icon" icon="plus-circle"/>
       </button>
+      <SuccessMessage name="Kava muudetud" v-if="savingSuccessful"/>
       <div class="workouts-list" v-for="workout in workouts.data" v-bind:key="workout.id">
         <div class="workouts-item">{{workout.workout_name}}</div>
         <div class="edit-buttons">
           <button @click="workoutId = workout.id" class="icon-button">
             <font-awesome-icon class="icon" icon="pencil-alt"/>
           </button>
-          <button class="icon-button">
+          <button @click="deleteWorkout(workoutId = workout.id)" class="icon-button">
             <font-awesome-icon class="icon" icon="trash-alt"/>
           </button>
         </div>
@@ -25,13 +26,12 @@
         @close="isActive = false"
         @workoutAdded="getWorkouts"
       />
-    <EditWorkout
-      v-if="workoutId"
-      @close="closeEdit"
-      @workoutEdit="workoutModified"
-      :workoutId="workoutId"
-    />
-        <SuccessMessage name="Kava muudetud" v-if="savingSuccessful"/>
+      <EditWorkout
+        v-if="workoutId"
+        @close="closeEdit"
+        @workoutEdit="workoutModified"
+        :workoutId="workoutId"
+      />
     </div>
   </div>
 </template>
@@ -63,6 +63,7 @@
           this.workouts = await this.axios.get('/workouts');
           this.workoutId = null;
         } catch (err) {
+          console.log(err);
           await this.$router.push({name: 'Login'});
         }
       },
@@ -72,6 +73,17 @@
           this.workoutId = null;
           this.showSuccessMessage();
         } catch (err) {
+          console.log(err);
+          await this.$router.push({name: 'Login'});
+        }
+      },
+      async deleteWorkout() {
+        try {
+          if (confirm('Oled kindel?'))
+            await this.axios.delete('/workouts/' + this.workoutId);
+            await this.getWorkouts();
+        } catch (err) {
+          console.log(err);
           await this.$router.push({name: 'Login'});
         }
       },
@@ -158,6 +170,7 @@
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
   }
+
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
