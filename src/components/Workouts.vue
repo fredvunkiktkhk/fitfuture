@@ -27,11 +27,14 @@
       />
     <EditWorkout
       v-if="workoutId"
-      @closeModal="isActive = false"
+      @childClose="closeEdit"
+      @workoutEdit="getWorkouts() && workoutId"
       :workoutId="workoutId"
-      @workoutEdit="getWorkouts()"
     />
       {{workoutId}}
+      {{closeModal}}
+        <SuccessMessage name="Kava muudetud" v-if="!savingSuccessful" @workoutEdit="showSuccessMessage"/>
+      {{savingSuccessful}}
     </div>
   </div>
 </template>
@@ -39,18 +42,22 @@
 <script>
   import AddWorkout from './AddWorkout/AddWorkout';
   import EditWorkout from "./AddWorkout/EditWorkout";
+  import SuccessMessage from "./Buttons/SuccessMessage";
 
   export default {
     name: "Workouts",
     components: {
       EditWorkout,
       AddWorkout,
+      SuccessMessage,
     },
     data() {
       return {
         workouts: [],
         isActive: false,
         workoutId: null,
+        closeModal: null,
+        savingSuccessful: false,
       }
     },
     methods: {
@@ -61,25 +68,16 @@
           await this.$router.push({name: 'Login'});
         }
       },
-      /*      editWorkout(value) {
-              this.workoutId = value;
-              console.log(value)
-              // let element = this.$refs.addWorkout
-              this.isActive = true;
-            },*/
-      /*     async editWorkout(workoutId) {
-             try {
-               this.workouts = await this.axios.get('/workouts');
-               await this.axios.put('/workouts/'+workoutId, {
-                 workout_name: this.workout_name,
-                 muscle_group: this.muscle_group
-               });
-               this.isActive =true
-               console.log(workoutId);
-             } catch (err) {
-               console.log(err);
-             }
-           },*/
+      closeEdit() {
+        this.workoutId = null;
+      },
+      showSuccessMessage() {
+        this.savingSuccessful = true;
+
+        setTimeout(() => {
+          this.savingSuccessful = false;
+        }, 3000);
+      },
     },
     created() {
       this.getWorkouts();
@@ -148,5 +146,12 @@
         color: #FF000D;
       }
     }
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
   }
 </style>

@@ -23,7 +23,7 @@ async function getWorkout(req, res) {
     if (!results) {
       return res.status(400).json({error: 'No workouts found'})
     }
-    return res.send(results);
+    return res.send(results[0]);
   } catch (err) {
     res.status(400).send(err)
   }

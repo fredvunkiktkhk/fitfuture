@@ -15,12 +15,6 @@
         default: '',
       }
     },
-/*    methods: {
-      onSubmit (e) {
-        e.preventDefault();
-        this.$emit('on-submit', this.value);
-      }
-    }*/
   }
 </script>
 

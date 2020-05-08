@@ -1,21 +1,21 @@
 <template>
-  <div class="add-exercise">
-    <form @submit.prevent="editWorkout(workoutId)">
+  <div class="edit-exercise">
+    <form @submit.prevent="editWorkout()">
       <div class="heading">
-        <label for="name">Kava nimi</label>
+        <label for="name">{{workout_name}}</label>
         <input
           id="name"
           type="text"
           v-model="workout_name"
         />
-        <label for="day">Lihasgrupp</label>
+        <label for="day">{{muscle_group}}</label>
         <input
           id="day"
           type="text"
           v-model="muscle_group"
         />
       </div>
-      <button class="button-close" @click.prevent="$emit('closeModal')">
+      <button type="button" class="button-close" @click="$emit('childClose')">
         <font-awesome-icon class="icon" icon="times-circle"/>
       </button>
       <WorkoutTable/>
@@ -26,7 +26,7 @@
 
 <script>
   import WorkoutTable from "./WorkoutTable";
-  import SubmitButton from "../SubmitButton/SubmitButton";
+  import SubmitButton from "../Buttons/SubmitButton";
 
   export default {
     name: 'EditWorkout',
@@ -39,35 +39,46 @@
         type: Number,
       },
     },
-    data () {
+    data() {
       return {
         workout_name: '',
         muscle_group: '',
         workouts: [],
+        workout: {},
       }
     },
     methods: {
-      async editWorkout(workoutId) {
+      async editWorkout() {
         try {
           console.log(this.workout_name);
           console.log(this.muscle_group);
-          await this.axios.put('/workouts/'+workoutId, {
+          await this.axios.put('/workouts/' + this.workoutId, {
             workout_name: this.workout_name,
             muscle_group: this.muscle_group
           });
-          this.$emit('workoutEdit', workoutId);
+          this.$emit('workoutEdit');
           this.workout_name = '';
           this.muscle_group = '';
         } catch (err) {
           console.log(err);
         }
       },
-    }
+    },
+    async created() {
+      try {
+        const workout = await this.axios.get('/workouts/' + this.workoutId)
+        this.workout = workout.data
+        this.workout_name = workout.data.workout_name
+        this.muscle_group = workout.data.muscle_group
+      } catch (err) {
+        console.log(err);
+      }
+    },
   }
 </script>
 
 <style scoped lang="scss">
-  .add-exercise {
+  .edit-exercise {
     min-width: 300px;
     height: 100%;
     box-shadow: 0 5px 10px #000;
@@ -100,6 +111,10 @@
           background: rgba(255, 255, 255, 0.1);
         }
       }
+    }
+
+    label {
+      visibility: hidden;
     }
 
     .button-close {

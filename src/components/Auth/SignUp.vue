@@ -1,4 +1,4 @@
-<template>
+t<template>
   <div class="signup">
     <div class="signup-form">
       <form @submit.prevent="onSignUp">

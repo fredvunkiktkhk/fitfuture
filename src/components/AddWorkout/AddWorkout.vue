@@ -26,7 +26,7 @@
 
 <script>
   import WorkoutTable from "./WorkoutTable";
-  import SubmitButton from "../SubmitButton/SubmitButton";
+  import SubmitButton from "../Buttons/SubmitButton";
 
   export default {
     name: 'AddWorkout',

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import SubmitButton from "../SubmitButton/SubmitButton";
+  import SubmitButton from "../Buttons/SubmitButton";
 
   export default {
     components: {

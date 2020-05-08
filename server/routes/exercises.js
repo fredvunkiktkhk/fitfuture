@@ -20,7 +20,7 @@ async function getExercise(req, res) {
     if (!results) {
       return res.status(400).json({error: 'No exercises found'})
     }
-    return res.send(results);
+    return res.send(results[0]);
   } catch (err) {
     res.status(400).json(err)
   }
