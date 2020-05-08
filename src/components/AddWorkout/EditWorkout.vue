@@ -2,13 +2,13 @@
   <div class="edit-exercise">
     <form @submit.prevent="editWorkout()">
       <div class="heading">
-        <label for="name">{{workout_name}}</label>
+        <label for="name">Kava nimi</label>
         <input
           id="name"
           type="text"
           v-model="workout_name"
         />
-        <label for="day">{{muscle_group}}</label>
+        <label for="day">Lihasgrupp</label>
         <input
           id="day"
           type="text"
@@ -95,7 +95,6 @@
       white-space: nowrap;
 
       input {
-        width: 50%;
         background: transparent;
         border-bottom: 1px solid #F27A54;
         border-right: 0;
@@ -111,10 +110,6 @@
           background: rgba(255, 255, 255, 0.1);
         }
       }
-    }
-
-    label {
-      visibility: hidden;
     }
 
     .button-close {

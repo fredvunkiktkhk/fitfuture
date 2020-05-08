@@ -16,7 +16,7 @@
           <button @click="workoutId = workout.id" class="icon-button">
             <font-awesome-icon class="icon" icon="pencil-alt"/>
           </button>
-          <button @click="deleteWorkout(workoutId = workout.id)" class="icon-button">
+          <button @click="deleteWorkout(workout.id)" class="icon-button">
             <font-awesome-icon class="icon" icon="trash-alt"/>
           </button>
         </div>
@@ -77,10 +77,11 @@
           await this.$router.push({name: 'Login'});
         }
       },
-      async deleteWorkout() {
+      async deleteWorkout(workoutId) {
         try {
-          if (confirm('Oled kindel?'))
-            await this.axios.delete('/workouts/' + this.workoutId);
+          //TODO korralik confirm message
+          if (confirm('Oled kindel, et soovid kava kustutada?'))
+            await this.axios.delete('/workouts/' +workoutId);
             await this.getWorkouts();
         } catch (err) {
           console.log(err);
