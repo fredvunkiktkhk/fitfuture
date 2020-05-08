@@ -137,6 +137,7 @@
       border: 0;
       color: #FFF;
       padding: 10px;
+      margin-bottom: 5px;
       font-size: 20px;
       outline: 0;
 

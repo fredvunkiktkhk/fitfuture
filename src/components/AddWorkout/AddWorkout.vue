@@ -18,21 +18,21 @@
       <button class="button-close" @click="$emit('close')">
         <font-awesome-icon class="icon" icon="times-circle"/>
       </button>
-      <WorkoutTable/>
+      <Exercises />
       <SubmitButton name="Lisa kava"/>
     </form>
   </div>
 </template>
 
 <script>
-  import WorkoutTable from "./WorkoutTable";
+  import Exercises from "./Exercises";
   import SubmitButton from "../Buttons/SubmitButton";
 
   export default {
     name: 'AddWorkout',
     components: {
-      WorkoutTable,
       SubmitButton,
+      Exercises,
     },
     props: {
       workoutId: {

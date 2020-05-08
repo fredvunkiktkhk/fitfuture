@@ -1,34 +1,41 @@
 <template>
-  <div class="container">
-    <div v-for="exercise in exercises" v-bind:key="exercise.name" class="exercise-block">
-      <div class="item1">Harjutus<input class="name" :value="exercises.name"/></div>
-      <div class="item1">Seeriad<input class="numbers" :value="exercises.sets"/></div>
-      <div class="item1">Kordused<input class="numbers" :value="exercises.reps"/></div>
-    </div>
+  <div class="box">
+    <form>
+      <div v-for="exercise in exercises" v-bind:key="exercise.id" class="exercise-block"></div>
+      <label class="item1" for="exercise">Harjutus</label><input id="exercise" type="text" v-model="exerciseName"/>
+      <label class="item1" for="sets">Seeriad</label><input id="sets" type="number" v-model="sets"/>
+      <label class="item1" for="reps">Kordused</label><input id="reps" type=number v-model="reps"/>
+      <!--      <div v-for="exercise in exercises" v-bind:key="exercise.id" class="exercise-block">
+              <div class="item1">Harjutushey</div><input class="name"/>
+              <div class="item1">Seeriad</div><input class="numbers" />
+              <div class="item1">Kordused</div><input class="numbers"/>
+            </div>-->
+    </form>
   </div>
 </template>
 
 <script>
   export default {
     name: "WorkoutTable",
-    props: {
-      name: String,
-      sets: Number,
-      reps: Number,
-    },
-    data () {
+    data() {
       return {
         exercises: [],
+        exerciseName: '',
+        sets: null,
+        reps: null,
       }
     },
   }
 </script>
 
 <style scoped lang="scss">
-  .container {
+  .box {
     max-width: 445px;
     max-height: 385px;
     overflow: auto;
+    width: 200px;
+    height: 200px;
+    border: 1px solid #FFF;
   }
 
   ::-webkit-scrollbar {
@@ -71,6 +78,7 @@
     border-right: 0;
     border-left: 0;
     border-bottom: 1px solid #F27A54;
+    background: transparent;
     outline: none;
 
     &:hover {

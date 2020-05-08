@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import WorkoutTable from "./WorkoutTable";
+  import WorkoutTable from "./Exercises";
   import SubmitButton from "../Buttons/SubmitButton";
 
   export default {
