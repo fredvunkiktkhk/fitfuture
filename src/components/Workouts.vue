@@ -22,19 +22,16 @@
       </div>
       <AddWorkout
         v-if="isActive"
-        @childClick="isActive = false"
-        @workoutAdded="getWorkouts()"
+        @close="isActive = false"
+        @workoutAdded="getWorkouts"
       />
     <EditWorkout
       v-if="workoutId"
-      @childClose="closeEdit"
-      @workoutEdit="getWorkouts() && workoutId"
+      @close="closeEdit"
+      @workoutEdit="workoutModified"
       :workoutId="workoutId"
     />
-      {{workoutId}}
-      {{closeModal}}
-        <SuccessMessage name="Kava muudetud" v-if="!savingSuccessful" @workoutEdit="showSuccessMessage"/>
-      {{savingSuccessful}}
+        <SuccessMessage name="Kava muudetud" v-if="savingSuccessful"/>
     </div>
   </div>
 </template>
@@ -64,6 +61,16 @@
       async getWorkouts() {
         try {
           this.workouts = await this.axios.get('/workouts');
+          this.workoutId = null;
+        } catch (err) {
+          await this.$router.push({name: 'Login'});
+        }
+      },
+      async workoutModified() {
+        try {
+          await this.axios.get('/workouts');
+          this.workoutId = null;
+          this.showSuccessMessage();
         } catch (err) {
           await this.$router.push({name: 'Login'});
         }
@@ -76,7 +83,7 @@
 
         setTimeout(() => {
           this.savingSuccessful = false;
-        }, 3000);
+        }, 1000);
       },
     },
     created() {

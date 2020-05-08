@@ -1,6 +1,7 @@
 <template>
   <transition name="fade" mode="in-out">
     <button type="button" class="submit">{{ name }}</button>
+    <slot></slot>
   </transition>
 </template>
 

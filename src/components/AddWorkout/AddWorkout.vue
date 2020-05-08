@@ -15,7 +15,7 @@
           v-model="muscle_group"
         />
       </div>
-      <button class="button-close" @click="$emit('childClick')">
+      <button class="button-close" @click="$emit('close')">
         <font-awesome-icon class="icon" icon="times-circle"/>
       </button>
       <WorkoutTable/>
