@@ -18,21 +18,30 @@
       <button type="button" class="button-close" @click="$emit('close')">
         <font-awesome-icon class="icon" icon="times-circle"/>
       </button>
-      <WorkoutTable/>
       <SubmitButton name="Salvesta muudatus"/>
     </form>
+    <div class="exercise-list" v-for="exercise in exercises.data" v-bind:key="exercise.id">
+      {{exercise.exercise_name}}
+      {{exercise.sets}}
+      {{exercise.reps}}
+    </div>
+  <EditExercise
+  :workoutId="workoutId"
+  />
   </div>
 </template>
 
 <script>
-  import WorkoutTable from "./Exercises";
   import SubmitButton from "../Buttons/SubmitButton";
+  // import AddExercise from "../AddExercise/AddExercise";
+  import EditExercise from "../AddExercise/EditExercise";
 
   export default {
     name: 'EditWorkout',
     components: {
-      WorkoutTable,
+      EditExercise,
       SubmitButton,
+      // AddExercise,
     },
     props: {
       workoutId: {
@@ -45,13 +54,16 @@
         muscle_group: '',
         workouts: [],
         workout: {},
+        exercises: [],
+        exercise: {},
+        exercise_name: '',
+        sets: null,
+        reps: null,
       }
     },
     methods: {
       async editWorkout() {
         try {
-          console.log(this.workout_name);
-          console.log(this.muscle_group);
           await this.axios.put('/workouts/' + this.workoutId, {
             workout_name: this.workout_name,
             muscle_group: this.muscle_group
@@ -59,10 +71,14 @@
           this.$emit('workoutEdit');
           this.workout_name = '';
           this.muscle_group = '';
+
         } catch (err) {
           console.log(err);
         }
       },
+      async exerciseModified() {
+
+      }
     },
     async created() {
       try {

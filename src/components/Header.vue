@@ -9,8 +9,8 @@
         <a><span class="icon-container"><font-awesome-icon icon="folder-open"/></span>Kavad</a>
       </router-link>
 
-      <router-link to="/exercise" tag="li" exact active-class="active">
-        <a><span class="icon-container"><font-awesome-icon icon="dumbbell"/></span>Harjutused</a>
+      <router-link to="/workout_history" tag="li" exact active-class="active">
+        <a><span class="icon-container"><font-awesome-icon icon="dumbbell"/></span>Ajalugu</a>
       </router-link>
 
       <router-link to="/login" tag="li" exact active-class="active">

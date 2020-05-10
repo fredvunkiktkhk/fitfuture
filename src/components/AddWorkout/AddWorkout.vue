@@ -18,21 +18,18 @@
       <button class="button-close" @click="$emit('close')">
         <font-awesome-icon class="icon" icon="times-circle"/>
       </button>
-      <Exercises />
       <SubmitButton name="Lisa kava"/>
     </form>
   </div>
 </template>
 
 <script>
-  import Exercises from "./Exercises";
   import SubmitButton from "../Buttons/SubmitButton";
 
   export default {
     name: 'AddWorkout',
     components: {
       SubmitButton,
-      Exercises,
     },
     props: {
       workoutId: {
@@ -76,13 +73,11 @@
       display: grid;
       grid-template-columns: 1fr 3fr;
       grid-gap: 10px;
-      width: 70%;
       padding: 20px 20px 20px 0;
       text-align: justify;
       white-space: nowrap;
 
       input {
-        width: 50%;
         background: transparent;
         border-bottom: 1px solid #F27A54;
         border-right: 0;

@@ -2,8 +2,6 @@
   <div class="container">
     <WorkoutDiary @onEdit="showEdit"/>
     <WorkoutDiaryDetails v-if="detailsId || detailsId === 0" @childClose="closeDetails"/>
-    <div class="logo1">
-    </div>
   </div>
 </template>
 

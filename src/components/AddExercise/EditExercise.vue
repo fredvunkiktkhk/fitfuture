@@ -1,19 +1,35 @@
 <template>
   <div class="exercise-container">
     <form>
-      <div v-for="exercise in exercises.data" v-bind:key="exercise.id" class="exercise-block"></div>
-      {{exercise.id}}
-      {{exercise.exercise_name}}
-      <div class="exercise-data">{{exercise.data.exercise_name}}</div>
-      <div class="exercise-data">{{exercise.sets}}</div>
-      <div class="exercise-data">{{exercise.reps}}</div>
+      <div v-for="exercise in exercises" v-bind:key="exercise.id" class="exercise-block"></div>
+      <label class="exercise-label" for="exercise">Harjutus</label>
+      <input
+        class="exercise-data"
+        id="exercise"
+        type="text"
+        v-model="exercise_name"
+      />
+      <label class="exercise-label" for="sets">Seeriad</label>
+      <input
+        class="exercise-data"
+        id="sets"
+        type="number"
+        v-model="sets"
+      />
+      <label class="exercise-label" for="reps">Kordused</label>
+      <input
+        class="exercise-data"
+        id="reps"
+        type=number
+        v-model="reps"
+      />
     </form>
   </div>
 </template>
 
 <script>
   export default {
-    name: "Exercises",
+    name: "EditExercise",
     props: {
       workoutId: {
         type: Number,
@@ -27,21 +43,18 @@
         reps: null,
       }
     },
-    methods: {
-      async editExercise() {
-        try {
-          await this.axios.put('/workouts/' + this.workoutId, {
-            exercise_name: this.exercise_name,
-            sets: this.sets,
-            reps: this.reps
-          });
-          this.$emit('exerciseEdit');
-        } catch (err) {
-          console.log(err);
-        }
-      },
-    },
-    created() {
+    async created() {
+      try {
+        const exercises = await this.axios.get('/exercises/'+ this.workoutId);
+        this.exercises = exercises.data
+        this.exercise_name = exercises.data.exercise_name;
+        this.sets = exercises.data.sets;
+        this.reps = exercises.data.reps;
+        console.log(exercises.data.sets);
+        console.log(exercises.data);
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 </script>
@@ -92,7 +105,7 @@
     text-align: justify;
   }
 
-  div {
+  input {
     padding: 5px 0;
     border-top: 0;
     border-right: 0;
@@ -135,7 +148,7 @@
   }
 
   @media screen and (max-width: 767px) {
-    .exercise-container {
+    .container {
       max-width: 300px;
       max-height: 290px;
     }

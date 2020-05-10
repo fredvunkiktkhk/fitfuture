@@ -1,13 +1,12 @@
 <template>
-  <div class="content">
-    <div>Exercises will be here</div>
-
+  <div class="history-content">
+    <div>Done workouts will be here</div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'Exercise',
+    name: 'WorkoutHistory',
     data() {
       return {}
     }
@@ -15,7 +14,7 @@
 </script>
 
 <style scoped lang="scss">
-  .content {
+  .history-content {
     width: 100%;
     margin: 0;
   }

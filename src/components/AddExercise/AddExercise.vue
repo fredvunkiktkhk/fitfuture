@@ -1,19 +1,36 @@
 <template>
   <div class="exercise-container">
-    <form>
-      <div v-for="exercise in exercises.data" v-bind:key="exercise.id" class="exercise-block"></div>
-      {{exercise.id}}
-      {{exercise.exercise_name}}
-      <div class="exercise-data">{{exercise.data.exercise_name}}</div>
-      <div class="exercise-data">{{exercise.sets}}</div>
-      <div class="exercise-data">{{exercise.reps}}</div>
+    <button type="submit">Add exercise</button>
+    <form @submit.prevent="submitExercise()">
+      <div v-for="exercise in exercises" v-bind:key="exercise.id" class="exercise-block"></div>
+      <label class="exercise-label" for="exercise">Harjutus</label>
+      <input
+        class="exercise-data"
+        id="exercise"
+        type="text"
+        v-model="exerciseName"
+      />
+      <label class="exercise-label" for="sets">Seeriad</label>
+      <input
+        class="exercise-data"
+        id="sets"
+        type="number"
+        v-model="sets"
+      />
+      <label class="exercise-label" for="reps">Kordused</label>
+      <input
+        class="exercise-data"
+        id="reps"
+        type=number
+        v-model="reps"
+      />
     </form>
   </div>
 </template>
 
 <script>
   export default {
-    name: "Exercises",
+    name: "AddExercise",
     props: {
       workoutId: {
         type: Number,
@@ -22,26 +39,27 @@
     data() {
       return {
         exercises: [],
-        exercise_name: '',
+        exerciseName: '',
         sets: null,
         reps: null,
       }
     },
     methods: {
-      async editExercise() {
+      async submitExercise() {
         try {
-          await this.axios.put('/workouts/' + this.workoutId, {
-            exercise_name: this.exercise_name,
+          await this.axios.post('/workouts/'+this.workoutId+'/exercise', {
+            exerciseName: this.exerciseName,
             sets: this.sets,
-            reps: this.reps
+            reps: this.reps,
           });
-          this.$emit('exerciseEdit');
+          console.log(this.exerciseName);
+          console.log(this.sets);
+          console.log(this.reps);
+          this.$emit('exerciseAdded');
         } catch (err) {
           console.log(err);
         }
       },
-    },
-    created() {
     }
   }
 </script>
@@ -92,7 +110,7 @@
     text-align: justify;
   }
 
-  div {
+  input {
     padding: 5px 0;
     border-top: 0;
     border-right: 0;
@@ -135,7 +153,7 @@
   }
 
   @media screen and (max-width: 767px) {
-    .exercise-container {
+    .container {
       max-width: 300px;
       max-height: 290px;
     }
