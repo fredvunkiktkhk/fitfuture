@@ -85,7 +85,7 @@
     methods: {
       async submitExercise() {
         try {
-          await this.axios.post('/workouts/' + this.exerciseId + '/exercise', {
+          await this.axios.post('/workouts/' + this.exerciseId + '/exercises', {
             exercise_name: this.exercise_name,
             sets: this.sets,
             reps: this.reps,
@@ -97,7 +97,7 @@
       },
       async getExercises() {
         try {
-          this.exercises = await this.axios.get('/exercises/' + this.exerciseId)
+          this.exercises = await this.axios.get('/workouts/' + this.exerciseId + '/exercises')
           console.log(this.exercises);
         } catch (err) {
           console.log(err);

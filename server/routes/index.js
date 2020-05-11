@@ -15,10 +15,10 @@ router.post('/workouts', authCheck, workouts.addWorkout); // Add new workout
 router.put('/workouts/:workoutId', authCheck, workouts.editWorkout); // edit workout
 router.delete('/workouts/:workoutId', authCheck, workouts.deleteWorkout); // delete workout
 
-router.get('/exercises/:workoutId', authCheck, exercises.getExercises); // Returns all exercises
-router.get('/workouts/:workoutId/exercise/:exerciseId', authCheck, exercises.getExercise); // Returns single exercises
-router.post('/workouts/:workoutId/exercise', authCheck, exercises.addExercise); // add exercise
-router.put('/workouts/:workoutId/exercise/:exerciseId', authCheck, exercises.editExercise); // edit exercise
-router.delete('/workouts/:workoutId/exercise/:exerciseId', authCheck, exercises.deleteExercise); // delete exercise
+router.get('/workouts/:workoutId/exercises', authCheck, exercises.getExercises); // Returns all exercises
+router.get('/workouts/:workoutId/exercises/:exerciseId', authCheck, exercises.getExercise); // Returns single exercises
+router.post('/workouts/:workoutId/exercises', authCheck, exercises.addExercise); // add exercise
+router.put('/workouts/:workoutId/exercises/:exerciseId', authCheck, exercises.editExercise); // edit exercise
+router.delete('/workouts/:workoutId/exercises/:exerciseId', authCheck, exercises.deleteExercise); // delete exercise
 
 module.exports = router;

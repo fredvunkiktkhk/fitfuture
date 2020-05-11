@@ -1,18 +1,18 @@
 <template>
-  <div class="edit-exercise">
+  <div class="edit-exercise" v-if="workout">
     <form @submit.prevent="editWorkout()">
       <div class="heading">
         <label for="name">Kava nimi</label>
         <input
           id="name"
           type="text"
-          v-model="workout_name"
+          v-model="workout.workout_name"
         />
         <label for="day">Lihasgrupp</label>
         <input
           id="day"
           type="text"
-          v-model="muscle_group"
+          v-model="workout.muscle_group"
         />
       </div>
       <button type="button" class="button-close" @click="$emit('close')">
@@ -25,8 +25,8 @@
         <div>Kordused</div>
       </div>
       <div class="exercise-list">
-        <div v-for="exercise in exercises.data" v-bind:key="exercise.id" class="exercise-block">
-          {{exercise}}
+        <div v-for="exercise in exercises" :key="exercise.id" class="exercise-block">
+          {{exercise.exercise_name}}
           <input
             class="exercise-data"
             id="exercise"
@@ -45,9 +45,6 @@
             type=number
             :value="exercise.reps"
           />
-          <!--          <div>{{exercise.exercise_name}}</div>
-                    <div class="exercise-item">{{exercise.sets}}</div>
-                    <div class="exercise-item">{{exercise.reps}}</div>-->
         </div>
       </div>
     </form>
@@ -68,51 +65,32 @@
       workoutId: {
         type: Number,
       },
-      exerciseId: {
-        type: Number,
-      }
     },
     data() {
       return {
-        workout_name: '',
-        muscle_group: '',
-        workouts: [],
-        workout: {},
         exercises: [],
-        exerciseList: {},
+        workout: null,
         exercise_name: '',
         sets: null,
         reps: null,
-        // exerciseId: null,
       }
     },
     methods: {
       async editWorkout() {
         try {
           await this.axios.put('/workouts/' + this.workoutId, {
-            workout_name: this.workout_name,
-            muscle_group: this.muscle_group
+            workout_name: this.workout.workout_name,
+            muscle_group: this.workout.muscle_group
           });
-          await this.exerciseModified();
+          // await this.exerciseModified();
           this.$emit('workoutEdit');
-          this.workout_name = '';
-          this.muscle_group = '';
-
         } catch (err) {
           console.log(err);
         }
       },
-      async getExercises() {
+/*      async exerciseModified() {
         try {
-          this.exercises = await this.axios.get('/exercises/' + this.workoutId)
-          console.log(this.exercises);
-        } catch (err) {
-          console.log(err);
-        }
-      },
-      async exerciseModified() {
-        try {
-          await this.axios.put('/workouts/' + this.workoutId + '/exercise/' + this.exerciseId, {
+          await this.axios.put('/workouts/' + this.workoutId + '/exercises/' + this.exerciseId, {
             exercise_name: this.exercise_name,
             sets: this.sets,
             reps: this.reps,
@@ -120,21 +98,21 @@
         } catch (err) {
           console.log(err);
         }
-      }
+      }*/
     },
     async created() {
       try {
         const workout = await this.axios.get('/workouts/' + this.workoutId)
         this.workout = workout.data
-        this.workout_name = workout.data.workout_name
-        this.muscle_group = workout.data.muscle_group
+        this.workout_name = this.workout.workout_name
+        this.muscle_group = this.workout.muscle_group
 
-        const exerciseList = await this.axios.get('/workouts/' + this.workoutId + '/exercise/' + this.exerciseId);
-        this.exerciseList = exerciseList.data
-        this.exercise_name = exerciseList.data.exercise_name
-        this.sets = exerciseList.data.sets
-        this.reps = exerciseList.data.reps
-        console.log(exerciseList.data);
+        const exercise = await this.axios.get('/workouts/' + this.workoutId + '/exercises');
+        this.exercise = exercise.data
+        this.exercise_name = exercise.data.exercise_name
+        this.sets = exercise.data.sets
+        this.reps = exercise.data.reps
+        console.log(this.exercise);
       } catch (err) {
         console.log(err);
       }
@@ -175,7 +153,7 @@
         font-size: 12px;
         outline: none;
 
-        &:hover {
+        &:hover, :active {
           background: rgba(255, 255, 255, 0.1);
         }
       }

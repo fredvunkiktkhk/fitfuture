@@ -31,17 +31,12 @@
         @close="closeEdit"
         @workoutEdit="workoutModified"
         :workoutId="workoutId"
-        :exerciseId="exerciseId"
       />
       <AddExercise
         v-if="exerciseId"
         :exerciseId="exerciseId"
         @close="exerciseId = null"
       />
-<!--      <EditExercise
-        v-if="workoutId"
-        :workoutId="workoutId"
-      />-->
     </div>
   </div>
 </template>
@@ -84,7 +79,7 @@
       },
       async workoutModified() {
         try {
-          await this.axios.get('/workouts');
+          this.workouts = await this.axios.get('/workouts');
           this.workoutId = null;
           this.showSuccessMessage();
         } catch (err) {
