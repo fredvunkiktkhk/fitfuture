@@ -40,7 +40,6 @@
       return {
         workout_name: '',
         muscle_group: '',
-        workouts: [],
       }
     },
     methods: {
@@ -65,9 +64,13 @@
   .add-exercise {
     min-width: 300px;
     height: 100%;
-    box-shadow: 0 5px 10px #000;
     padding: 10px;
     position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -230px;
+    border: 1px solid #FFF;
+    background: #3C444C;
 
     .heading {
       display: grid;
@@ -123,8 +126,8 @@
 
   @media screen and (max-height: 568px) {
     .add-exercise {
-      background: #2d2d2d;
-      top: -80px;
+      background: #3C444C;
+      top: -280px;
       box-shadow: none;
     }
   }

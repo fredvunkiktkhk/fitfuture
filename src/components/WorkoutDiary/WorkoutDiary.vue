@@ -1,7 +1,9 @@
 <template>
   <div class="container">
-    <div class="heading">Kava nimi</div>
-    <div class="heading">Päeva nimi</div>
+    <div v-for="workout in workouts" v-bind:key="workout.id">
+      <div class="heading">{{workout.workout_name}}</div>
+      <div class="heading">{{workout.muscle_group}}</div>
+    </div>
     <div class="data">
       <ul v-for="item in data" v-bind:key="item.id" @click="onEdit(item.id)">
         <li class="name">{{item.name}}</li>
@@ -16,26 +18,12 @@
 
   export default {
     name: "WorkoutDiary",
-    components: {},
+    components: {
+
+    },
     props: {
       id: {
         type: Number,
-      },
-      heading: {
-        type: String,
-        default: '',
-      },
-      name: {
-        type: String,
-        default: '',
-      },
-      sets: {
-        type: Number,
-        default: 0,
-      },
-      reps: {
-        type: Number,
-        default: 0,
       },
       workoutDate: {
         type: Date,
@@ -46,13 +34,11 @@
     },
     data() {
       return {
-        data: [
-          {id: 0, name: 'Kükk', sets: '5', reps: '8'},
-          {id: 1, name: 'Kükke', sets: '5', reps: '8'},
-          {id: 2, name: 'Kükka', sets: '5', reps: '8'},
-          {id: 3, name: 'Kükki', sets: '5', reps: '8'},
-        ],
+        data: [{id: 0, name: 'Kükk', sets: '5', reps: '8'},],
         isActive: false,
+        workouts: [],
+        workoutId: 50,
+        exercises: [],
       }
     },
     methods: {
@@ -60,6 +46,16 @@
         this.$emit('onEdit', id)
       },
       // Peaks tulema kontroll, kas on tänane kuupäev siis näita seda kava.
+    },
+    async created() {
+      try {
+        const workout = await this.axios.get('/workouts/' + this.workoutId)
+        this.workout = workout.data
+        this.workout_name = workout.data.workout_name
+        this.muscle_group = workout.data.muscle_group
+      } catch (err) {
+        console.log(err);
+      }
     },
   }
 </script>

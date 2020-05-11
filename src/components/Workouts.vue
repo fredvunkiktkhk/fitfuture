@@ -11,7 +11,8 @@
       </button>
       <SuccessMessage name="Kava muudetud" v-if="savingSuccessful"/>
       <div class="workouts-list" v-for="workout in workouts.data" v-bind:key="workout.id">
-        <div class="workouts-item">{{workout.workout_name}}</div>
+        <div class="workouts-item" @click="exerciseId = workout.id">{{workout.workout_name}}</div>
+        {{exerciseId}}
         <div class="edit-buttons">
           <button @click="workoutId = workout.id" class="icon-button">
             <font-awesome-icon class="icon" icon="pencil-alt"/>
@@ -32,6 +33,11 @@
         @workoutEdit="workoutModified"
         :workoutId="workoutId"
       />
+      <AddExercise
+        v-if="exerciseId"
+        :exerciseId="exerciseId"
+        @close="exerciseId = null"
+      />
     </div>
   </div>
 </template>
@@ -40,10 +46,12 @@
   import AddWorkout from './AddWorkout/AddWorkout';
   import EditWorkout from "./AddWorkout/EditWorkout";
   import SuccessMessage from "./Buttons/SuccessMessage";
+  import AddExercise from "./AddExercise/AddExercise";
 
   export default {
     name: "Workouts",
     components: {
+      AddExercise,
       EditWorkout,
       AddWorkout,
       SuccessMessage,
@@ -55,6 +63,7 @@
         workoutId: null,
         closeModal: null,
         savingSuccessful: false,
+        exerciseId: null,
       }
     },
     methods: {

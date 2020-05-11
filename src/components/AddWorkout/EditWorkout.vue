@@ -20,26 +20,26 @@
       </button>
       <SubmitButton name="Salvesta muudatus"/>
     </form>
-    <div class="exercise-list" v-for="exercise in exercises.data" v-bind:key="exercise.id">
-      {{exercise.exercise_name}}
-      {{exercise.sets}}
-      {{exercise.reps}}
-    </div>
-  <EditExercise
+<!--    <div class="exercise-list" v-for="exercise in exercises.data" v-bind:key="exercise.id">
+      <div>{{exercise.exercise_name}}</div>
+      <div>{{exercise.sets}}</div>
+      <div>{{exercise.reps}}</div>
+    </div>-->
+<!--  <EditExercise
   :workoutId="workoutId"
-  />
+  />-->
   </div>
 </template>
 
 <script>
   import SubmitButton from "../Buttons/SubmitButton";
   // import AddExercise from "../AddExercise/AddExercise";
-  import EditExercise from "../AddExercise/EditExercise";
+  // import EditExercise from "../AddExercise/EditExercise";
 
   export default {
     name: 'EditWorkout',
     components: {
-      EditExercise,
+      // EditExercise,
       SubmitButton,
       // AddExercise,
     },
@@ -97,9 +97,13 @@
   .edit-exercise {
     min-width: 300px;
     height: 100%;
-    box-shadow: 0 5px 10px #000;
     padding: 10px;
     position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -230px;
+    border: 1px solid #FFF;
+    background: #3C444C;
 
     .heading {
       display: grid;

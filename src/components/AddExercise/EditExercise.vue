@@ -1,7 +1,8 @@
 <template>
   <div class="exercise-container">
+
     <form>
-      <div v-for="exercise in exercises" v-bind:key="exercise.id" class="exercise-block"></div>
+      <div v-for="exercise in arrayList" v-bind:key="exercise.id" class="exercise-block"></div>
       <label class="exercise-label" for="exercise">Harjutus</label>
       <input
         class="exercise-data"
@@ -41,6 +42,15 @@
         exercise_name: '',
         sets: null,
         reps: null,
+        exercise: [],
+      }
+    },
+    computed: {
+      arrayList() {
+        return this.exercises.filter((exercise) => {
+          console.log(exercise);
+          return exercise;
+        })
       }
     },
     async created() {
@@ -50,8 +60,7 @@
         this.exercise_name = exercises.data.exercise_name;
         this.sets = exercises.data.sets;
         this.reps = exercises.data.reps;
-        console.log(exercises.data.sets);
-        console.log(exercises.data);
+        console.log(this.exercises);
       } catch (err) {
         console.log(err)
       }

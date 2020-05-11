@@ -12,7 +12,8 @@
   export default {
     name: "Home",
     components: {
-      WorkoutDiary, WorkoutDiaryDetails,
+      WorkoutDiary,
+      WorkoutDiaryDetails,
     },
     props: {
       id: {
