@@ -26,30 +26,34 @@
       </div>
       <div class="exercise-list">
         <div v-for="exercise in exercises" :key="exercise.id" class="exercise-block">
-          {{exercise.exercise_name}}
-          <input
-            class="exercise-data"
+          <div class="textarea">
+          <textarea
+            class="exercise-text"
             id="exercise"
-            type="text"
-            :value="exercise.exercise_name"
+            name="exercise"
+            rows="4"
+            v-model="exercise.exercise_name"
           />
+          </div>
+          <div class="control">
           <input
             class="exercise-data"
             id="sets"
-            type="number"
-            :value="exercise.sets"
+            name="sets"
+            v-model="exercise.sets"
           />
+          </div>
+          <div class="control">
           <input
             class="exercise-data"
             id="reps"
-            type=number
-            :value="exercise.reps"
+            name="sets"
+            v-model="exercise.reps"
           />
+          </div>
         </div>
       </div>
     </form>
-
-
   </div>
 </template>
 
@@ -70,9 +74,6 @@
       return {
         exercises: [],
         workout: null,
-        exercise_name: '',
-        sets: null,
-        reps: null,
       }
     },
     methods: {
@@ -82,23 +83,20 @@
             workout_name: this.workout.workout_name,
             muscle_group: this.workout.muscle_group
           });
-          // await this.exerciseModified();
+          await this.exerciseModified();
           this.$emit('workoutEdit');
         } catch (err) {
           console.log(err);
         }
       },
-/*      async exerciseModified() {
+      async exerciseModified() {
+        const exercises = this.exercises;
         try {
-          await this.axios.put('/workouts/' + this.workoutId + '/exercises/' + this.exerciseId, {
-            exercise_name: this.exercise_name,
-            sets: this.sets,
-            reps: this.reps,
-          });
+          await this.axios.put('/workouts/' + this.workoutId + '/exercises/', exercises);
         } catch (err) {
           console.log(err);
         }
-      }*/
+      },
     },
     async created() {
       try {
@@ -107,12 +105,8 @@
         this.workout_name = this.workout.workout_name
         this.muscle_group = this.workout.muscle_group
 
-        const exercise = await this.axios.get('/workouts/' + this.workoutId + '/exercises');
-        this.exercise = exercise.data
-        this.exercise_name = exercise.data.exercise_name
-        this.sets = exercise.data.sets
-        this.reps = exercise.data.reps
-        console.log(this.exercise);
+        const exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises');
+        this.exercises = exercises.data
       } catch (err) {
         console.log(err);
       }
@@ -129,7 +123,8 @@
     left: 50%;
     transform: translateX(-50%);
     top: -200px;
-    border: 1px solid #FFF;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #FFF;
     background: #3C444C;
 
     .heading {
@@ -160,15 +155,9 @@
     }
 
     .exercise-data {
+      padding: 5px 0;
+      border: 0;
       background: transparent;
-      border-bottom: 1px solid #F27A54;
-      border-right: 0;
-      border-left: 0;
-      border-top: 0;
-      padding: 5px;
-      margin: 0;
-      color: #FFF;
-      font-size: 12px;
       outline: none;
     }
 
@@ -195,13 +184,46 @@
     }
   }
 
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
   .exercise-block {
     margin: 5px 10px 5px 0;
     padding: 5px 0;
     border-top: 1px solid #5F6265;
     font-size: 14px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+
+    & textarea, .exercise-data {
+      border: 0;
+      color: #F27A54;
+      text-align: center;
+      resize: none;
+      font-family: 'Montserrat', Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      flex: 1;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 100%;
+      background: transparent;
+      outline: 0;
+    }
+
+    & .control {
+      display: flex;
+      flex: 1;
+      align-items: baseline;
+    }
 
     &:first-child {
       border-top: 0;
@@ -210,8 +232,18 @@
 
   .exercise-heading {
     display: flex;
-    justify-content: space-around;
     padding: 0 10px;
+
+    & div:first-child {
+      display: flex;
+      flex: 2;
+    }
+
+    & div:nth-child(2), div:last-child {
+      display: flex;
+      flex: 1;
+      justify-content: space-between;
+    }
   }
 
   .exercise-list {
@@ -242,6 +274,12 @@
     }
     .exercise-list {
       height: 300px;
+    }
+  }
+
+  @media screen and (min-width: 322px) {
+    .edit-exercise {
+      border: 1px solid #FFF;
     }
   }
 

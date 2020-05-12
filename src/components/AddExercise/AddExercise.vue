@@ -21,6 +21,8 @@
           class="exercise-data"
           id="exercise"
           type="text"
+          autocomplete="off"
+          required="required"
           v-model="exercise_name"
         />
         <label class="exercise-label" for="sets">Seeriad</label>
@@ -28,6 +30,8 @@
           class="exercise-data"
           id="sets"
           type="number"
+          autocomplete="off"
+          required="required"
           v-model="sets"
         />
         <label class="exercise-label" for="reps">Kordused</label>
@@ -35,10 +39,17 @@
           class="exercise-data"
           id="reps"
           type=number
+          autocomplete="off"
+          required="required"
           v-model="reps"
         />
       </form>
       <SubmitButton type="submit" form="exerciseForm" name="Lisa harjutus" @click="submitExercise()" />
+      <div class="edit-buttons" v-if="exerciseId">
+        <button @click="deleteExercise()" class="icon-button">
+          <font-awesome-icon class="icon" icon="trash-alt"/>
+        </button>
+      </div>
       <button class="button-close" @click="$emit('close')">
         <font-awesome-icon class="icon" icon="times-circle"/>
       </button>
@@ -48,8 +59,14 @@
         <div>Kordused</div>
       </div>
       <div class="exercise-list">
-        <div v-for="exercise in exercises.data" v-bind:key="exercise.id" class="exercise-block">
-          <div>{{exercise.exercise_name}}</div>
+        <div
+          v-for="exercise in exercises.data"
+          :key="exercise.id"
+          @click="exerciseId = exercise.id"
+          class="exercise-block"
+          :class="{'active': exerciseId === exercise.id}"
+        >
+          <div class="exercise-text">{{exercise.exercise_name}}</div>
           <div class="exercise-item">{{exercise.sets}}</div>
           <div class="exercise-item">{{exercise.reps}}</div>
         </div>
@@ -67,7 +84,7 @@
       SubmitButton,
     },
     props: {
-      exerciseId: {
+      workoutId: {
         type: Number,
       }
     },
@@ -80,12 +97,13 @@
         isOpen: false,
         workout_name: '',
         muscle_group: '',
+        exerciseId: null,
       }
     },
     methods: {
       async submitExercise() {
         try {
-          await this.axios.post('/workouts/' + this.exerciseId + '/exercises', {
+          await this.axios.post('/workouts/' + this.workoutId + '/exercises', {
             exercise_name: this.exercise_name,
             sets: this.sets,
             reps: this.reps,
@@ -97,8 +115,17 @@
       },
       async getExercises() {
         try {
-          this.exercises = await this.axios.get('/workouts/' + this.exerciseId + '/exercises')
-          console.log(this.exercises);
+          this.exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises')
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      async deleteExercise() {
+        try {
+          //TODO korralik confirm message
+          if(confirm('Oled kindel, et soovid harjutuse kustutada?'))
+          await this.axios.delete('/workouts/'+this.workoutId+'/exercises/'+this.exerciseId)
+
         } catch (err) {
           console.log(err);
         }
@@ -106,7 +133,7 @@
     },
     async created() {
       try {
-        const workout = await this.axios.get('/workouts/' + this.exerciseId)
+        const workout = await this.axios.get('/workouts/' + this.workoutId)
         this.workout = workout.data
         this.workout_name = workout.data.workout_name
         this.muscle_group = workout.data.muscle_group
@@ -121,7 +148,8 @@
 <style scoped lang="scss">
   .exercise-container {
     max-width: 445px;
-    border: 1px solid #FFF;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #FFF;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -140,6 +168,28 @@
     margin: 5px 0;
   }
 
+  .icon-button {
+    background: transparent;
+    border: 0;
+    color: #FFF;
+    cursor: pointer;
+    padding: 8px 5px;
+
+    &:first-child:hover {
+      transition: color 300ms;
+      color: #00A917;
+    }
+
+    &:last-child:hover {
+      transition: color 300ms;
+      color: #FF000D;
+    }
+  }
+
+  .active {
+    background: #F27A5487;
+  }
+
   .exercise-heading {
     display: flex;
     justify-content: space-around;
@@ -152,6 +202,9 @@
 
     .exercise-item {
       color: #F27A54;
+    }
+    .exercise-text {
+      max-width: 100px;
     }
   }
 
@@ -258,7 +311,7 @@
         font-size: 12px;
         outline: none;
 
-        &:hover {
+        &:hover, :active {
           background: rgba(255, 255, 255, 0.1);
         }
       }
@@ -280,6 +333,12 @@
         color: #F27A54;
         transition: color ease-in-out 300ms;
       }
+    }
+  }
+
+  @media screen and (min-width: 322px) {
+    .exercise-container {
+      border: 1px solid #FFF;
     }
   }
 
@@ -314,7 +373,8 @@
     }
 
     .exercise-list {
-      height: 200px;
+      height: 130px;
+      border-bottom: 1px solid #FFF;
     }
   }
 </style>

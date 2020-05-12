@@ -47,19 +47,22 @@ async function addExercise(req, res) {
 }
 
 async function editExercise(req, res) {
-  const {workoutId, exerciseId} = req.params;
-  const {exercise_name, sets, reps} = req.body;
-  const newDetails = {exercise_name, sets, reps};
+  const {workoutId} = req.params;
+  const exercises = req.body;
+
   try {
     const workout = await pool.query('SELECT id FROM workouts WHERE id = ? AND deleted_at IS NULL', [workoutId]);
     if (!workout.length) {
       return res.status(400).json({error: 'No workout found'});
     }
-    let exercise = await pool.query('UPDATE workout_exercises SET ? WHERE id = ?', [newDetails, exerciseId]);
-    if (!exercise) {
+    exercises.forEach(exercise => {
+      pool.query('UPDATE workout_exercises SET exercise_name = ?, sets = ?, reps = ? WHERE id = ?',
+        [exercise.exercise_name, exercise.sets, exercise.reps, exercise.id]);
+    });
+    if (!exercises) {
       return res.status(400).json({error: 'Couldn\'t update exercise'});
     }
-    return res.send(exercise);
+    return res.send(exercises);
 
   } catch (err) {
     res.status(401).json(err);

@@ -11,9 +11,9 @@
       </button>
       <SuccessMessage name="Kava muudetud" v-if="savingSuccessful"/>
       <div class="workouts-list" v-for="workout in workouts.data" v-bind:key="workout.id">
-        <div class="workouts-item" @click="exerciseId = workout.id">{{workout.workout_name}}</div>
+        <div class="workouts-item" @click="setView(workout.id, 'addExercise')">{{workout.workout_name}}</div>
         <div class="edit-buttons">
-          <button @click="workoutId = workout.id" class="icon-button">
+          <button @click="setView(workout.id, 'editExercise')" class="icon-button">
             <font-awesome-icon class="icon" icon="pencil-alt"/>
           </button>
           <button @click="deleteWorkout(workout.id)" class="icon-button">
@@ -27,15 +27,16 @@
         @workoutAdded="getWorkouts"
       />
       <EditWorkout
-        v-if="workoutId"
+        v-if="workoutId && mode === 'editExercise'"
         @close="closeEdit"
         @workoutEdit="workoutModified"
         :workoutId="workoutId"
       />
       <AddExercise
-        v-if="exerciseId"
+        v-if="workoutId && mode === 'addExercise'"
         :exerciseId="exerciseId"
-        @close="exerciseId = null"
+        :workoutId="workoutId"
+        @close="workoutId = null"
       />
     </div>
   </div>
@@ -46,13 +47,11 @@
   import EditWorkout from "./AddWorkout/EditWorkout";
   import SuccessMessage from "./Buttons/SuccessMessage";
   import AddExercise from "./AddExercise/AddExercise";
-  // import EditExercise from "./AddExercise/EditExercise";
 
   export default {
     name: "Workouts",
     components: {
       AddExercise,
-      // EditExercise,
       EditWorkout,
       AddWorkout,
       SuccessMessage,
@@ -65,6 +64,7 @@
         closeModal: null,
         savingSuccessful: false,
         exerciseId: null,
+        mode: '',
       }
     },
     methods: {
@@ -81,11 +81,17 @@
         try {
           this.workouts = await this.axios.get('/workouts');
           this.workoutId = null;
+
           this.showSuccessMessage();
         } catch (err) {
           console.log(err);
           await this.$router.push({name: 'Login'});
         }
+      },
+      setView(workoutId, mode) {
+        this.mode = mode;
+        this.workoutId = workoutId;
+        console.log('test');
       },
       async deleteWorkout(workoutId) {
         try {

@@ -1,5 +1,5 @@
 <template>
-  <div class="add-exercise">
+  <div class="add-workout">
     <form @submit.prevent="submitWorkout">
       <div class="heading">
         <label for="name">Kava nimi</label>
@@ -61,15 +61,16 @@
 </script>
 
 <style scoped lang="scss">
-  .add-exercise {
+  .add-workout {
     min-width: 300px;
     height: 100%;
     padding: 10px;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    top: -230px;
-    border: 1px solid #FFF;
+    top: -135px;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #FFF;
     background: #3C444C;
 
     .heading {
@@ -92,7 +93,7 @@
         font-size: 12px;
         outline: none;
 
-        &:hover {
+        &:hover, :active {
           background: rgba(255, 255, 255, 0.1);
         }
       }
@@ -117,17 +118,23 @@
     }
   }
 
+  @media screen and (min-width: 322px) {
+    .add-workout {
+      border: 1px solid #FFF;
+    }
+  }
+
   @media screen and (max-width: 767px) {
-    .add-exercise {
+    .add-workout {
       max-width: 300px;
       max-height: 450px
     }
   }
 
   @media screen and (max-height: 568px) {
-    .add-exercise {
+    .add-workout {
       background: #3C444C;
-      top: -280px;
+      top: -130px;
       box-shadow: none;
     }
   }
