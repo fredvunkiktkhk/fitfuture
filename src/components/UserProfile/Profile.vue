@@ -44,7 +44,7 @@
           await this.axios.post('/logout');
           await this.$router.push({name: 'Login'});
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       }
     }

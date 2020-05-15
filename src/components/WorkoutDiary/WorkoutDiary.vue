@@ -1,25 +1,34 @@
 <template>
   <div class="container">
-    <div v-for="workout in workouts" v-bind:key="workout.id">
-      <div class="heading">{{workout.workout_name}}</div>
-      <div class="heading">{{workout.muscle_group}}</div>
+    <div>
+      <div class="heading">{{workout_name}}</div>
+      <div class="heading">{{muscle_group}}</div>
     </div>
-    <div class="data">
-      <ul v-for="item in data" v-bind:key="item.id" @click="onEdit(item.id)">
-        <li class="name">{{item.name}}</li>
-        <li class="numbers">{{item.sets}}<p>x</p>{{item.reps}}</li>
+    <div class="exercise-data">
+      <ul v-for="exercise in exercises" :key="exercise.id" @click="onEdit(exercise.id)">
+        <li class="name">{{exercise.exercise_name}}</li>
+        <li class="numbers">{{exercise.sets}}<p>x</p>{{exercise.reps}}</li>
       </ul>
     </div>
+    <div v-if="activeWorkout">
+      <div class="workouts-list" v-for="workout in workouts.data" :key="workout.id">
+        <div class="workouts-item" @click="chooseWorkout(workout.id)">{{workout.workout_name}}</div>
+      </div>
+    </div>
+    <SubmitButton type="button" name="Vali tänane kava" @click="openWorkoutList"/>
+    {{activeWorkout}}
     <div class="date">25.03.2020</div>
   </div>
 </template>
 
 <script>
+  import SubmitButton from "../Buttons/SubmitButton";
 
   export default {
+
     name: "WorkoutDiary",
     components: {
-
+      SubmitButton,
     },
     props: {
       id: {
@@ -34,28 +43,54 @@
     },
     data() {
       return {
-        data: [{id: 0, name: 'Kükk', sets: '5', reps: '8'},],
         isActive: false,
         workouts: [],
-        workoutId: 50,
         exercises: [],
+        workoutId: null,
+        exerciseId: null,
+        activeWorkout: false,
+        workout_name: '',
+        muscle_group: '',
       }
     },
     methods: {
       onEdit(id) {
         this.$emit('onEdit', id)
       },
+      openWorkoutList() {
+        this.activeWorkout = !this.activeWorkout;
+      },
+      async chooseWorkout(workoutId) {
+        this.workoutId = workoutId
+        try {
+          const workout = await this.axios.get('/workouts/' + this.workoutId)
+          this.workout = workout.data
+          this.workout_name = workout.data.workout_name
+          this.muscle_group = workout.data.muscle_group
+          this.activeWorkout = false;
+        } catch (err) {
+          console.log(err.response);
+        }
+      },
+      async getWorkouts() {
+        try {
+          this.workouts = await this.axios.get('/workouts');
+        } catch (err) {
+          await this.$router.push({name: 'Login'});
+        }
+      },
+      async getExercises() {
+        try {
+          this.exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises')
+        } catch (err) {
+          console.log(err.response);
+        }
+      },
       // Peaks tulema kontroll, kas on tänane kuupäev siis näita seda kava.
     },
-    async created() {
-      try {
-        const workout = await this.axios.get('/workouts/' + this.workoutId)
-        this.workout = workout.data
-        this.workout_name = workout.data.workout_name
-        this.muscle_group = workout.data.muscle_group
-      } catch (err) {
-        console.log(err);
-      }
+    created() {
+      // this.getExercises();
+      this.getWorkouts();
     },
   }
 </script>
@@ -77,12 +112,22 @@
   .heading {
     padding: 5px;
     border-bottom: 1px solid #F27A54;
+    text-align: center;
   }
 
-  .data {
+  .exercise-data {
     width: 100%;
     height: 100%;
     padding: 15px;
+  }
+
+  .workouts-item {
+    padding: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background: green;
+    }
   }
 
   ul {

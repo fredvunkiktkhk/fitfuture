@@ -53,7 +53,7 @@
           this.workout_name = '';
           this.muscle_group = '';
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       },
     }
@@ -68,7 +68,7 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    top: -135px;
+    top: -10px;
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #FFF;
     background: #3C444C;

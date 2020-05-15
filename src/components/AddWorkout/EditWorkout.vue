@@ -36,20 +36,20 @@
           />
           </div>
           <div class="control">
-          <input
-            class="exercise-data"
-            id="sets"
-            name="sets"
-            v-model="exercise.sets"
-          />
+            <input
+              class="exercise-data"
+              id="sets"
+              name="sets"
+              v-model="exercise.sets"
+            />
           </div>
           <div class="control">
-          <input
-            class="exercise-data"
-            id="reps"
-            name="sets"
-            v-model="exercise.reps"
-          />
+            <input
+              class="exercise-data"
+              id="reps"
+              name="sets"
+              v-model="exercise.reps"
+            />
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
           await this.exerciseModified();
           this.$emit('workoutEdit');
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       },
       async exerciseModified() {
@@ -94,7 +94,7 @@
         try {
           await this.axios.put('/workouts/' + this.workoutId + '/exercises/', exercises);
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       },
     },
@@ -108,7 +108,7 @@
         const exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises');
         this.exercises = exercises.data
       } catch (err) {
-        console.log(err);
+        console.log(err.response);
       }
     },
   }
@@ -122,7 +122,7 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    top: -200px;
+    top: -35px;
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #FFF;
     background: #3C444C;
@@ -291,6 +291,7 @@
     .edit-exercise {
       background: #3C444C;
       box-shadow: none;
+      top: -65px;
     }
   }
 

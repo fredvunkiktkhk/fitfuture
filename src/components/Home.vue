@@ -20,7 +20,7 @@
         type: Number,
       },
     },
-    data () {
+    data() {
       return {
         detailsId: null,
         isOpen: false,

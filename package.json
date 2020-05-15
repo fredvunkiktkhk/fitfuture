@@ -26,6 +26,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "node-sass": "^4.13.1",
+    "pm2": "^4.4.0",
     "register-service-worker": "^1.6.2",
     "roboto-fontface": "*",
     "sass-loader": "^8.0.2",

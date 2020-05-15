@@ -44,7 +44,7 @@
           v-model="reps"
         />
       </form>
-      <SubmitButton type="submit" form="exerciseForm" name="Lisa harjutus" @click="submitExercise()" />
+      <SubmitButton type="submit" form="exerciseForm" name="Lisa harjutus" @click="submitExercise()"/>
       <div class="edit-buttons" v-if="exerciseId">
         <button @click="deleteExercise()" class="icon-button">
           <font-awesome-icon class="icon" icon="trash-alt"/>
@@ -110,24 +110,25 @@
           });
           await this.getExercises();
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       },
       async getExercises() {
         try {
           this.exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises')
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       },
       async deleteExercise() {
         try {
           //TODO korralik confirm message
-          if(confirm('Oled kindel, et soovid harjutuse kustutada?'))
-          await this.axios.delete('/workouts/'+this.workoutId+'/exercises/'+this.exerciseId)
-
+          if (confirm('Oled kindel, et soovid harjutuse kustutada?'))
+            await this.axios.delete('/workouts/' + this.workoutId + '/exercises/' + this.exerciseId)
+          await this.getExercises();
+          this.exerciseId = null;
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       }
     },
@@ -138,7 +139,7 @@
         this.workout_name = workout.data.workout_name
         this.muscle_group = workout.data.muscle_group
       } catch (err) {
-        console.log(err);
+        console.log(err.response);
       }
       await this.getExercises();
     }
@@ -203,6 +204,7 @@
     .exercise-item {
       color: #F27A54;
     }
+
     .exercise-text {
       max-width: 100px;
     }
@@ -351,6 +353,12 @@
     }
   }
 
+  @media screen and (max-height: 760px) {
+    .exercise-list {
+      height: 200px;
+    }
+  }
+
   @media screen and (max-height: 568px) {
     .exercise-container {
       max-height: 100px;
@@ -360,13 +368,11 @@
       background: #3C444C;
       top: -80px;
       box-shadow: none;
+      border-bottom: 1px solid #FFF;
     }
   }
 
   @media screen and (max-height: 668px) {
-    .exercise-container {
-      border: 0;
-    }
 
     .add-exercise {
       max-height: 420px;
@@ -374,7 +380,6 @@
 
     .exercise-list {
       height: 130px;
-      border-bottom: 1px solid #FFF;
     }
   }
 </style>

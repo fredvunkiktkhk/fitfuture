@@ -2,6 +2,7 @@ const router = require('express').Router();
 const authentication = require('./authentication');
 const workouts = require('./workouts');
 const exercises = require('./exercises');
+const workoutsDone = require('./workoutsDone');
 const authCheck = require('../middleware/token');
 
 router.post('/login', authentication.doLogin);
@@ -20,5 +21,10 @@ router.get('/workouts/:workoutId/exercises/:exerciseId', authCheck, exercises.ge
 router.post('/workouts/:workoutId/exercises', authCheck, exercises.addExercise); // add exercise
 router.put('/workouts/:workoutId/exercises', authCheck, exercises.editExercise); // edit multiple exercise
 router.delete('/workouts/:workoutId/exercises/:exerciseId', authCheck, exercises.deleteExercise); // delete exercise
+
+router.get('workoutsDone', authCheck, workoutsDone.getWorkoutsDone); // Get all done workouts
+router.post('workoutsDone', authCheck, workoutsDone.addWorkoutsDone); // Post done workout to history
+router.get('workoutsDone/:workoutDoneId/exercises', authCheck, workoutsDone.getWorkoutExercises); // Get done workout exercises
+router.post('workoutDone/:workoutDoneId/exercises', authCheck, workoutsDone.addWorkoutExercises); // Post exercises
 
 module.exports = router;

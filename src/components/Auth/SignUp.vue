@@ -10,6 +10,7 @@ t<template>
               @input="$v.email.$touch()"
               v-model="email"
               autocomplete="off"
+              required="required"
             >
         </div>
         <div class="input">
@@ -19,6 +20,7 @@ t<template>
             id="password"
             v-model="password"
             autocomplete="off"
+            required="required"
           >
         </div>
         <div class="submit">
@@ -59,7 +61,7 @@ t<template>
           });
           await this.$router.push({name: 'Login'});
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       },
       getWindowWidth() {

@@ -1,3 +1,4 @@
+<!--
 <template>
   <div class="exercise-container">
     <form>
@@ -37,7 +38,7 @@
           });
           this.$emit('exerciseEdit');
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       },
     },
@@ -140,4 +141,4 @@
       max-height: 290px;
     }
   }
-</style>
+</style>-->

@@ -10,10 +10,11 @@
         <font-awesome-icon class="icon" icon="plus-circle"/>
       </button>
       <SuccessMessage name="Kava muudetud" v-if="savingSuccessful"/>
-      <div class="workouts-list" v-for="workout in workouts.data" v-bind:key="workout.id">
+      <div class="workouts-list" v-for="workout in workouts.data" :key="workout.id">
         <div class="workouts-item" @click="setView(workout.id, 'addExercise')">{{workout.workout_name}}</div>
         <div class="edit-buttons">
-          <button @click="setView(workout.id, 'editExercise')" class="icon-button">
+          <button @click="setView(workout.id, 'editExercise')"
+                  class="icon-button">
             <font-awesome-icon class="icon" icon="pencil-alt"/>
           </button>
           <button @click="deleteWorkout(workout.id)" class="icon-button">
@@ -71,9 +72,7 @@
       async getWorkouts() {
         try {
           this.workouts = await this.axios.get('/workouts');
-          this.workoutId = null;
         } catch (err) {
-          console.log(err);
           await this.$router.push({name: 'Login'});
         }
       },
@@ -84,14 +83,12 @@
 
           this.showSuccessMessage();
         } catch (err) {
-          console.log(err);
           await this.$router.push({name: 'Login'});
         }
       },
       setView(workoutId, mode) {
         this.mode = mode;
         this.workoutId = workoutId;
-        console.log('test');
       },
       async deleteWorkout(workoutId) {
         try {
@@ -100,7 +97,6 @@
             await this.axios.delete('/workouts/' +workoutId);
             await this.getWorkouts();
         } catch (err) {
-          console.log(err);
           await this.$router.push({name: 'Login'});
         }
       },

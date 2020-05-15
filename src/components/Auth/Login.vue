@@ -7,14 +7,18 @@
           <input
             type="email"
             id="email"
-            v-model="email">
+            v-model="email"
+            required="required"
+          >
         </div>
         <div class="input">
           <label for="password">Password</label>
           <input
             type="password"
             id="password"
-            v-model="password">
+            v-model="password"
+            required="required"
+          >
         </div>
         <div class="submit">
           <button type="submit">Log In</button>
@@ -41,9 +45,9 @@
             email: this.email,
             password: this.password,
           });
-          await this.$router.push({name: 'Home'});
+          await this.$router.push({name: 'Workouts'});
         } catch (err) {
-          console.log(err);
+          console.log(err.response);
         }
       },
     }
