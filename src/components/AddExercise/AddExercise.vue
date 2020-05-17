@@ -44,7 +44,7 @@
           v-model="reps"
         />
       </form>
-      <SubmitButton type="submit" form="exerciseForm" name="Lisa harjutus" @click="submitExercise()"/>
+      <SubmitButton type="submit" form="exerciseForm" name="Lisa harjutus"/>
       <div class="edit-buttons" v-if="exerciseId">
         <button @click="deleteExercise()" class="icon-button">
           <font-awesome-icon class="icon" icon="trash-alt"/>

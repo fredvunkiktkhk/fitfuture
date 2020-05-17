@@ -14,7 +14,7 @@ t<template>
             >
         </div>
         <div class="input">
-          <label for="password">Password</label>
+          <label for="password">Parool</label>
           <input
             type="password"
             id="password"
@@ -24,7 +24,7 @@ t<template>
           >
         </div>
         <div class="submit">
-          <button type="submit">Sign Up</button>
+          <button type="submit">Registreeri</button>
         </div>
       </form>
     </div>
@@ -232,6 +232,12 @@ t<template>
   @media screen and (max-width: 359px) {
     .signup-logo {
       display: none;
+    }
+  }
+
+  @media screen and (max-height: 671px) {
+    .signup .logo-mobile {
+      top: 25px;
     }
   }
 

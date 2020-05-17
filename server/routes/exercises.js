@@ -87,6 +87,8 @@ async function deleteExercise(req, res) {
   }
 }
 
+
+
 module.exports = {
   getExercises,
   getExercise,

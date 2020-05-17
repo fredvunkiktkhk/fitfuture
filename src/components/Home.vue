@@ -1,7 +1,12 @@
 <template>
   <div class="container">
     <WorkoutDiary @onEdit="showEdit"/>
-    <WorkoutDiaryDetails v-if="detailsId || detailsId === 0" @childClose="closeDetails"/>
+    <WorkoutDiaryDetails
+      v-if="exerciseId || exerciseId === 0"
+      @childClose="closeDetails"
+      :workoutId="workoutId"
+      :exerciseId="exerciseId"
+    />
   </div>
 </template>
 
@@ -15,23 +20,22 @@
       WorkoutDiary,
       WorkoutDiaryDetails,
     },
-    props: {
-      id: {
-        type: Number,
-      },
-    },
     data() {
       return {
-        detailsId: null,
+        exerciseId: null,
+        workoutId: null,
         isOpen: false,
       }
     },
     methods: {
-      showEdit(value) {
-        this.detailsId = value;
+      showEdit(exerciseId, workoutId) {
+        console.log(exerciseId);
+        console.log(workoutId);
+        this.workoutId = workoutId;
+        this.exerciseId = exerciseId;
       },
       closeDetails() {
-        this.detailsId = null;
+        this.exerciseId = null;
       },
     },
   }

@@ -7,7 +7,8 @@
       <div v-if="activeDropdown" :class="{'active-dropdown': activeDropdown}">
         <ul>
           <li>
-            <div class="links" @click="onLogout">Log out</div>
+            <div class="links" @click="onLogout">Logi välja</div>
+            <div class="links"><router-link to="/login" tag="div" exact active-class="active">Logi sisse</router-link></div>
           </li>
         </ul>
       </div>
@@ -23,6 +24,7 @@
     data () {
       return {
         activeDropdown: false,
+        user: false,
       }
     },
     methods: {
@@ -43,10 +45,23 @@
         try {
           await this.axios.post('/logout');
           await this.$router.push({name: 'Login'});
+          this.user = true
+          console.log('logout',this.user)
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      async checkUser() {
+        try {
+          await this.axios.get('/session/')
+          console.log('checkuser',this.user);
         } catch (err) {
           console.log(err.response);
         }
-      }
+      },
+    },
+    mounted() {
+      this.checkUser()
     }
   }
 </script>

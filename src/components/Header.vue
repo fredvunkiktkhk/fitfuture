@@ -9,12 +9,12 @@
         <a><span class="icon-container"><font-awesome-icon icon="folder-open"/></span>Kavad</a>
       </router-link>
 
-      <router-link to="/workout_history" tag="li" exact active-class="active">
+      <router-link to="/workout-history" tag="li" exact active-class="active">
         <a><span class="icon-container"><font-awesome-icon icon="dumbbell"/></span>Ajalugu</a>
       </router-link>
 
       <router-link to="/login" tag="li" exact active-class="active">
-        <a><span class="icon-container"><font-awesome-icon icon="user-cog"/></span>Logi välja</a>
+        <a><span class="icon-container"><font-awesome-icon icon="user-cog"/></span>Logi sisse</a>
       </router-link>
     </ul>
   </div>

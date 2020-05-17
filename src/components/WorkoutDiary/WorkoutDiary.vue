@@ -2,10 +2,9 @@
   <div class="container">
     <div>
       <div class="heading">{{workout_name}}</div>
-      <div class="heading">{{muscle_group}}</div>
     </div>
     <div class="exercise-data">
-      <ul v-for="exercise in exercises" :key="exercise.id" @click="onEdit(exercise.id)">
+      <ul v-for="exercise in exercises" :key="exercise.id" @click="onEdit(exercise.id, workoutId)">
         <li class="name">{{exercise.exercise_name}}</li>
         <li class="numbers">{{exercise.sets}}<p>x</p>{{exercise.reps}}</li>
       </ul>
@@ -16,7 +15,6 @@
       </div>
     </div>
     <SubmitButton type="button" name="Vali tänane kava" @click="openWorkoutList"/>
-    {{activeWorkout}}
     <div class="date">25.03.2020</div>
   </div>
 </template>
@@ -31,9 +29,6 @@
       SubmitButton,
     },
     props: {
-      id: {
-        type: Number,
-      },
       workoutDate: {
         type: Date,
         default: function () {
@@ -44,18 +39,20 @@
     data() {
       return {
         isActive: false,
-        workouts: [],
         exercises: [],
         workoutId: null,
         exerciseId: null,
         activeWorkout: false,
         workout_name: '',
         muscle_group: '',
+        exercise_name: '',
+        sets: null,
+        reps: null,
       }
     },
     methods: {
-      onEdit(id) {
-        this.$emit('onEdit', id)
+      onEdit(exerciseId, workoutId) {
+        this.$emit('onEdit', exerciseId, workoutId)
       },
       openWorkoutList() {
         this.activeWorkout = !this.activeWorkout;
@@ -63,10 +60,12 @@
       async chooseWorkout(workoutId) {
         this.workoutId = workoutId
         try {
-          const workout = await this.axios.get('/workouts/' + this.workoutId)
+          const workout = await this.axios.get('/workouts/' + this.workoutId);
           this.workout = workout.data
           this.workout_name = workout.data.workout_name
           this.muscle_group = workout.data.muscle_group
+          const exercises = await this.axios.get('/workouts/'+ this.workoutId + '/exercises');
+          this.exercises = exercises.data
           this.activeWorkout = false;
         } catch (err) {
           console.log(err.response);
@@ -89,7 +88,7 @@
       // Peaks tulema kontroll, kas on tänane kuupäev siis näita seda kava.
     },
     created() {
-      // this.getExercises();
+      this.getExercises();
       this.getWorkouts();
     },
   }

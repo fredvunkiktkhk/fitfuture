@@ -12,7 +12,7 @@
           >
         </div>
         <div class="input">
-          <label for="password">Password</label>
+          <label for="password">Parool</label>
           <input
             type="password"
             id="password"
@@ -21,7 +21,7 @@
           >
         </div>
         <div class="submit">
-          <button type="submit">Log In</button>
+          <button type="submit">Logi sisse</button>
         </div>
       </form>
     </div>
@@ -45,6 +45,7 @@
             email: this.email,
             password: this.password,
           });
+          this.$emit('loggedIn')
           await this.$router.push({name: 'Workouts'});
         } catch (err) {
           console.log(err.response);

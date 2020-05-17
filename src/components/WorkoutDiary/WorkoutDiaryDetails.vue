@@ -1,14 +1,11 @@
 <template>
   <div class="workout-details">
-    <div class="header">Kava nimi{{ heading }}</div>
-    <form>
-      <div class="numbers">Raskus<input type="number"/></div>
-      <div class="numbers">Kordused<input type="number"/></div>
-      <div class="numbers">Harjutus
-        <div class="exercise-name">{{ exerciseName }}</div>
-      </div>
+    <div class="header" v-for="exercise in exercises" :key="exercise.id">{{ exercise.exercise_name }}</div>
+    <form id="details">
+      <div class="numbers">Raskus<input v-model="exercises.weight" type="number"/></div>
+      <div class="numbers">Kordused<input v-model="exercises.reps" type="number"/></div>
       <div class="action-buttons">
-        <SubmitButton name="Salvesta"/>
+        <SubmitButton name="Salvesta" form="details" @click="addExerciseDone()"/>
         <SubmitButton name="Kustuta"/>
       </div>
     </form>
@@ -19,16 +16,16 @@
       <table>
         <thead>
         <tr>
-          <th>Seeriad</th>
+          <th>Seeria</th>
           <th>Kordused</th>
           <th>Raskus</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td><input type="number"/></td>
-          <td><input type="number"></td>
-          <td><input type="number"></td>
+        <tr v-for="exercise in exercises" :key="exercise.id">
+          <td>{{exercise.sets}}</td>
+          <td>{{exercise.reps}}</td>
+          <td>{{exercise.weight}}</td>
           <td class="img">
             <button>
               <font-awesome-icon class="icon" icon="pencil-alt"/>
@@ -52,41 +49,81 @@
       SubmitButton,
     },
     props: {
-      heading: {
-        type: String,
-        default: '',
-      },
-      exerciseName: {
-        type: String,
-        default: 'Rippes jalgadetõsted',
-      },
-      sets: {
+      workoutId: {
         type: Number,
-        default: 0,
       },
-      reps: {
+      exerciseId: {
         type: Number,
-        default: 0,
       },
-      weight: {
-        type: Number,
-        default: 0,
-      }
+
     },
-    data () {
+    data() {
       return {
-        allReps: [],
-        allWeights: [],
+        exercises: [],
+        counter: 0,
+        // exercise_name: '',
+        // sets: 0,
+        // reps: 0,
+        // weight: 0,
+
       }
     },
     methods: {
-      saveInput() {
-        this.reps.push(this.allReps);
-        this.weight.push(this.allWeights);
+      async getExercise() {
+        try {
+          await this.axios.get('/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
+        } catch (err) {
+          console.log(err.response);
+        }
       },
-      deleteInput() {
+      async addExerciseDone() {
+        const exercises = this.exercises;
+        console.log(this.exercises)
+        try {
+          await this.axios.post('/workout-done/' + this.workoutId + '/exercises/', exercises)
+          await this.getExercisesDone();
+        } catch (err) {
+          console.log(err.response);
+        }
+      },
+      async addWorkoutDone() {
 
-      }
+      },
+/*      async insertExercises() {
+        const exercises = this.exercises;
+        try {
+          await this.axios.post('/workout-done/' + this.workoutId + '/exercises/' + this.exerciseId, {
+            exercise_name: exercises.exercise_name,
+            sets: exercises.sets,
+            reps: exercises.reps,
+            weight: exercises.weight
+          });
+          console.log(this.exercises);
+          console.log(exercises.exercise_name);
+          console.log(exercises.weight);
+        } catch (err) {
+          console.log(err.response);
+        }
+      },*/
+      async getExercises() {
+        try {
+          const exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises')
+          this.exercises = exercises.data
+        } catch (err) {
+          console.log(err.response);
+        }
+      },
+      async getExercisesDone() {
+        try {
+          await this.axios.get('/workouts-done/' + this.workoutId + '/exercises')
+        } catch (err) {
+          console.log(err.response);
+        }
+      },
+    },
+    async created() {
+      await this.getExercise();
+      await this.getExercises()
     }
   }
 </script>
@@ -105,6 +142,8 @@
 
   .header {
     margin-top: 5px;
+    padding: 0 25px;
+    overflow-wrap: break-word;
   }
 
   .button-close {
@@ -192,6 +231,10 @@
         height: 1px;
         position: absolute;
       }
+    }
+
+    th {
+      padding: 0 5px;
     }
   }
 
