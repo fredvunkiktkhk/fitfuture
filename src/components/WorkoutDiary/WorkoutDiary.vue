@@ -1,15 +1,13 @@
 <template>
   <div class="container">
-    <div>
-      <div class="heading">{{workout_name}}</div>
-    </div>
+    <div class="heading">{{workout_name}}</div>
     <div class="exercise-data">
       <ul v-for="exercise in exercises" :key="exercise.id" @click="onEdit(exercise.id, workoutId)">
         <li class="name">{{exercise.exercise_name}}</li>
         <li class="numbers">{{exercise.sets}}<p>x</p>{{exercise.reps}}</li>
       </ul>
     </div>
-    <div v-if="activeWorkout">
+    <div class="workout-container" v-if="activeWorkout">
       <div class="workouts-list" v-for="workout in workouts.data" :key="workout.id">
         <div class="workouts-item" @click="chooseWorkout(workout.id)">{{workout.workout_name}}</div>
       </div>
@@ -60,12 +58,17 @@
       async chooseWorkout(workoutId) {
         this.workoutId = workoutId
         try {
-          const workout = await this.axios.get('/workouts/' + this.workoutId);
+          const workout = await this.axios.get('/api/workouts/' + this.workoutId);
           this.workout = workout.data
           this.workout_name = workout.data.workout_name
           this.muscle_group = workout.data.muscle_group
-          const exercises = await this.axios.get('/workouts/'+ this.workoutId + '/exercises');
+          const exercises = await this.axios.get('/api/workouts/'+ this.workoutId + '/exercises');
           this.exercises = exercises.data
+          const test = await this.axios.post('/api/workouts-done', {
+            workout_name: this.workout_name,
+            muscle_group: this.muscle_group
+          });
+          console.log(test);
           this.activeWorkout = false;
         } catch (err) {
           console.log(err.response);
@@ -73,14 +76,14 @@
       },
       async getWorkouts() {
         try {
-          this.workouts = await this.axios.get('/workouts');
+          this.workouts = await this.axios.get('/api/workouts');
         } catch (err) {
           await this.$router.push({name: 'Login'});
         }
       },
       async getExercises() {
         try {
-          this.exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises')
+          this.exercises = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises')
         } catch (err) {
           console.log(err.response);
         }
@@ -105,7 +108,7 @@
     border: 1px solid #EEE;
     box-shadow: 0 2px 3px #CCC;
     padding: 20px;
-    margin-top: 50px;
+    margin: 50px auto;
   }
 
   .heading {
@@ -116,16 +119,26 @@
 
   .exercise-data {
     width: 100%;
-    height: 100%;
     padding: 15px;
+  }
+
+  .workout-container {
+    position: absolute;
+    background: #3C444C;
+    height: 200px;
+    width: 200px;
+    border: 1px solid #FFF;
+    overflow-y: auto;
   }
 
   .workouts-item {
     padding: 5px;
     cursor: pointer;
+    border-bottom: 1px solid #5F6265;
+    text-align: center;
 
     &:hover {
-      background: green;
+      background: #5F6265;
     }
   }
 
@@ -160,6 +173,11 @@
       margin: 0;
       color: #FFF;
     }
+  }
+
+  .submit {
+    position: absolute;
+    bottom: 20px;
   }
 
   @media screen and (max-width: 767px) {

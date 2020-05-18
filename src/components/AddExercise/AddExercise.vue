@@ -103,7 +103,7 @@
     methods: {
       async submitExercise() {
         try {
-          await this.axios.post('/workouts/' + this.workoutId + '/exercises', {
+          await this.axios.post('/api/workouts/' + this.workoutId + '/exercises', {
             exercise_name: this.exercise_name,
             sets: this.sets,
             reps: this.reps,
@@ -115,7 +115,7 @@
       },
       async getExercises() {
         try {
-          this.exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises')
+          this.exercises = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises')
         } catch (err) {
           console.log(err.response);
         }
@@ -124,7 +124,7 @@
         try {
           //TODO korralik confirm message
           if (confirm('Oled kindel, et soovid harjutuse kustutada?'))
-            await this.axios.delete('/workouts/' + this.workoutId + '/exercises/' + this.exerciseId)
+            await this.axios.delete('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId)
           await this.getExercises();
           this.exerciseId = null;
         } catch (err) {
@@ -134,7 +134,7 @@
     },
     async created() {
       try {
-        const workout = await this.axios.get('/workouts/' + this.workoutId)
+        const workout = await this.axios.get('/api/workouts/' + this.workoutId)
         this.workout = workout.data
         this.workout_name = workout.data.workout_name
         this.muscle_group = workout.data.muscle_group

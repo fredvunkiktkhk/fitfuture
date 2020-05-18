@@ -79,7 +79,7 @@
     methods: {
       async editWorkout() {
         try {
-          await this.axios.put('/workouts/' + this.workoutId, {
+          await this.axios.put('/api/workouts/' + this.workoutId, {
             workout_name: this.workout.workout_name,
             muscle_group: this.workout.muscle_group
           });
@@ -92,7 +92,7 @@
       async exerciseModified() {
         const exercises = this.exercises;
         try {
-          await this.axios.put('/workouts/' + this.workoutId + '/exercises/', exercises);
+          await this.axios.put('/api/workouts/' + this.workoutId + '/exercises/', exercises);
         } catch (err) {
           console.log(err.response);
         }
@@ -100,12 +100,12 @@
     },
     async created() {
       try {
-        const workout = await this.axios.get('/workouts/' + this.workoutId)
+        const workout = await this.axios.get('/api/workouts/' + this.workoutId)
         this.workout = workout.data
         this.workout_name = this.workout.workout_name
         this.muscle_group = this.workout.muscle_group
 
-        const exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises');
+        const exercises = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises');
         this.exercises = exercises.data
       } catch (err) {
         console.log(err.response);

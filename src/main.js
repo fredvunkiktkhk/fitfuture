@@ -23,7 +23,7 @@ Vue.prototype.axios = axios.create({baseURL: 'http://localhost:3300', withCreden
 
 const router = new VueRouter({
   routes,
-  mode: 'hash'
+  mode: 'history'
 });
 
 new Vue({

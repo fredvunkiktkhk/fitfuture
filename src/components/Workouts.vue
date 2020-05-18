@@ -71,19 +71,19 @@
     methods: {
       async getWorkouts() {
         try {
-          this.workouts = await this.axios.get('/workouts');
+          this.workouts = await this.axios.get('/api/workouts');
         } catch (err) {
-          await this.$router.push({name: 'Login'});
+          await this.$router.push({name: 'Signup'});
         }
       },
       async workoutModified() {
         try {
-          this.workouts = await this.axios.get('/workouts');
+          this.workouts = await this.axios.get('/api/workouts');
           this.workoutId = null;
 
           this.showSuccessMessage();
         } catch (err) {
-          await this.$router.push({name: 'Login'});
+          await this.$router.push({name: 'Signup'});
         }
       },
       setView(workoutId, mode) {
@@ -94,10 +94,10 @@
         try {
           //TODO korralik confirm message
           if (confirm('Oled kindel, et soovid kava kustutada?'))
-            await this.axios.delete('/workouts/' +workoutId);
+            await this.axios.delete('/api/workouts/' +workoutId);
             await this.getWorkouts();
         } catch (err) {
-          await this.$router.push({name: 'Login'});
+          await this.$router.push({name: 'Signup'});
         }
       },
       closeEdit() {
@@ -139,7 +139,7 @@
     &-item {
       padding: 5px;
       cursor: pointer;
-      border: 1px solid black;
+      border-bottom: 1px solid #5F6265;
       min-width: 100px;
     }
 

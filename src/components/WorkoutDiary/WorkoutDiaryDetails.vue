@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="exercise in exercises" :key="exercise.id">
+        <tr v-for="exercise in doneExercises" :key="exercise.id">
           <td>{{exercise.sets}}</td>
           <td>{{exercise.reps}}</td>
           <td>{{exercise.weight}}</td>
@@ -60,6 +60,7 @@
     data() {
       return {
         exercises: [],
+        doneExercises: [],
         counter: 0,
         // exercise_name: '',
         // sets: 0,
@@ -71,16 +72,16 @@
     methods: {
       async getExercise() {
         try {
-          await this.axios.get('/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
+          await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
         } catch (err) {
           console.log(err.response);
         }
       },
       async addExerciseDone() {
-        const exercises = this.exercises;
         console.log(this.exercises)
         try {
-          await this.axios.post('/workout-done/' + this.workoutId + '/exercises/', exercises)
+          await this.axios.post('/api/workouts-done/' + this.workoutId + '/exercises/', {
+          });
           await this.getExercisesDone();
         } catch (err) {
           console.log(err.response);
@@ -107,7 +108,7 @@
       },*/
       async getExercises() {
         try {
-          const exercises = await this.axios.get('/workouts/' + this.workoutId + '/exercises')
+          const exercises = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises')
           this.exercises = exercises.data
         } catch (err) {
           console.log(err.response);
@@ -115,7 +116,7 @@
       },
       async getExercisesDone() {
         try {
-          await this.axios.get('/workouts-done/' + this.workoutId + '/exercises')
+          await this.axios.get('/api/workouts-done/' + this.workoutId + '/exercises')
         } catch (err) {
           console.log(err.response);
         }

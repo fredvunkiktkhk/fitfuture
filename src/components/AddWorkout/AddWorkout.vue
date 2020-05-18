@@ -45,7 +45,7 @@
     methods: {
       async submitWorkout() {
         try {
-          await this.axios.post('/workouts', {
+          await this.axios.post('/api/workouts', {
             workout_name: this.workout_name,
             muscle_group: this.muscle_group
           });

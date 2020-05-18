@@ -23,9 +23,9 @@ router.put('/workouts/:workoutId/exercises', authCheck, exercises.editExercise);
 router.delete('/workouts/:workoutId/exercises/:exerciseId', authCheck, exercises.deleteExercise); // delete exercise
 
 router.get('/workouts-done', authCheck, workoutsDone.getWorkoutsDone); // Get all done workouts
-router.post('/workout-done', authCheck, workoutsDone.addWorkoutsDone); // Post done workout to history
+router.post('/workouts-done', authCheck, workoutsDone.addWorkoutsDone); // Post done workout to history
 router.get('/workouts-done/:workoutId/exercises', authCheck, workoutsDone.getWorkoutExercises); // Get done workout exercises
-router.post('/workout-done/:workoutId/exercises', authCheck, workoutsDone.addWorkoutExercise); // Post exercises
-router.post('/workout-done/:workoutId/exercises/:exerciseId/exercises-done', authCheck, workoutsDone.doneExercises) // Post exercises
+router.post('/workouts-done/:workoutId/exercises', authCheck, workoutsDone.addWorkoutExercise); // Post exercises
+router.post('/workouts-done/:workoutId/exercises/:exerciseId/exercises-done', authCheck, workoutsDone.doneExercises) // Post exercises
 
 module.exports = router;

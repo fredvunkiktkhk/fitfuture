@@ -40,7 +40,7 @@ async function doSignup(req, res) {
     console.log(e);
   }
 
-  res.send('Sign up successful');
+  res.status(200).json({msg: 'Sign up successful'});
 }
 
 async function doLogin(req, res) {
@@ -66,7 +66,7 @@ async function doLogin(req, res) {
   }
 
   if (!validPassword) {
-    return res.status(400).json({msg: 'Incorred password'});
+    return res.status(400).json({msg: 'Incorrect email or password'});
   }
 
   if (validPassword) {
@@ -77,6 +77,7 @@ async function doLogin(req, res) {
     res.cookie('access_token', token, {
       maxAge: 3600 * 60 * 9000 * 60,
       httpOnly: true,
+      secure: process.env.environment === 'production',
       path: '/'
     });
 
@@ -99,11 +100,9 @@ async function isUserLoggedIn(req, res) {
 
 async function doLogout(req, res) {
   await res.cookie('access_token', 'none', {
-    expires: new Date(0),
-    httpOnly: true
-
+    expires: new Date(0)
   });
-  return res.status(200).json('Logged out');
+  return res.status(200).json({msg: 'Logged out'});
 }
 
 module.exports = {

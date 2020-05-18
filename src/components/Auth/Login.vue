@@ -41,11 +41,16 @@
     methods: {
       async onLogin() {
         try {
-          await this.axios.post('/login', {
+          await this.axios.post('/api/login', {
             email: this.email,
             password: this.password,
           });
-          this.$emit('loggedIn')
+          const cookie = await this.axios.get('/api/session/')
+          if (cookie === true) {
+            this.$emit('checkUser', cookie)
+          }
+          console.log(cookie);
+          // const cookie = document.cookie.indexOf('access_token') != -1
           await this.$router.push({name: 'Workouts'});
         } catch (err) {
           console.log(err.response);

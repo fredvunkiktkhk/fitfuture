@@ -44,7 +44,7 @@
 <style scoped lang="scss">
   .container {
     display: flex;
-    justify-content: center;
+    overflow-y: auto;
   }
 
   .workout-details {

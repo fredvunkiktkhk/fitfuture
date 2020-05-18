@@ -55,7 +55,7 @@ t<template>
     methods: {
       async onSignUp() {
         try {
-          await this.axios.post('/signup', {
+          await this.axios.post('/api/signup', {
             email: this.email,
             password: this.password
           });

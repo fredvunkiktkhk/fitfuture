@@ -15,10 +15,10 @@ app.use(cors({
     credentials: true
 }));
 
-app.use('/', require('./routes'));
+app.use('/api', require('./routes'));
 
 app.use(serveStatic(path.join(__dirname,"../dist")));
-app.get('/', function(req,res) {
+app.get(/.*/, function(req,res) {
     res.sendFile('index.html', { root: path.join(__dirname, '../dist') });
 });
 
