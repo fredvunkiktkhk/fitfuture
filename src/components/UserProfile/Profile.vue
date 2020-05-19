@@ -3,13 +3,12 @@
     <button id="dropdown" class="user-settings" @click="toggleDropdown">
       <span class="icon-container"><font-awesome-icon icon="user-cog"/></span>
     </button>
-    {{this.user}}
     <transition name="slide-fade">
       <div v-if="activeDropdown" :class="{'active-dropdown': activeDropdown}">
         <ul>
           <li>
-            <router-link  v-if="userSession" @checkUser="userSession" to="/login" tag="div" class="links" exact active-class="active">Logi sisse</router-link>
-            <div class="links" v-if="!this.user" @checkUser="userSession" @click="onLogout">Logi välja</div>
+            <router-link to="/login" tag="div" class="links" exact active-class="active">Logi sisse</router-link>
+            <div class="links" @click="onLogout">Logi välja</div>
           </li>
         </ul>
       </div>
@@ -46,7 +45,6 @@
         try {
           await this.axios.post('/api/logout');
           await this.$router.push({name: 'Login'});
-          this.user = false
         } catch (err) {
           console.log(err.response);
         }

@@ -13,7 +13,6 @@
       </div>
     </div>
     <SubmitButton type="button" name="Vali tänane kava" @click="openWorkoutList"/>
-    <div class="date">25.03.2020</div>
   </div>
 </template>
 
@@ -25,14 +24,6 @@
     name: "WorkoutDiary",
     components: {
       SubmitButton,
-    },
-    props: {
-      workoutDate: {
-        type: Date,
-        default: function () {
-          new Date()
-        },
-      },
     },
     data() {
       return {
@@ -62,13 +53,20 @@
           this.workout = workout.data
           this.workout_name = workout.data.workout_name
           this.muscle_group = workout.data.muscle_group
+
           const exercises = await this.axios.get('/api/workouts/'+ this.workoutId + '/exercises');
           this.exercises = exercises.data
-          const test = await this.axios.post('/api/workouts-done', {
+
+          await this.axios.post('/api/workouts-done', {
             workout_name: this.workout_name,
             muscle_group: this.muscle_group
           });
-          console.log(test);
+
+          await this.addAllExercises();
+
+          /*await this.axios.post('/workouts-done/'+ this.workoutId +'/exercises', {
+            exercise_name: this.exercise_name
+          })*/
           this.activeWorkout = false;
         } catch (err) {
           console.log(err.response);
@@ -78,12 +76,28 @@
         try {
           this.workouts = await this.axios.get('/api/workouts');
         } catch (err) {
-          await this.$router.push({name: 'Login'});
+          await this.$router.push({name: 'Signup'});
         }
       },
       async getExercises() {
         try {
           this.exercises = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises')
+        } catch (err) {
+          console.log(err.response);
+        }
+      },
+      async addAllExercises() {
+        const exercises = this.exercises
+/*        const exercises = await this.axios.get('/api/workouts/'+ this.workoutId + '/exercises');
+        this.exercises = exercises.data
+        this.exercise_name = exercises.data[0].exercise_name
+        console.log(exercises.data);
+        console.log(this.exercise_name)*/
+        const result = exercises.map(exercise =>
+          exercise.exercise_name
+        )
+        try {
+          await this.axios.post('api/workouts-done/'+ this.workoutId +'/exercises/', result)
         } catch (err) {
           console.log(err.response);
         }

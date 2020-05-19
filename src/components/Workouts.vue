@@ -126,6 +126,7 @@
 
   .workouts {
     text-align: center;
+    max-height: 400px;
 
     h3 {
       margin-bottom: 0;

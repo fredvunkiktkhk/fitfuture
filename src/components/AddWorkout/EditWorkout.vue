@@ -122,7 +122,7 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    top: -35px;
+    top: -240px;
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #FFF;
     background: #3C444C;
@@ -237,12 +237,14 @@
     & div:first-child {
       display: flex;
       flex: 2;
+      padding-left: 33px;
     }
 
     & div:nth-child(2), div:last-child {
       display: flex;
       flex: 1;
       justify-content: space-between;
+      padding-right: 3px;
     }
   }
 
@@ -291,7 +293,7 @@
     .edit-exercise {
       background: #3C444C;
       box-shadow: none;
-      top: -65px;
+      top: -260px;
     }
   }
 

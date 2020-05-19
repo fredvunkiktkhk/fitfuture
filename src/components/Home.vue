@@ -29,8 +29,6 @@
     },
     methods: {
       showEdit(exerciseId, workoutId) {
-        console.log(exerciseId);
-        console.log(workoutId);
         this.workoutId = workoutId;
         this.exerciseId = exerciseId;
       },

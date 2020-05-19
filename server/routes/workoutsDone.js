@@ -32,49 +32,67 @@ async function addWorkoutsDone(req, res) {
 async function getWorkoutExercises(req, res) {
   const {workoutId} = req.params;
   try {
-    const results = await pool.query('SELECT * FROM workouts_exercises_done WHERE workout_done_id = ? AND deleted_at IS NULL', [workoutId]);
+    const results = await pool.query('SELECT * FROM exercises WHERE workout_done_id = ? AND deleted_at IS NULL', [workoutId]);
     if (!results) {
       return res.status(400).json({error: 'No exercises found'})
     }
     return res.send(results);
   } catch (err) {
-    res.status(400).json(err)
+    return res.status(400).json(err)
   }
 }
 
+async function getWorkoutDoneExercises(req, res) {
+  const {exerciseId} = req.params;
+  try {
+    const results = await pool.query('SELECT * FROM workouts_exercises_done WHERE exercise_done_id = ? AND deleted_at IS NULL', [exerciseId]);
+    if (!results) {
+      return res.status(400).json({error: 'No exercise found'});
+    }
+    return res.send(results);
+  } catch (err) {
+    return res.status(400).json({error: 'No exercise'});
+  }
+}
+
+// lisa exercises tabelisse harjutus
 async function addWorkoutExercise(req, res) {
   let currentUser = res.locals.loggedInUser;
   const {workoutId} = req.params;
-  const {exercise_name, sets, reps, weight} = req.body;
+  const exercises = req.body;
   try {
-    const workouts = await pool.query('SELECT id FROM workouts_done WHERE id = ? AND user_id = ? AND deleted_at IS NULL',
-      [workoutId, currentUser.id]);
+    const workouts = await pool.query('SELECT id FROM workouts_done WHERE id = ? AND user_id = ? AND deleted_at IS NULL', [workoutId, currentUser.id]);
     if (!workouts) {
       return res.status(400).json({error: 'Something went wrong, try again'});
     }
-      const results = await pool.query('INSERT INTO workouts_exercises_done (exercise_name, sets, reps, weight, workout_done_id) VALUES (?,?,?,?,?)',
-        [exercise_name, sets, reps, weight, workoutId]);
-
+    exercises.forEach(exercise => {
+      pool.query('INSERT INTO exercises (exercise_name, workouts_done_id) VALUES (?,?)', [exercise.exercise_name, workoutId]);
+    });
+    if (!exercises) {
+      return res.status(400).json({error: 'Couldn\'t update exercise'});
+    }
+    return res.send(exercises);
+/*    const results = await pool.query('INSERT INTO exercises (exercise_name, workouts_done_id) VALUES (?,?)',
+      [exercise_name, workoutId]);
     if (!results) {
       return res.status(400).json({error: 'Couldn\'t add exercise'});
     }
-    return res.send(results);
+    return res.send(results);*/
   } catch (err) {
     res.status(401).json(err)
   }
 }
 
-async function doneExercises(req, res) {
-  let currentUser = res.locals.loggedInUser;
-  const {workoutId} = req.params;
-  const {exercise_name, sets, reps, weight} = req.body;
+async function addDoneExercise(req, res) {
+  const {exerciseId} = req.params;
+  const {sets, reps, weight} = req.body;
   try {
-    const workouts = await pool.query('SELECT id FROM workouts WHERE id = ? AND user_id = ? AND deleted_at IS NULL', [workoutId, currentUser.id]);
+    const workouts = await pool.query('SELECT id FROM exercises WHERE id = ? AND deleted_at IS NULL', [exerciseId]);
     if (!workouts) {
       return res.status(400).json({error: 'Something went wrong, try again'});
     }
-    const results = await pool.query('INSERT INTO exercises (exercise_name, sets, reps, weight, workouts_id) VALUES (?,?,?,?,?)',
-      [exercise_name, sets, reps, weight, workoutId]);
+    const results = await pool.query('INSERT INTO workouts_exercises_done (sets, reps, weight, exercise_done_id) VALUES (?,?,?,?)',
+      [sets, reps, weight, exerciseId]);
     if (!results) {
       return res.status(400).json({error: 'Couldn\'t add exercise'});
     }
@@ -89,5 +107,6 @@ module.exports = {
   addWorkoutsDone,
   getWorkoutExercises,
   addWorkoutExercise,
-  doneExercises,
+  getWorkoutDoneExercises,
+  addDoneExercise,
 };

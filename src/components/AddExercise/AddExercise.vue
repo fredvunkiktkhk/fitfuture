@@ -15,7 +15,7 @@
           v-model="muscle_group"
         />
       </div>
-      <form id="exerciseForm" @submit="submitExercise()">
+      <form id="exerciseForm" @submit.prevent="submitExercise()">
         <label class="exercise-label" for="exercise">Harjutus</label>
         <input
           class="exercise-data"

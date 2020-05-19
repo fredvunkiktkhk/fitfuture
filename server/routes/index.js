@@ -22,10 +22,16 @@ router.post('/workouts/:workoutId/exercises', authCheck, exercises.addExercise);
 router.put('/workouts/:workoutId/exercises', authCheck, exercises.editExercise); // edit multiple exercise
 router.delete('/workouts/:workoutId/exercises/:exerciseId', authCheck, exercises.deleteExercise); // delete exercise
 
+// workouts_done
 router.get('/workouts-done', authCheck, workoutsDone.getWorkoutsDone); // Get all done workouts
 router.post('/workouts-done', authCheck, workoutsDone.addWorkoutsDone); // Post done workout to history
-router.get('/workouts-done/:workoutId/exercises', authCheck, workoutsDone.getWorkoutExercises); // Get done workout exercises
+
+// workouts_done - exercises
+router.get('/workouts-done/:workoutId/exercises', authCheck, workoutsDone.getWorkoutExercises); // Get all done workout exercises
 router.post('/workouts-done/:workoutId/exercises', authCheck, workoutsDone.addWorkoutExercise); // Post exercises
-router.post('/workouts-done/:workoutId/exercises/:exerciseId/exercises-done', authCheck, workoutsDone.doneExercises) // Post exercises
+
+// workouts_done_exercises
+router.get('/workouts-done/:workoutId/exercises/:exerciseId/exercises-done', authCheck, workoutsDone.getWorkoutDoneExercises); // Get all exercise data
+router.post('/workouts-done/:workoutId/exercises/:exerciseId/exercises-done', authCheck, workoutsDone.addDoneExercise); // post exercise data
 
 module.exports = router;

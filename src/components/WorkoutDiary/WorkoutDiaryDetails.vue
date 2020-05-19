@@ -1,11 +1,11 @@
 <template>
-  <div class="workout-details">
-    <div class="header" v-for="exercise in exercises" :key="exercise.id">{{ exercise.exercise_name }}</div>
-    <form id="details">
-      <div class="numbers">Raskus<input v-model="exercises.weight" type="number"/></div>
-      <div class="numbers">Kordused<input v-model="exercises.reps" type="number"/></div>
+  <div class="workout-details" v-if="exercise">
+    <div class="header">{{ exercise.exercise_name }}</div>
+    <form id="details" @submit.prevent="addExerciseDone()">
+      <div class="numbers">Raskus<input v-model="exercise.weight" type="number"/></div>
+      <div class="numbers">Kordused<input v-model="exercise.reps" type="number"/></div>
       <div class="action-buttons">
-        <SubmitButton name="Salvesta" form="details" @click="addExerciseDone()"/>
+        <SubmitButton name="Salvesta" form="details" type="submit"/>
         <SubmitButton name="Kustuta"/>
       </div>
     </form>
@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="exercise in doneExercises" :key="exercise.id">
+        <tr>
           <td>{{exercise.sets}}</td>
           <td>{{exercise.reps}}</td>
           <td>{{exercise.weight}}</td>
@@ -62,6 +62,7 @@
         exercises: [],
         doneExercises: [],
         counter: 0,
+        exercise: null,
         // exercise_name: '',
         // sets: 0,
         // reps: 0,
@@ -72,7 +73,11 @@
     methods: {
       async getExercise() {
         try {
-          await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
+          const exercise = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
+          this.exercise = exercise.data
+          this.exercise_name = this.exercise.exercise_name
+          this.weight = this.exercise.weight
+          console.log(this.exercise.exercise_name)
         } catch (err) {
           console.log(err.response);
         }
@@ -80,7 +85,18 @@
       async addExerciseDone() {
         console.log(this.exercises)
         try {
+/*          const exercise = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
+          this.exercise = exercise.data
+          this.exercise_name = this.exercise.exercise_name
+          this.sets = this.exercise.sets
+          this.reps = this.exercise.reps
+          this.weight = this.exercise.weight*/
+
           await this.axios.post('/api/workouts-done/' + this.workoutId + '/exercises/', {
+            exercise_name: this.exercise.exercise_name,
+            sets: this.exercise.sets,
+            reps: this.exercise.reps,
+            weight: this.exercise.weight
           });
           await this.getExercisesDone();
         } catch (err) {
@@ -89,30 +105,6 @@
       },
       async addWorkoutDone() {
 
-      },
-/*      async insertExercises() {
-        const exercises = this.exercises;
-        try {
-          await this.axios.post('/workout-done/' + this.workoutId + '/exercises/' + this.exerciseId, {
-            exercise_name: exercises.exercise_name,
-            sets: exercises.sets,
-            reps: exercises.reps,
-            weight: exercises.weight
-          });
-          console.log(this.exercises);
-          console.log(exercises.exercise_name);
-          console.log(exercises.weight);
-        } catch (err) {
-          console.log(err.response);
-        }
-      },*/
-      async getExercises() {
-        try {
-          const exercises = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises')
-          this.exercises = exercises.data
-        } catch (err) {
-          console.log(err.response);
-        }
       },
       async getExercisesDone() {
         try {
@@ -124,7 +116,7 @@
     },
     async created() {
       await this.getExercise();
-      await this.getExercises()
+      // await this.getExercises()
     }
   }
 </script>
@@ -139,6 +131,11 @@
     text-align: center;
     border: 1px solid #EEE;
     box-shadow: 0 2px 3px #CCC;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
   }
 
   .header {
