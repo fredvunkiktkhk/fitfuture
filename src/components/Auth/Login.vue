@@ -49,8 +49,6 @@
           if (cookie === true) {
             this.$emit('checkUser', cookie)
           }
-          console.log(cookie);
-          // const cookie = document.cookie.indexOf('access_token') != -1
           await this.$router.push({name: 'Workouts'});
         } catch (err) {
           console.log(err.response);

@@ -117,12 +117,13 @@
 <style scoped lang="scss">
   .edit-exercise {
     min-width: 300px;
-    height: 100%;
+    height: 500px;
+    width: 350px;
     padding: 10px;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    top: -240px;
+    top: -161px;
     border-top: 1px solid #FFF;
     border-bottom: 1px solid #FFF;
     background: #3C444C;
@@ -249,7 +250,7 @@
   }
 
   .exercise-list {
-    height: 147px;
+    height: 340px;
     overflow: auto;
 
     .exercise-item {
@@ -285,7 +286,7 @@
     }
   }
 
-  @media screen and (max-height: 568px) {
+  @media screen and (max-height: 721px) {
     .exercise-container {
       max-height: 100px;
     }
@@ -293,7 +294,7 @@
     .edit-exercise {
       background: #3C444C;
       box-shadow: none;
-      top: -260px;
+      top: -183px;
     }
   }
 

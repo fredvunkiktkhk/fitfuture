@@ -7,12 +7,14 @@
           id="name"
           type="text"
           v-model="workout_name"
+          autocomplete="off"
         />
         <label for="day">Lihasgrupp</label>
         <input
           id="day"
           type="text"
           v-model="muscle_group"
+          autocomplete="off"
         />
       </div>
       <button class="button-close" @click="$emit('close')">
@@ -135,6 +137,14 @@
     .add-workout {
       background: #3C444C;
       top: -130px;
+      box-shadow: none;
+    }
+  }
+
+  @media screen and (max-height: 668px) {
+    .add-workout {
+      background: #3C444C;
+      top: -220px;
       box-shadow: none;
     }
   }

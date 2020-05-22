@@ -55,12 +55,13 @@
   #app {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     font-family: 'Montserrat', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: white;
     background-color: #3C444C;
+    overflow: hidden;
   }
 
   .mobile-header {
@@ -69,7 +70,6 @@
 
   @media screen and (max-width: 767px) {
     #app {
-      height: calc(100vh - 52px);
     }
 
     .mobile-header {
@@ -91,7 +91,7 @@
         height: 100%;
         top: 39px;
         left: 0;
-        z-index: 10;
+        z-index: 75;
 
         & ul {
           background: #F27A54;

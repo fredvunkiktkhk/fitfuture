@@ -1,7 +1,7 @@
 <template>
   <div class="exercise-container">
     <div class="add-exercise">
-      <div class="heading">
+<!--      <div class="heading">
         <label for="name">Kava nimi</label>
         <input
           id="name"
@@ -13,8 +13,7 @@
           id="day"
           type="text"
           v-model="muscle_group"
-        />
-      </div>
+        />-->
       <form id="exerciseForm" @submit.prevent="submitExercise()">
         <label class="exercise-label" for="exercise">Harjutus</label>
         <input
@@ -73,6 +72,8 @@
       </div>
     </div>
   </div>
+
+  <!--  </div>-->
 </template>
 
 <script>
@@ -340,8 +341,12 @@
 
   @media screen and (min-width: 322px) {
     .exercise-container {
+      top: 50px;
+    }
+    .add-exercise {
       border: 1px solid #FFF;
     }
+
   }
 
   @media screen and (max-width: 767px) {
@@ -366,9 +371,10 @@
 
     .add-exercise {
       background: #3C444C;
-      top: -80px;
+      top: -5px;
       box-shadow: none;
       border-bottom: 1px solid #FFF;
+      border-top: 1px solid #FFF;
     }
   }
 

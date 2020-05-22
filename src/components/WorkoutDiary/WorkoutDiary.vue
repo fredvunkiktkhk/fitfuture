@@ -123,6 +123,7 @@
     box-shadow: 0 2px 3px #CCC;
     padding: 20px;
     margin: 50px auto;
+    background: #3C444C;
   }
 
   .heading {
@@ -134,13 +135,17 @@
   .exercise-data {
     width: 100%;
     padding: 15px;
+    max-height: 290px;
+    overflow-y: auto;
   }
 
   .workout-container {
     position: absolute;
     background: #3C444C;
-    height: 200px;
+    height: 300px;
+    max-height: 300px;
     width: 200px;
+    padding: 20px;
     border: 1px solid #FFF;
     overflow-y: auto;
   }
@@ -190,8 +195,8 @@
   }
 
   .submit {
-    position: absolute;
-    bottom: 20px;
+    position: fixed;
+    bottom: 80px;
   }
 
   @media screen and (max-width: 767px) {

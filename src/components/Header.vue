@@ -90,7 +90,7 @@
   @media screen and (max-width: 767px) {
     .menu {
       display: block;
-      position: absolute;
+      position: fixed;
       bottom: 0;
       width: 100%;
       height: 52px;

@@ -136,6 +136,7 @@
     position: absolute;
     right: 50%;
     transform: translateX(50%);
+    z-index: 100;
   }
 
   .header {
