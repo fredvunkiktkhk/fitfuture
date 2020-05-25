@@ -6,6 +6,7 @@
         <input
           id="name"
           type="text"
+          maxlength="40"
           v-model="workout_name"
           autocomplete="off"
         />
@@ -13,6 +14,7 @@
         <input
           id="day"
           type="text"
+          maxlength="40"
           v-model="muscle_group"
           autocomplete="off"
         />

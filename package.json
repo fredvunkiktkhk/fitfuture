@@ -6,11 +6,9 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "cypress": "cypress open",
     "dev:back": "nodemon server/app.js",
     "dev:front": "vue-cli-service serve",
-    "server": "pm2 start app.js --watch --name server",
-    "test": "cypress open"
+    "server": "pm2 start app.js --watch --name server"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.27",

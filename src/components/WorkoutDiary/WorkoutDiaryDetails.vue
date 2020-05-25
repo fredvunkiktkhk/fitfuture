@@ -2,8 +2,8 @@
   <div class="workout-details" v-if="exercise">
     <div class="header">{{ exercise.exercise_name }}</div>
     <form id="details" @submit.prevent="addExerciseDone()">
-      <div class="numbers">Raskus<input v-model="exercise.weight" type="number"/></div>
-      <div class="numbers">Kordused<input v-model="exercise.reps" type="number"/></div>
+      <div class="numbers">Raskus<input v-model="exercise.weight" maxlength="3" type="number"/></div>
+      <div class="numbers">Kordused<input v-model="exercise.reps" maxlength="3" type="number"/></div>
       <div class="action-buttons">
         <SubmitButton name="Salvesta" form="details" type="submit"/>
         <SubmitButton name="Kustuta"/>
@@ -92,7 +92,7 @@
           this.reps = this.exercise.reps
           this.weight = this.exercise.weight*/
 
-          await this.axios.post('/api/workouts-done/' + this.workoutId + '/exercises/', {
+          await this.axios.post('/api/workouts-done/' + this.workoutId + '/exercises/' + this.exerciseId , {
             exercise_name: this.exercise.exercise_name,
             sets: this.exercise.sets,
             reps: this.exercise.reps,

@@ -8,6 +8,7 @@
             type="email"
             id="email"
             v-model="email"
+            maxlength="40"
             required="required"
           >
         </div>
@@ -17,6 +18,7 @@
             type="password"
             id="password"
             v-model="password"
+            maxlength="60"
             required="required"
           >
         </div>

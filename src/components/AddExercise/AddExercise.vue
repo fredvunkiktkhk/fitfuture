@@ -1,19 +1,6 @@
 <template>
   <div class="exercise-container">
     <div class="add-exercise">
-<!--      <div class="heading">
-        <label for="name">Kava nimi</label>
-        <input
-          id="name"
-          type="text"
-          v-model="workout_name"
-        />
-        <label for="day">Lihasgrupp</label>
-        <input
-          id="day"
-          type="text"
-          v-model="muscle_group"
-        />-->
       <form id="exerciseForm" @submit.prevent="submitExercise()">
         <label class="exercise-label" for="exercise">Harjutus</label>
         <input
@@ -22,6 +9,7 @@
           type="text"
           autocomplete="off"
           required="required"
+          maxlength="40"
           v-model="exercise_name"
         />
         <label class="exercise-label" for="sets">Seeriad</label>
@@ -31,6 +19,7 @@
           type="number"
           autocomplete="off"
           required="required"
+          maxlength="3"
           v-model="sets"
         />
         <label class="exercise-label" for="reps">Kordused</label>
@@ -40,6 +29,7 @@
           type=number
           autocomplete="off"
           required="required"
+          maxlength="3"
           v-model="reps"
         />
       </form>

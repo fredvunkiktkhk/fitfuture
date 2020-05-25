@@ -6,12 +6,14 @@
         <input
           id="name"
           type="text"
+          maxlength="40"
           v-model="workout.workout_name"
         />
         <label for="day">Lihasgrupp</label>
         <input
           id="day"
           type="text"
+          maxlength="40"
           v-model="workout.muscle_group"
         />
       </div>
@@ -40,6 +42,7 @@
               class="exercise-data"
               id="sets"
               name="sets"
+              maxlength="3"
               v-model="exercise.sets"
             />
           </div>
@@ -48,6 +51,7 @@
               class="exercise-data"
               id="reps"
               name="sets"
+              maxlength="3"
               v-model="exercise.reps"
             />
           </div>

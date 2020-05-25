@@ -1,17 +1,30 @@
 <template>
   <div class="container">
+    <h2>This is under maintenance</h2>
+    <h3>partly working</h3>
     <div class="heading">{{workout_name}}</div>
     <div class="exercise-data">
       <ul v-for="exercise in exercises" :key="exercise.id" @click="onEdit(exercise.id, workoutId)">
-        <li class="name">{{exercise.exercise_name}}</li>
-        <li class="numbers">{{exercise.sets}}<p>x</p>{{exercise.reps}}</li>
+        <li class="name">{{exercise_name}}</li>
+        <li class="numbers">{{sets}}<p>x</p>{{reps}}</li>
       </ul>
     </div>
     <div class="workout-container" v-if="activeWorkout">
       <div class="workouts-list" v-for="workout in workouts.data" :key="workout.id">
-        <div class="workouts-item" @click="chooseWorkout(workout.id)">{{workout.workout_name}}</div>
+        <div
+          class="workouts-item"
+          @click="workoutId = workout.id"
+          :class="{'active': workoutId === workout.id}">
+          {{workout.workout_name}}
+        </div>
+      </div>
+      <div class="confirm" v-if="workoutId">
+        <button @click="chooseWorkout(workoutId)" class="confirm-button">
+          Kinnita
+        </button>
       </div>
     </div>
+
     <SubmitButton type="button" name="Vali tänane kava" @click="openWorkoutList"/>
   </div>
 </template>
@@ -37,6 +50,30 @@
         exercise_name: '',
         sets: null,
         reps: null,
+        newData: null,
+      }
+    },
+    mounted() {
+      if (localStorage.getItem('exercises')) {
+        try {
+          this.exercises = JSON.parse(localStorage.getItem('exercises'));
+
+            this.exercises.forEach(exercise => {
+              this.exercise_name = exercise.exercise_name
+              this.sets = exercise.sets
+              this.reps = exercise.reps
+            })
+
+        } catch (err) {
+          // localStorage.removeFromLs('exercises');
+          console.log(err);
+        }
+      }
+      if (localStorage.workout_name) {
+        this.workout_name = localStorage.workout_name;
+      }
+      if (localStorage.exercise_name) {
+        this.exercise_name = localStorage.exercise_name;
       }
     },
     methods: {
@@ -57,16 +94,10 @@
           const exercises = await this.axios.get('/api/workouts/'+ this.workoutId + '/exercises');
           this.exercises = exercises.data
 
-          await this.axios.post('/api/workouts-done', {
-            workout_name: this.workout_name,
-            muscle_group: this.muscle_group
-          });
+          localStorage.workout_name = this.workout_name
+          const parsed = JSON.stringify(this.exercises);
+          localStorage.setItem('exercises', parsed);
 
-          await this.addAllExercises();
-
-          /*await this.axios.post('/workouts-done/'+ this.workoutId +'/exercises', {
-            exercise_name: this.exercise_name
-          })*/
           this.activeWorkout = false;
         } catch (err) {
           console.log(err.response);
@@ -86,13 +117,8 @@
           console.log(err.response);
         }
       },
-      async addAllExercises() {
+/*      async addAllExercises() {
         const exercises = this.exercises
-/*        const exercises = await this.axios.get('/api/workouts/'+ this.workoutId + '/exercises');
-        this.exercises = exercises.data
-        this.exercise_name = exercises.data[0].exercise_name
-        console.log(exercises.data);
-        console.log(this.exercise_name)*/
         const result = exercises.map(exercise =>
           exercise.exercise_name
         )
@@ -101,7 +127,7 @@
         } catch (err) {
           console.log(err.response);
         }
-      },
+      },*/
       // Peaks tulema kontroll, kas on tänane kuupäev siis näita seda kava.
     },
     created() {
@@ -161,6 +187,10 @@
     }
   }
 
+  .active {
+    background: #5F6265;
+  }
+
   ul {
     display: flex;
     padding: 10px 0;
@@ -196,8 +226,36 @@
 
   .submit {
     position: fixed;
-    bottom: 80px;
+    bottom: 40%;
   }
+
+  .confirm {
+    text-align: center;
+
+    &-button {
+      height: 30px;
+      width: 150px;
+      margin-top: 25px;
+      border-radius: 20px;
+      border: 0;
+      color: #FFF;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(to left, #F27A54, #A154F2);
+      box-shadow: 0 0 10px 0 #00000075;
+
+      &:hover {
+        box-shadow: 0 0 10px 0 #ffffff3d;
+      }
+    }
+  }
+
+  @media screen and (max-height: 569px) {
+    .submit {
+      bottom: 80px;
+    }
+  }
+
 
   @media screen and (max-width: 767px) {
     .container {

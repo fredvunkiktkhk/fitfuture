@@ -11,7 +11,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(cors({
-    origin: 'http://192.168.0.15:8080',
+    origin: 'http://localhost:8080',
     credentials: true
 }));
 

@@ -11,6 +11,7 @@ t
             @input="$v.email.$touch()"
             v-model="email"
             autocomplete="off"
+            maxlength="40"
             required="required"
           >
         </div>
@@ -21,6 +22,7 @@ t
             id="password"
             v-model="password"
             autocomplete="off"
+            maxlength="60"
             required="required"
           >
         </div>
@@ -74,7 +76,7 @@ t
     position: relative;
 
     .container-svg {
-      margin-top: -221px;
+      margin-top: -18%;
       overflow: hidden;
     }
 
@@ -191,6 +193,15 @@ t
     }
   }
 
+  /*  @media screen and (min-width: 2560px) {
+
+      .signup {
+        .container-svg {
+          margin-top: -400px;
+        }
+      }
+    }*/
+
   @media screen and (max-width: 840px) {
 
     .signup {
@@ -199,11 +210,13 @@ t
         width: 100%;
         margin-top: -50px;
       }
+
       &-logo {
         transform: none;
       }
     }
   }
+
 
   @media screen and (max-height: 480px) {
     .container-svg {

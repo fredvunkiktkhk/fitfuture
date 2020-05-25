@@ -66,7 +66,7 @@ async function addWorkoutExercise(req, res) {
       return res.status(400).json({error: 'Something went wrong, try again'});
     }
     exercises.forEach(exercise => {
-      pool.query('INSERT INTO exercises (exercise_name, workouts_done_id) VALUES (?,?)', [exercise.exercise_name, workoutId]);
+      pool.query('INSERT INTO exercises (exercise_name, workouts_done_id) VALUES (?,?)', [exercise, workoutId]);
     });
     if (!exercises) {
       return res.status(400).json({error: 'Couldn\'t update exercise'});
