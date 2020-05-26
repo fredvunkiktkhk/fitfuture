@@ -1,4 +1,3 @@
-t
 <template>
   <div class="signup">
     <div class="signup-form">
@@ -8,23 +7,28 @@ t
           <input
             type="email"
             id="email"
-            @input="$v.email.$touch()"
+            @blur="$v.email.$touch()"
             v-model="email"
             autocomplete="off"
             maxlength="40"
             required="required"
           >
+          <span class="error" v-if="!$v.email.email">Please provide a valid email address.</span>
         </div>
         <div class="input">
           <label for="password">Parool</label>
           <input
             type="password"
             id="password"
+            @blur="$v.password.$touch()"
             v-model="password"
             autocomplete="off"
             maxlength="60"
             required="required"
           >
+          <span class="error" v-if="!$v.password.minLength">
+            Password must have at least 6 letters.
+          </span>
         </div>
         <div class="submit">
           <button type="submit">Registreeri</button>
@@ -38,7 +42,7 @@ t
 </template>
 
 <script>
-  import {required, email} from 'vuelidate/lib/validators';
+  import {required, email, minLength} from 'vuelidate/lib/validators';
 
   export default {
     name: "SignUp",
@@ -53,6 +57,10 @@ t
       email: {
         required,
         email
+      },
+      password: {
+        required,
+        minLength: minLength(6)
       }
     },
     methods: {
@@ -98,6 +106,11 @@ t
     .input {
       margin: 10px auto;
       background: transparent;
+    }
+
+    .error {
+      color: #FF000D;
+      font-size: 12px;
     }
 
     .box1 {
@@ -146,6 +159,7 @@ t
       border-left: 0;
       border-right: 0;
       background: transparent;
+      color: #FFF;
     }
 
     .input.inline input {

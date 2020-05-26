@@ -5,8 +5,8 @@
     <div class="heading">{{workout_name}}</div>
     <div class="exercise-data">
       <ul v-for="exercise in exercises" :key="exercise.id" @click="onEdit(exercise.id, workoutId)">
-        <li class="name">{{exercise_name}}</li>
-        <li class="numbers">{{sets}}<p>x</p>{{reps}}</li>
+        <li class="name">{{exercise.exercise_name}}</li>
+        <li class="numbers">{{exercise.sets}}<p>x</p>{{exercise.reps}}</li>
       </ul>
     </div>
     <div class="workout-container" v-if="activeWorkout">
@@ -53,15 +53,16 @@
         newData: null,
       }
     },
-    mounted() {
+    created() {
+      this.getExercises();
+      this.getWorkouts();
+
       if (localStorage.getItem('exercises')) {
         try {
           this.exercises = JSON.parse(localStorage.getItem('exercises'));
 
             this.exercises.forEach(exercise => {
-              this.exercise_name = exercise.exercise_name
-              this.sets = exercise.sets
-              this.reps = exercise.reps
+            console.log([exercise.exercise_name, exercise.sets, exercise.reps])
             })
 
         } catch (err) {
@@ -71,9 +72,6 @@
       }
       if (localStorage.workout_name) {
         this.workout_name = localStorage.workout_name;
-      }
-      if (localStorage.exercise_name) {
-        this.exercise_name = localStorage.exercise_name;
       }
     },
     methods: {
@@ -129,10 +127,6 @@
         }
       },*/
       // Peaks tulema kontroll, kas on tänane kuupäev siis näita seda kava.
-    },
-    created() {
-      this.getExercises();
-      this.getWorkouts();
     },
   }
 </script>
