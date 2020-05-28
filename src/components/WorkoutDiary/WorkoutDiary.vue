@@ -2,7 +2,7 @@
   <div class="container">
     <h2>This is under maintenance</h2>
     <h3>partly working</h3>
-    <div class="heading">{{workout_name}}</div>
+    <div class="heading">{{workout.workout_name}}</div>
     <div class="exercise-data">
       <ul v-for="exercise in exercises" :key="exercise.id" @click="onEdit(exercise.id, workoutId)">
         <li class="name">{{exercise.exercise_name}}</li>
@@ -24,7 +24,6 @@
         </button>
       </div>
     </div>
-
     <SubmitButton type="button" name="Vali tänane kava" @click="openWorkoutList"/>
   </div>
 </template>
@@ -45,12 +44,7 @@
         workoutId: null,
         exerciseId: null,
         activeWorkout: false,
-        workout_name: '',
-        muscle_group: '',
-        exercise_name: '',
-        sets: null,
-        reps: null,
-        newData: null,
+        workout: {},
       }
     },
     created() {
@@ -60,18 +54,21 @@
       if (localStorage.getItem('exercises')) {
         try {
           this.exercises = JSON.parse(localStorage.getItem('exercises'));
-
-            this.exercises.forEach(exercise => {
-            console.log([exercise.exercise_name, exercise.sets, exercise.reps])
-            })
-
         } catch (err) {
           // localStorage.removeFromLs('exercises');
           console.log(err);
         }
       }
-      if (localStorage.workout_name) {
-        this.workout_name = localStorage.workout_name;
+      if (localStorage.getItem('workout')) {
+        try {
+          this.workout = JSON.parse(localStorage.getItem('workout'));
+          this.workout_name = this.workout.workout_name
+          this.workoutId = this.workout.id
+
+        } catch (err) {
+          // localStorage.remove
+          console.log(err);
+        }
       }
     },
     methods: {
@@ -89,10 +86,12 @@
           this.workout_name = workout.data.workout_name
           this.muscle_group = workout.data.muscle_group
 
-          const exercises = await this.axios.get('/api/workouts/'+ this.workoutId + '/exercises');
+          const saved = JSON.stringify(this.workout);
+          localStorage.setItem('workout', saved)
+
+          const exercises = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises');
           this.exercises = exercises.data
 
-          localStorage.workout_name = this.workout_name
           const parsed = JSON.stringify(this.exercises);
           localStorage.setItem('exercises', parsed);
 
@@ -110,22 +109,22 @@
       },
       async getExercises() {
         try {
-          this.exercises = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises')
+          await this.axios.get('/api/workouts/' + this.workoutId + '/exercises')
         } catch (err) {
           console.log(err.response);
         }
       },
-/*      async addAllExercises() {
-        const exercises = this.exercises
-        const result = exercises.map(exercise =>
-          exercise.exercise_name
-        )
-        try {
-          await this.axios.post('api/workouts-done/'+ this.workoutId +'/exercises/', result)
-        } catch (err) {
-          console.log(err.response);
-        }
-      },*/
+      /*      async addAllExercises() {
+              const exercises = this.exercises
+              const result = exercises.map(exercise =>
+                exercise.exercise_name
+              )
+              try {
+                await this.axios.post('api/workouts-done/'+ this.workoutId +'/exercises/', result)
+              } catch (err) {
+                console.log(err.response);
+              }
+            },*/
       // Peaks tulema kontroll, kas on tänane kuupäev siis näita seda kava.
     },
   }

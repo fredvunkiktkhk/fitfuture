@@ -1,9 +1,9 @@
 <template>
   <div class="workout-details" v-if="exercise">
     <div class="header">{{ exercise.exercise_name }}</div>
-    <form id="details" @submit.prevent="addExerciseDone()">
-      <div class="numbers">Raskus<input v-model="exercise.weight" maxlength="3" type="number"/></div>
-      <div class="numbers">Kordused<input v-model="exercise.reps" maxlength="3" type="number"/></div>
+    <form id="details" @submit.prevent="addExercise()">
+      <div class="numbers">Raskus<input v-model="weight" min="0" max="9999" type="number"/></div>
+      <div class="numbers">Kordused<input v-model="reps" min="0" max="999" type="number"/></div>
       <div class="action-buttons">
         <SubmitButton name="Salvesta" form="details" type="submit"/>
         <SubmitButton name="Kustuta"/>
@@ -23,9 +23,9 @@
         </thead>
         <tbody>
         <tr>
-          <td>{{exercise.sets}}</td>
-          <td>{{exercise.reps}}</td>
-          <td>{{exercise.weight}}</td>
+          <td>{{sets}}</td>
+          <td>{{reps}}</td>
+          <td>{{weight}}kg</td>
           <td class="img">
             <button>
               <font-awesome-icon class="icon" icon="pencil-alt"/>
@@ -55,69 +55,122 @@
       exerciseId: {
         type: Number,
       },
-
     },
     data() {
       return {
         exercises: [],
-        doneExercises: [],
+        doneExercises: {},
         counter: 0,
         exercise: null,
-        // exercise_name: '',
-        // sets: 0,
-        // reps: 0,
-        // weight: 0,
+        sets: null,
+        reps: '',
+        weight: '',
+      }
+    },
+    created() {
+      if (localStorage.getItem('exercises')) {
+        try {
+          this.exercises = JSON.parse(localStorage.getItem('exercises'));
+          const exercises = this.exercises
+          this.exercise_name = this.exercises.exercise_name
 
+          this.exercise = exercises.find(exercise => exercise.id === this.exerciseId)
+
+
+        } catch (err) {
+          // localStorage.removeFromLs('exercises');
+          console.log(err);
+        }
+      }
+
+      if (localStorage.getItem('doneExercises')) {
+        try {
+          this.doneExercises = JSON.parse(localStorage.getItem('doneExercises'));
+        } catch (err) {
+          console.log(err)
+        }
       }
     },
     methods: {
-      async getExercise() {
-        try {
-          const exercise = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
-          this.exercise = exercise.data
-          this.exercise_name = this.exercise.exercise_name
-          this.weight = this.exercise.weight
-          console.log(this.exercise.exercise_name)
-        } catch (err) {
-          console.log(err.response);
+      addExercise() {
+        if (!this.doneExercises) {
+          return;
         }
-      },
-      async addExerciseDone() {
-        console.log(this.exercises)
-        try {
-/*          const exercise = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
-          this.exercise = exercise.data
-          this.exercise_name = this.exercise.exercise_name
-          this.sets = this.exercise.sets
-          this.reps = this.exercise.reps
-          this.weight = this.exercise.weight*/
 
-          await this.axios.post('/api/workouts-done/' + this.workoutId + '/exercises/' + this.exerciseId , {
-            exercise_name: this.exercise.exercise_name,
-            sets: this.exercise.sets,
-            reps: this.exercise.reps,
-            weight: this.exercise.weight
-          });
-          await this.getExercisesDone();
-        } catch (err) {
-          console.log(err.response);
-        }
-      },
-      async addWorkoutDone() {
+        this.sets = this.counter += 1;
 
-      },
-      async getExercisesDone() {
-        try {
-          await this.axios.get('/api/workouts-done/' + this.workoutId + '/exercises')
-        } catch (err) {
-          console.log(err.response);
+        let obj = {
+          id: [
+            {
+              sets: this.sets,
+              reps: this.reps,
+              weight: this.weight
+            }
+          ]
         }
+
+        obj[this.exerciseId] = []
+        obj[this.exerciseId].push({sets: this.sets, reps: this.reps, weight: this.weight})
+        const newArr = []
+        const arrCopy = [...newArr, ...obj[this.exerciseId]]
+        console.log(arrCopy)
+
+
+        // console.log('length', obj[this.exerciseId].length)
+        // console.log('test', obj[this.exerciseId]);
+
+
+
+        // let array = []
+        //
+        // obj[this.exerciseId].forEach((key, index) => {
+        //   array.push(key)
+        //   console.log('key', key);
+        //   console.log('index', index);
+        // })
+        // console.log('array lenght',array.length)
+        // console.log('obj length', obj[this.exerciseId].length)
+        // console.log('array', array)
+        // console.log('objekt', obj[this.exerciseId])
+        this.$set(this.doneExercises, this.exerciseId, obj[this.exerciseId])
+
+        console.log(this.doneExercises)
+
+        this.saveExercises();
       },
+      saveExercises() {
+        const parsed = JSON.stringify(this.doneExercises);
+        localStorage.setItem('doneExercises', parsed)
+      },
+      /*      async addExerciseDone() {
+              console.log(this.exercises)
+              try {
+      /!*          const exercise = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
+                this.exercise = exercise.data
+                this.exercise_name = this.exercise.exercise_name
+                this.sets = this.exercise.sets
+                this.reps = this.exercise.reps
+                this.weight = this.exercise.weight*!/
+
+                await this.axios.post('/api/workouts-done/' + this.workoutId + '/exercises/' + this.exerciseId , {
+                  exercise_name: this.exercise.exercise_name,
+                  sets: this.exercise.sets,
+                  reps: this.exercise.reps,
+                  weight: this.exercise.weight
+                });
+                await this.getExercisesDone();
+              } catch (err) {
+                console.log(err.response);
+              }
+            },
+            async getExercisesDone() {
+              try {
+                await this.axios.get('/api/workouts-done/' + this.workoutId + '/exercises')
+              } catch (err) {
+                console.log(err.response);
+              }
+            },*/
     },
-    async created() {
-      await this.getExercise();
-      // await this.getExercises()
-    }
   }
 </script>
 
