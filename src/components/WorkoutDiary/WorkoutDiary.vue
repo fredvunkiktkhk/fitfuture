@@ -126,6 +126,34 @@
               }
             },*/
       // Peaks tulema kontroll, kas on tänane kuupäev siis näita seda kava.
+      /*      async addExerciseDone() {
+        console.log(this.exercises)
+        try {
+/!*          const exercise = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
+          this.exercise = exercise.data
+          this.exercise_name = this.exercise.exercise_name
+          this.sets = this.exercise.sets
+          this.reps = this.exercise.reps
+          this.weight = this.exercise.weight*!/
+
+          await this.axios.post('/api/workouts-done/' + this.workoutId + '/exercises/' + this.exerciseId , {
+            exercise_name: this.exercise.exercise_name,
+            sets: this.exercise.sets,
+            reps: this.exercise.reps,
+            weight: this.exercise.weight
+          });
+          await this.getExercisesDone();
+        } catch (err) {
+          console.log(err.response);
+        }
+      },
+      async getExercisesDone() {
+        try {
+          await this.axios.get('/api/workouts-done/' + this.workoutId + '/exercises')
+        } catch (err) {
+          console.log(err.response);
+        }
+      },*/
     },
   }
 </script>

@@ -19,7 +19,7 @@ Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
-Vue.prototype.axios = axios.create({baseURL: 'http://localhost:3300', withCredentials: true});
+Vue.prototype.axios = axios.create({baseURL: 'https://fitfuture.planet.ee', withCredentials: true});
 
 const router = new VueRouter({
   routes,

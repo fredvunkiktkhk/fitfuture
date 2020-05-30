@@ -6,7 +6,6 @@
       <div class="numbers">Kordused<input v-model="reps" min="0" max="999" type="number"/></div>
       <div class="action-buttons">
         <SubmitButton name="Salvesta" form="details" type="submit"/>
-        <SubmitButton name="Kustuta"/>
       </div>
     </form>
     <button class="button-close" @click="$emit('childClose')">
@@ -22,15 +21,21 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>{{sets}}</td>
-          <td>{{reps}}</td>
-          <td>{{weight}}kg</td>
+        <tr
+          v-for="(doneExercise, index) in this.doneExercises[this.exerciseId]"
+          :key="doneExercise.id"
+          :class="{'active': exerciseId === index}"
+          @click="exerciseId === index"
+
+        >
+          <td>{{doneExercise.sets}}</td>
+          <td>{{doneExercise.reps}}</td>
+          <td>{{doneExercise.weight}}kg</td>
           <td class="img">
             <button>
               <font-awesome-icon class="icon" icon="pencil-alt"/>
             </button>
-            <button>
+            <button @click="removeExercise(index)">
               <font-awesome-icon class="icon" icon="trash-alt"/>
             </button>
           </td>
@@ -63,8 +68,8 @@
         counter: 0,
         exercise: null,
         sets: null,
-        reps: '',
-        weight: '',
+        reps: null,
+        weight: null,
       }
     },
     created() {
@@ -93,83 +98,45 @@
     },
     methods: {
       addExercise() {
-        if (!this.doneExercises) {
-          return;
-        }
-
         this.sets = this.counter += 1;
 
-        let obj = {
-          id: [
-            {
-              sets: this.sets,
-              reps: this.reps,
-              weight: this.weight
-            }
-          ]
+        if (!this.doneExercises[this.exerciseId]) {
+          this.doneExercises[this.exerciseId] = []
         }
 
-        obj[this.exerciseId] = []
-        obj[this.exerciseId].push({sets: this.sets, reps: this.reps, weight: this.weight})
-        const newArr = []
-        const arrCopy = [...newArr, ...obj[this.exerciseId]]
-        console.log(arrCopy)
-
-
-        // console.log('length', obj[this.exerciseId].length)
-        // console.log('test', obj[this.exerciseId]);
-
-
-
-        // let array = []
-        //
-        // obj[this.exerciseId].forEach((key, index) => {
-        //   array.push(key)
-        //   console.log('key', key);
-        //   console.log('index', index);
-        // })
-        // console.log('array lenght',array.length)
-        // console.log('obj length', obj[this.exerciseId].length)
-        // console.log('array', array)
-        // console.log('objekt', obj[this.exerciseId])
-        this.$set(this.doneExercises, this.exerciseId, obj[this.exerciseId])
-
-        console.log(this.doneExercises)
-
+        this.doneExercises[this.exerciseId].push({sets: this.sets, reps: this.reps, weight: this.weight})
         this.saveExercises();
       },
       saveExercises() {
         const parsed = JSON.stringify(this.doneExercises);
         localStorage.setItem('doneExercises', parsed)
       },
-      /*      async addExerciseDone() {
-              console.log(this.exercises)
-              try {
-      /!*          const exercise = await this.axios.get('/api/workouts/' + this.workoutId + '/exercises/' + this.exerciseId);
-                this.exercise = exercise.data
-                this.exercise_name = this.exercise.exercise_name
-                this.sets = this.exercise.sets
-                this.reps = this.exercise.reps
-                this.weight = this.exercise.weight*!/
+      removeExercise(index) {
+        // after removal loop through the array and update set w/ index value + 1
 
-                await this.axios.post('/api/workouts-done/' + this.workoutId + '/exercises/' + this.exerciseId , {
-                  exercise_name: this.exercise.exercise_name,
-                  sets: this.exercise.sets,
-                  reps: this.exercise.reps,
-                  weight: this.exercise.weight
-                });
-                await this.getExercisesDone();
-              } catch (err) {
-                console.log(err.response);
-              }
-            },
-            async getExercisesDone() {
-              try {
-                await this.axios.get('/api/workouts-done/' + this.workoutId + '/exercises')
-              } catch (err) {
-                console.log(err.response);
-              }
-            },*/
+        let exercise = this.doneExercises[this.exerciseId];
+
+        // Remove set.
+        exercise.splice(index, 1);
+
+      // reset array indexes
+        exercise = exercise.filter(function () {
+          return true;
+        })
+
+        //reset sets values.
+        exercise.map(function (set, index) {
+          set.sets = index + 1
+          return set;
+        })
+
+        // replace with updated value.
+        this.doneExercises.splice(this.exerciseId, 1, exercise);
+
+        if (confirm('Oled kindel, et soovid harjutuse kustutada?'))
+          localStorage.removeItem(this.doneExercises[this.exerciseId].splice(index, 1));
+        this.saveExercises();
+      },
     },
   }
 </script>
@@ -310,6 +277,10 @@
       width: 90px;
       margin-top: 5px;
     }
+  }
+
+  .active {
+    background: #F27A5487;
   }
 
   .img {
